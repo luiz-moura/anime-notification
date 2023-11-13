@@ -2,7 +2,7 @@
 
 namespace Interfaces\Http\Requests;
 
-use App\Models\User;
+use Infra\Persistente\Eloquent\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 

@@ -2,7 +2,7 @@
 
 namespace Interfaces\Http\Controllers\Auth;
 
-use App\Models\User;
+use Infra\Persistente\Eloquent\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;

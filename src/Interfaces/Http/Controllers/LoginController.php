@@ -4,9 +4,8 @@ namespace Interfaces\Http\Controllers;
 
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
-use Exception;
 use Infra\Abstracts\Controller;
+use Infra\Persistente\Eloquent\Models\User;
 
 class LoginController extends Controller
 {
@@ -17,28 +16,24 @@ class LoginController extends Controller
 
     public function handleGoogleCallback()
     {
-        try {
-            $googleUser = Socialite::driver('google')->user();
-            $user = User::where('google_id', $googleUser->id)->first();
+        $googleUser = Socialite::driver('google')->user();
+        $user = User::where('google_id', $googleUser->id)->first();
 
-            if ($user) {
-                Auth::login($user);
+        if ($user) {
+            Auth::login($user);
 
-                return redirect('/dashboard');
-            } else {
-                $newUser = User::create([
-                    'name' => $googleUser->name,
-                    'email' => $googleUser->email,
-                    'google_id'=> $googleUser->id,
-                    'password' => encrypt('')
-                ]);
+            return redirect('/dashboard');
+        } else {
+            $newUser = User::create([
+                'name' => $googleUser->name,
+                'email' => $googleUser->email,
+                'google_id'=> $googleUser->id,
+                'password' => encrypt('')
+            ]);
 
-                Auth::login($newUser);
+            Auth::login($newUser);
 
-                return redirect('/dashboard');
-            }
-        } catch (Exception $e) {
-            dd($e->getMessage());
+            return redirect('/dashboard');
         }
     }
 }
