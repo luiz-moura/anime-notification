@@ -1,6 +1,6 @@
 <?php
 
-namespace Interfaces\Http\Controllers;
+namespace Interfaces\Http\Web\Users;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 use Infra\Abstracts\Controller;
-use Interfaces\Http\Requests\ProfileUpdateRequest;
+use Interfaces\Http\Web\Auth\Requests\ProfileUpdateRequest;
 
 class ProfileController extends Controller
 {

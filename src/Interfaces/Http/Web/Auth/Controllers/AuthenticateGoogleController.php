@@ -1,13 +1,13 @@
 <?php
 
-namespace Interfaces\Http\Controllers;
+namespace Interfaces\Http\Web\Auth\Controllers;
 
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 use Infra\Abstracts\Controller;
 use Infra\Persistente\Eloquent\Models\User;
 
-class LoginController extends Controller
+class AuthenticateGoogleController extends Controller
 {
     public function redirectToGoogle()
     {

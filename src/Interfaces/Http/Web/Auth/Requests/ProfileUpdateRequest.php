@@ -1,18 +1,13 @@
 <?php
 
-namespace Interfaces\Http\Requests;
+namespace Interfaces\Http\Web\Auth\Requests;
 
 use Infra\Persistente\Eloquent\Models\User;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Infra\Abstracts\Request;
 
-class ProfileUpdateRequest extends FormRequest
+class ProfileUpdateRequest extends Request
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
-     */
     public function rules(): array
     {
         return [

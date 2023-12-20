@@ -1,6 +1,6 @@
 <?php
 
-namespace Interfaces\Http\Middleware;
+namespace Interfaces\Http\Shared\Middleware;
 
 use Illuminate\Http\Middleware\TrustProxies as Middleware;
 use Illuminate\Http\Request;

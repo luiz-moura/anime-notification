@@ -1,6 +1,6 @@
 <?php
 
-namespace Interfaces\Http\Controllers\Auth;
+namespace Interfaces\Http\Web\Auth\Controllers;
 
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;

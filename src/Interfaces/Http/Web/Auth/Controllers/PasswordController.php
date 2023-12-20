@@ -1,6 +1,6 @@
 <?php
 
-namespace Interfaces\Http\Controllers\Auth;
+namespace Interfaces\Http\Web\Auth\Controllers;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
