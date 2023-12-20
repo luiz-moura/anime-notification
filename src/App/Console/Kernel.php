@@ -2,22 +2,24 @@
 
 namespace App\Console;
 
+use App\Jobs\SearchForAnimesAiringOnTheDaysOfTheWeekJob;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Interfaces\Console\Commands\RegisterAnimeThatAreAiring;
 
 class Kernel extends ConsoleKernel
 {
-    /**
-     * Define the application's command schedule.
-     */
+    protected $commands = [
+        RegisterAnimeThatAreAiring::class,
+    ];
+
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->job(SearchForAnimesAiringOnTheDaysOfTheWeekJob::class)
+            ->dailyAt('01:00')
+            ->timezone('Asia/Tokyo');
     }
 
-    /**
-     * Register the commands for the application.
-     */
     protected function commands(): void
     {
         $this->load(__DIR__.'/Commands');
