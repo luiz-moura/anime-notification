@@ -15,9 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('path');
-            $table->string('url');
             $table->string('mimetype');
-            $table->string('disk');
+            $table->string('disk')->default('local');
             $table->timestamps();
             $table->softDeletes();
         });

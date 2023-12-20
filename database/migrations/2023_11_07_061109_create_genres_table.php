@@ -16,9 +16,6 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->string('type');
-            $table->boolean('explicit')->default(false);
-            $table->boolean('theme')->default(false);
-            $table->boolean('demographic')->default(false);
             $table->bigInteger('mal_id')->unique();
             $table->string('mal_url')->unique();
             $table->timestamps();

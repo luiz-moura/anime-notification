@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('animes', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
             $table->string('slug')->unique();
             $table->boolean('approved');
             $table->boolean('airing');

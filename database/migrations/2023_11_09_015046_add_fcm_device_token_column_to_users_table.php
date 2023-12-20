@@ -11,14 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('anime_titles', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('anime_id')
-                ->constrained()
-                ->cascadeOnUpdate()
-                ->cascadeOnDelete();
-            $table->string('title');
-            $table->string('type');
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('fcm_token')->nullable();
         });
     }
 
@@ -27,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('anime_titles');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('fcm_token');
+        });
     }
 };
