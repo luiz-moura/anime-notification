@@ -4,6 +4,7 @@ namespace Infra\Persistente\Eloquent\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Anime extends Model
 {
@@ -43,5 +44,10 @@ class Anime extends Model
     public function images(): BelongsToMany
     {
         return $this->belongsToMany(Image::class);
+    }
+
+    public function broadcast(): HasOne
+    {
+        return $this->hasOne(Broadcast::class);
     }
 }
