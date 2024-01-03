@@ -44,7 +44,7 @@ class AnimesApiMapper
                 'day' => $data['broadcast']['day'] ?? null,
                 'time' => $data['broadcast']['time'] ?? null,
                 'timezone' => $data['broadcast']['timezone'] ?? null,
-                'time_formatted' => $data['broadcast']['string'] ?? null,
+                'date_formatted' => $data['broadcast']['string'] ?? null,
             ]) : null,
             'genres' => GenresCollection::fromArray(
                 array_merge(

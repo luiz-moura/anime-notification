@@ -8,10 +8,10 @@ class BroadcastsModelMapper
     {
         return [
             'id' => $data['id'] ?? null,
-            'day' => $data['day'],
-            'time' => $data['time'],
-            'timezone' => $data['timezone'],
-            'time_formatted' => $data['time_formatted'],
+            'day' => $data['day'] ?? null,
+            'time' => $data['time'] ?? null,
+            'timezone' => $data['timezone'] ?? null,
+            'date_formatted' => $data['date_formatted'] ?? null,
         ];
     }
 }

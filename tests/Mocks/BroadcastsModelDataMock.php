@@ -14,7 +14,7 @@ class BroadcastsModelDataMock
             'day' => fake()->dayOfWeek(),
             'time' => fake()->time(),
             'timezone' => fake()->timezone(),
-            'time_formatted' => fake()->dateTime()->format(DateTimeInterface::ATOM),
+            'date_formatted' => fake()->dateTime()->format(DateTimeInterface::ATOM),
         ]);
     }
 }

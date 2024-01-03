@@ -3,7 +3,7 @@
 namespace Domain\Animes\DTOs\Collections;
 
 use Domain\Animes\DTOs\MembersData;
-use Domain\Animes\DTOs\Models\GenresModelData;
+use Domain\Animes\DTOs\Models\MembersModelData;
 use Infra\Abstracts\Collection;
 
 class MembersCollection extends Collection
@@ -14,7 +14,7 @@ class MembersCollection extends Collection
     {
         return new static(
             array_map(
-                fn ($item) => GenresModelData::fromModel($item),
+                fn($item) => MembersModelData::fromModel($item),
                 $items
             )
         );

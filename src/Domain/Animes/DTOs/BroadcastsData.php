@@ -10,6 +10,6 @@ class BroadcastsData extends DataTransferObject
         public ?string $day,
         public ?string $time,
         public ?string $timezone,
-        public ?string $time_formatted,
+        public ?string $date_formatted,
     ) {}
 }
