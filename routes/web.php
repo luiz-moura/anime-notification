@@ -1,18 +1,11 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
-use Interfaces\Http\Controllers\AnimeController;
-use Interfaces\Http\Controllers\LoginController;
-use Symfony\Component\Console\Input\Input;
-use Symfony\Component\Process\InputStream;
-use Illuminate\Http\UploadedFile;
 use Infra\Persistente\Eloquent\Models\Anime;
-use Symfony\Component\HttpFoundation\File\File;
+use Interfaces\Http\Web\Users\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,9 +27,12 @@ Route::get('/welcome', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::post('setToken', function (Request $request) {
+    $token = $request->input('fcm_token');
+    $request->user()->update(['fcm_token' => $token]);
+
+    return response()->json(['message' => 'Successfully Updated FCM Token']);
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
