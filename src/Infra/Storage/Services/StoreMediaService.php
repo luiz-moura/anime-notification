@@ -32,6 +32,6 @@ class StoreMediaService
 
     public function generateFileNameByTitle(string $title, string $filePath, bool $randomString = true): string
     {
-        return Str::slug($title) . '+' . ($randomString ? Str::random(6) : '') . '.' . pathinfo($filePath, PATHINFO_EXTENSION);
+        return Str::slug($title) . '-' . ($randomString ? Str::random(6) : '') . '.' . pathinfo($filePath, PATHINFO_EXTENSION);
     }
 }
