@@ -4,11 +4,11 @@ namespace Interfaces\Http\Api\Auth\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Infra\Abstracts\Controller;
-use Infra\Abstracts\Request;
+use Interfaces\Http\Api\Auth\Requests\LoginRequest;
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         $credentials = request(['email','password']);
 
@@ -21,8 +21,13 @@ class AuthController extends Controller
         $token = $tokenResult->plainTextToken;
 
         return response()->json([
-            'accessToken' =>$token,
+            'access_token' => $token,
             'token_type' => 'Bearer',
+            'user' => [
+                'name' => $user->name,
+                'email' => $user->email,
+                'email_verified_at' => $user->email_verified_at
+            ]
         ]);
     }
 }
