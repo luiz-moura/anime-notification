@@ -11,6 +11,7 @@ use Interfaces\Http\Controllers\LoginController;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Process\InputStream;
 use Illuminate\Http\UploadedFile;
+use Infra\Persistente\Eloquent\Models\Anime;
 use Symfony\Component\HttpFoundation\File\File;
 
 /*
@@ -41,9 +42,24 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+
+    Route::get('/schedule', function () {
+        $animes = Anime::with(['images', 'broadcast', 'genres'])->get();
+
+        return Inertia::render('Schedule', compact('animes'));
+    })->name('schedule');
+
+    Route::get('settings', function () {
+        return Inertia::render('Settings');
+    })->name('profile.settings');
 });
 
-Route::get('auth/google', [LoginController::class, 'redirectToGoogle'])->name('auth.google');
-Route::get('auth/google/callback', [LoginController::class, 'handleGoogleCallback'])->name('auth.google.callback');
+Route::get('/', function() {
+    dd(now()->timezone('Asia/Tokyo')->format('Y-m-d H:i:s'));
+});
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
