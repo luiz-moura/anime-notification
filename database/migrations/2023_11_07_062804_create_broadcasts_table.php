@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('day')->nullable();
             $table->time('time')->nullable();
             $table->string('timezone')->nullable();
-            $table->string('time_formatted');
+            $table->string('date_formatted');
         });
     }
 

@@ -15,6 +15,6 @@ class Broadcast extends Model
         'day',
         'time',
         'timezone',
-        'time_formatted',
+        'date_formatted',
     ];
 }
