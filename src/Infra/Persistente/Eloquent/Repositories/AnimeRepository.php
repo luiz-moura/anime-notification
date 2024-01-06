@@ -2,11 +2,13 @@
 
 namespace Infra\Persistente\Eloquent\Repositories;
 
+use DateTime;
 use Domain\Animes\Contracts\AnimeRepository as AnimeRepositoryContract;
 use Domain\Animes\DTOs\AnimesData;
 use Domain\Animes\DTOs\Collections\AnimesCollection;
 use Domain\Animes\DTOs\Models\AnimesModelData;
 use Domain\Animes\Enums\SubscriptionTypesEnum;
+use Illuminate\Support\Facades\DB;
 use Infra\Abstracts\Repository;
 use Infra\Persistente\Eloquent\Models\Anime;
 
@@ -32,7 +34,7 @@ class AnimeRepository extends Repository implements AnimeRepositoryContract
     {
         $animes = $this->model->select()
             ->with('titles')
-            ->whereRelation('broadcast', 'day', today()->day)
+            ->whereRelation('broadcast', 'day', today()->timezone('Asia/Tokyo')->dayName . 's')
             ->get();
 
         return $animes
@@ -45,6 +47,26 @@ class AnimeRepository extends Repository implements AnimeRepositoryContract
         $animes = $this->model->select()
             ->whereIn('mal_id', $ids)
             ->get();
+
+        return $animes
+            ? AnimesCollection::fromModel($animes->toArray())
+            : null;
+    }
+
+    public function queryByBroadcsatTimeRange(DateTime $beginning, DateTime $end): ?AnimesCollection
+    {
+        DB::enableQueryLog();
+
+        $animes = Anime::with('broadcast')
+            ->whereHas('broadcast', function ($query) use ($beginning, $end) {
+                $query->where('day', today()->timezone('Asia/Tokyo')->dayName  . 's')
+                    ->where('time', '>=', $beginning->format('H:i:s'))
+                    ->where('time', '<=', $end->format('H:i:s'));
+            })
+            ->get();
+
+        dump(DB::getQueryLog());
+        dump('----' .count($animes));
 
         return $animes
             ? AnimesCollection::fromModel($animes->toArray())

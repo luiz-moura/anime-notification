@@ -7,6 +7,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Infra\Integration\AnimeApi\Contracts\AnimeApiService;
 use Infra\Integration\AnimeApi\Jikan\Services\JikanApiService;
+use Infra\Integration\Firebase\FirebaseService;
+use Infra\Integration\Messaging\Contracts\NoticationService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -34,6 +36,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             AnimeApiService::class,
             JikanApiService::class
+        );
+
+        $this->app->singleton(
+            NoticationService::class,
+            FirebaseService::class
         );
     }
 }
