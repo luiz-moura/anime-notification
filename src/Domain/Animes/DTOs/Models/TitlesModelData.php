@@ -2,11 +2,12 @@
 
 namespace Domain\Animes\DTOs\Models;
 
-use Domain\Animes\DTOs\AnimeTitlesData;
-use Domain\Animes\DTOs\Mappers\AnimeTitlesMapper;
+use Domain\Animes\DTOs\TitlesData;
+use Domain\Animes\DTOs\Mappers\TitlesMapper;
+use Domain\Animes\DTOs\Mappers\TitlesModelMapper;
 use Illuminate\Support\Arr;
 
-class AnimeTitlesModelData extends AnimeTitlesData
+class TitlesModelData extends TitlesData
 {
     public function __construct(public int $id, ...$args)
     {
@@ -17,7 +18,7 @@ class AnimeTitlesModelData extends AnimeTitlesData
     {
         return new self(
             $data['id'],
-            ...Arr::except(AnimeTitlesMapper::fromArray($data), ['id']),
+            ...Arr::except(TitlesModelMapper::fromArray($data), ['id']),
         );
     }
 }

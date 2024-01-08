@@ -2,8 +2,8 @@
 
 namespace Domain\Animes\DTOs\Mappers;
 
-use Domain\Animes\DTOs\Collections\AnimeImagesCollection;
-use Domain\Animes\DTOs\Collections\AnimeTitlesCollection;
+use Domain\Animes\DTOs\Collections\ImagesCollection;
+use Domain\Animes\DTOs\Collections\TitlesCollection;
 use Domain\Animes\DTOs\Collections\GenresCollection;
 use Domain\Animes\DTOs\Models\BroadcastsModelData;
 
@@ -32,10 +32,10 @@ class AnimesModelMapper
             'aired_from' => $data['aired']['from'] ?? null,
             'aired_to' => $data['aired']['to'] ?? null,
             'titles' => !empty($data['images'])
-                ? AnimeTitlesCollection::fromModel($data['titles'])
+                ? TitlesCollection::fromModel($data['titles'])
                 : null,
             'images' => !empty($data['images'])
-                ? AnimeImagesCollection::fromModel($data['images'])
+                ? ImagesCollection::fromModel($data['images'])
                 : null,
             'broadcast' => !empty($data['broadcast'])
                 ? BroadcastsModelData::fromModel($data['broadcast'])

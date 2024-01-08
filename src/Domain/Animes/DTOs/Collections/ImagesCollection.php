@@ -3,10 +3,10 @@
 namespace Domain\Animes\DTOs\Collections;
 
 use Domain\Animes\DTOs\ImagesData;
-use Domain\Animes\DTOs\Models\AnimeImagesModelData;
+use Domain\Animes\DTOs\Models\ImagesModelData;
 use Infra\Abstracts\Collection;
 
-class AnimeImagesCollection extends Collection
+class ImagesCollection extends Collection
 {
     protected string $collectionOf = ImagesData::class;
 
@@ -14,7 +14,7 @@ class AnimeImagesCollection extends Collection
     {
         return new static(
             array_map(
-                fn ($item) => AnimeImagesModelData::fromModel($item),
+                fn ($item) => ImagesModelData::fromModel($item),
                 $items
             )
         );

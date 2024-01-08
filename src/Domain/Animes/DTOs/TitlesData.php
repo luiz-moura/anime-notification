@@ -4,7 +4,7 @@ namespace Domain\Animes\DTOs;
 
 use Infra\Abstracts\DataTransferObject;
 
-class AnimeTitlesData extends DataTransferObject
+class TitlesData extends DataTransferObject
 {
 	public function __construct(
         public string $type,

@@ -2,9 +2,9 @@
 
 namespace Domain\Animes\DTOs\Mappers;
 
-use Domain\Animes\DTOs\AnimeTitlesData;
+use Domain\Animes\DTOs\TitlesData;
 use Domain\Animes\DTOs\BroadcastsData;
-use Domain\Animes\DTOs\Collections\AnimeTitlesCollection;
+use Domain\Animes\DTOs\Collections\TitlesCollection;
 use Domain\Animes\DTOs\Collections\GenresCollection;
 use Domain\Animes\DTOs\GenresData;
 use Domain\Animes\Enums\GenreTypesEnum;
@@ -34,8 +34,8 @@ class AnimesApiMapper
             'aired_from' => $data['aired']['from'] ?? null,
             'aired_to' => $data['aired']['to'] ?? null,
             'images' => null,
-            'titles' => AnimeTitlesCollection::fromArray(
-                array_map(fn (array $title) => AnimeTitlesData::fromArray([
+            'titles' => TitlesCollection::fromArray(
+                array_map(fn (array $title) => TitlesData::fromArray([
                     'type' => $title['type'],
                     'title'=> $title['title'],
                 ]), $data['titles'])

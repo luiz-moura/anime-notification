@@ -9,7 +9,7 @@ use Domain\Animes\Contracts\AnimeTitleRepository;
 use Domain\Animes\Contracts\BroadcastRepository;
 use Domain\Animes\Contracts\GenreRepository;
 use Domain\Animes\DTOs\AnimesData;
-use Domain\Animes\DTOs\AnimeTitlesData;
+use Domain\Animes\DTOs\TitlesData;
 use Domain\Shared\Medias\Contracts\MediaRepository;
 use Illuminate\Support\Facades\DB;
 use Infra\Storage\Services\StoreMediaService;
@@ -42,7 +42,7 @@ class CreateAnimeUseCase
 
         $registeredAnime = $this->animeRepository->create($animeRaw);
         $this->broadcastRepository->create($registeredAnime->id, $animeRaw->broadcast);
-        $animeRaw->titles->each(function (AnimeTitlesData $title) use ($registeredAnime) {
+        $animeRaw->titles->each(function (TitlesData $title) use ($registeredAnime) {
             $this->animeTitleRepository->create($registeredAnime->id, $title);
         });
 

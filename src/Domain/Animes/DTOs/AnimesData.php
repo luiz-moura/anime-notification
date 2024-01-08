@@ -3,8 +3,8 @@
 namespace Domain\Animes\DTOs;
 
 use DateTime;
-use Domain\Animes\DTOs\Collections\AnimeImagesCollection;
-use Domain\Animes\DTOs\Collections\AnimeTitlesCollection;
+use Domain\Animes\DTOs\Collections\ImagesCollection;
+use Domain\Animes\DTOs\Collections\TitlesCollection;
 use Domain\Animes\DTOs\Collections\GenresCollection;
 use Domain\Animes\DTOs\Mappers\AnimesApiMapper;
 use Infra\Abstracts\DataTransferObject;
@@ -30,8 +30,8 @@ class AnimesData extends DataTransferObject
         public ?int $year,
         public ?DateTime $aired_from,
         public ?DateTime $aired_to,
-        public ?AnimeTitlesCollection $titles,
-        public ?AnimeImagesCollection $images,
+        public ?TitlesCollection $titles,
+        public ?ImagesCollection $images,
         public ?BroadcastsData $broadcast,
         public ?GenresCollection $genres,
     ) {}

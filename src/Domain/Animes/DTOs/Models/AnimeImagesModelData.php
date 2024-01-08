@@ -3,10 +3,10 @@
 namespace Domain\Animes\DTOs\Models;
 
 use Domain\Animes\DTOs\ImagesData;
-use Domain\Animes\DTOs\Mappers\AnimeImagesMappper;
+use Domain\Animes\DTOs\Mappers\ImagesModelMappper;
 use Illuminate\Support\Arr;
 
-class AnimeImagesModelData extends ImagesData
+class ImagesModelData extends ImagesData
 {
     public function __construct(public int $id, ...$args)
     {
@@ -17,7 +17,7 @@ class AnimeImagesModelData extends ImagesData
     {
         return new self(
             $data['id'],
-            ...Arr::except(AnimeImagesMappper::fromArray($data), ['id']),
+            ...Arr::except(ImagesModelMappper::fromArray($data), ['id']),
         );
     }
 }
