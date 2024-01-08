@@ -8,7 +8,6 @@ use Domain\Animes\DTOs\AnimesData;
 use Domain\Animes\DTOs\Collections\AnimesCollection;
 use Domain\Animes\DTOs\Models\AnimesModelData;
 use Domain\Animes\Enums\SubscriptionTypesEnum;
-use Illuminate\Support\Facades\DB;
 use Infra\Abstracts\Repository;
 use Infra\Persistente\Eloquent\Models\Anime;
 
@@ -55,8 +54,6 @@ class AnimeRepository extends Repository implements AnimeRepositoryContract
 
     public function queryByBroadcsatTimeRange(DateTime $beginning, DateTime $end): ?AnimesCollection
     {
-        DB::enableQueryLog();
-
         $animes = Anime::with('broadcast')
             ->whereHas('broadcast', function ($query) use ($beginning, $end) {
                 $query->where('day', today()->timezone('Asia/Tokyo')->dayName  . 's')
@@ -64,9 +61,6 @@ class AnimeRepository extends Repository implements AnimeRepositoryContract
                     ->where('time', '<=', $end->format('H:i:s'));
             })
             ->get();
-
-        dump(DB::getQueryLog());
-        dump('----' .count($animes));
 
         return $animes
             ? AnimesCollection::fromModel($animes->toArray())
