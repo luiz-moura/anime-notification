@@ -9,6 +9,10 @@ use Throwable;
 
 class FailFetchImageException extends Exception {
     public function __construct(Throwable $previous) {
-        parent::__construct(Lang::get('exceptions.storage.failed_to_fetch_image'), Response::HTTP_INTERNAL_SERVER_ERROR, $previous);
+        parent::__construct(
+            Lang::get('exceptions.storage.failed_to_fetch_image'),
+            Response::HTTP_INTERNAL_SERVER_ERROR,
+            $previous
+        );
     }
 }

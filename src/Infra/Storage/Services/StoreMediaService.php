@@ -10,7 +10,7 @@ use Throwable;
 
 class StoreMediaService
 {
-    public function byExternalUrl(string $url, string $filename, string $dir): ?MediaData
+    public function byExternalUrl(string $url, string $filename, string $dir): MediaData
     {
         $path = "{$dir}/{$filename}";
 
