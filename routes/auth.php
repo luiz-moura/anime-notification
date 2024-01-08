@@ -1,15 +1,16 @@
 <?php
 
-use Interfaces\Http\Controllers\Auth\AuthenticatedSessionController;
-use Interfaces\Http\Controllers\Auth\ConfirmablePasswordController;
-use Interfaces\Http\Controllers\Auth\EmailVerificationNotificationController;
-use Interfaces\Http\Controllers\Auth\EmailVerificationPromptController;
-use Interfaces\Http\Controllers\Auth\NewPasswordController;
-use Interfaces\Http\Controllers\Auth\PasswordController;
-use Interfaces\Http\Controllers\Auth\PasswordResetLinkController;
-use Interfaces\Http\Controllers\Auth\RegisteredUserController;
-use Interfaces\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
+use Interfaces\Http\Web\Auth\Controllers\AuthenticatedSessionController;
+use Interfaces\Http\Web\Auth\Controllers\AuthenticateGoogleController;
+use Interfaces\Http\Web\Auth\Controllers\ConfirmablePasswordController;
+use Interfaces\Http\Web\Auth\Controllers\EmailVerificationNotificationController;
+use Interfaces\Http\Web\Auth\Controllers\EmailVerificationPromptController;
+use Interfaces\Http\Web\Auth\Controllers\NewPasswordController;
+use Interfaces\Http\Web\Auth\Controllers\PasswordController;
+use Interfaces\Http\Web\Auth\Controllers\PasswordResetLinkController;
+use Interfaces\Http\Web\Auth\Controllers\RegisteredUserController;
+use Interfaces\Http\Web\Auth\Controllers\VerifyEmailController;
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
@@ -33,6 +34,12 @@ Route::middleware('guest')->group(function () {
 
     Route::post('reset-password', [NewPasswordController::class, 'store'])
         ->name('password.store');
+
+    Route::get('auth/google', [AuthenticateGoogleController::class, 'redirectToGoogle'])
+        ->name('auth.google');
+
+    Route::get('auth/google/callback', [AuthenticateGoogleController::class, 'handleGoogleCallback'])
+        ->name('auth.google.callback');
 });
 
 Route::middleware('auth')->group(function () {
