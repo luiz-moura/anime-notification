@@ -9,11 +9,7 @@ import BookmarkLogo from '@/Components/BookmarkLogo';
 
 export default function Schedule({ auth, animes }) {
     const  handleSubscribe = async (animeSlug) => {
-        await apiClient.get(route('anime.subscribe', animeSlug), {
-            headers: {
-                // authorization: 'Bearer ' + getUserToken()
-            }
-        }).then(() => {
+        await apiClient.get(route('anime.subscribe', animeSlug)).then(() => {
             toast.success('Anime added to your list')
         }).catch(() => {
             toast.fail('An error occurred while adding anime to your list')

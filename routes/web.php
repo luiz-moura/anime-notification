@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Infra\Persistente\Eloquent\Models\Anime;
+use Interfaces\Http\Api\Animes\Controllers\AnimeController;
 use Interfaces\Http\Web\Users\ProfileController;
 
 /*
@@ -31,7 +32,7 @@ Route::post('setToken', function (Request $request) {
     $token = $request->input('fcm_token');
     $request->user()->update(['fcm_token' => $token]);
 
-    return response()->json(['message' => 'Successfully Updated FCM Token']);
+    return response()->noContent();
 });
 
 Route::middleware('auth')->group(function () {
@@ -48,6 +49,10 @@ Route::middleware('auth')->group(function () {
 
         return Inertia::render('Schedule', compact('animes'));
     })->name('schedule');
+
+    Route::prefix('anime')->controller(AnimeController::class)->group(function () {
+        Route::get('{slug}/subscribe', 'becomeMember')->name('anime.subscribe');
+    });
 
     Route::get('settings', function () {
         return Inertia::render('Settings');
