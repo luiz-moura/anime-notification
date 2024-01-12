@@ -4,8 +4,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use Infra\Persistente\Eloquent\Models\Anime;
 use Interfaces\Http\Api\Animes\Controllers\AnimeController;
+use Interfaces\Http\Web\Member\Controller\MemberController;
 use Interfaces\Http\Web\Users\ProfileController;
 
 /*
@@ -44,14 +44,9 @@ Route::middleware('auth')->group(function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    Route::get('/schedule', function () {
-        $animes = Anime::with(['images', 'broadcast', 'genres'])->get();
-
-        return Inertia::render('Schedule', compact('animes'));
-    })->name('schedule');
-
     Route::prefix('anime')->controller(AnimeController::class)->group(function () {
-        Route::get('{slug}/subscribe', 'becomeMember')->name('anime.subscribe');
+        Route::get('{id}/subscribe', 'subscribeMember')->name('anime.subscribe');
+        Route::get('{id}/unsubscribe', 'unsubscribeMember')->name('anime.unsubscribe');
     });
 
     Route::get('settings', function () {

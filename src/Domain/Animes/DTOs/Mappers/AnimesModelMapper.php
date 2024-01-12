@@ -31,7 +31,7 @@ class AnimesModelMapper
             'year' => $data['year'] ?? null,
             'aired_from' => $data['aired']['from'] ?? null,
             'aired_to' => $data['aired']['to'] ?? null,
-            'titles' => !empty($data['images'])
+            'titles' => !empty($data['titles'])
                 ? TitlesCollection::fromModel($data['titles'])
                 : null,
             'images' => !empty($data['images'])

@@ -15,7 +15,7 @@ class AnimeRepository extends Repository implements AnimeRepositoryContract
 {
     protected $modelClass = Anime::class;
 
-    public function findBySlug(string $animeSlug): AnimesModelData
+    public function findById(int $animeSlug): AnimesModelData
     {
         return AnimesModelData::fromModel(
             $this->model->where('slug', $animeSlug)->firstOrFail()->toArray()
@@ -27,18 +27,6 @@ class AnimeRepository extends Repository implements AnimeRepositoryContract
         return AnimesModelData::fromModel(
             $this->model->create($animes->toArray())->toArray()
         );
-    }
-
-    public function queryWillBeBroadcastToday(): ?AnimesCollection
-    {
-        $animes = $this->model->select()
-            ->with('titles')
-            ->whereRelation('broadcast', 'day', today()->timezone('Asia/Tokyo')->dayName . 's')
-            ->get();
-
-        return $animes
-            ? AnimesCollection::fromModel($animes->toArray())
-            : null;
     }
 
     public function queryByMalIds(array $ids): ?AnimesCollection
@@ -76,16 +64,21 @@ class AnimeRepository extends Repository implements AnimeRepositoryContract
 
     public function associateTheUser(int $animeId, int $userId, SubscriptionTypesEnum $type): void
     {
-        $this->model->find($animeId)->users()->attach($userId, ['type' => $type]);
+        $this->model->findOrFail($animeId)->users()->attach($userId, ['type' => $type]);
+    }
+
+    public function disassociateTheUser(int $animeId, int $userId): void
+    {
+        $this->model->findOrFail($animeId)->users()->detach($userId);
     }
 
     public function attachImages(int $animeId, int|array $imageIds): void
     {
-        $this->model->find($animeId)->images()->attach($imageIds);
+        $this->model->findOrFail($animeId)->images()->attach($imageIds);
     }
 
     public function attachGenres(int $animeId, int|array $genreIds): void
     {
-        $this->model->find($animeId)->genres()->attach($genreIds);
+        $this->model->findOrFail($animeId)->genres()->attach($genreIds);
     }
 }

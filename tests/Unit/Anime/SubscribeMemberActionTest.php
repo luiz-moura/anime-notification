@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Anime;
 
-use Domain\Animes\Actions\BecomeAnAnimeMemberAction;
+use Domain\Animes\Actions\SubscribeMemberAction;
 use Domain\Animes\Contracts\AnimeRepository;
 use Domain\Animes\Contracts\MemberRepository;
 use Domain\Animes\DTOs\Models\AnimesModelData;
@@ -12,10 +12,10 @@ use Tests\Mocks\AnimesModelDataMock;
 use Tests\Mocks\MembersModelDataMock;
 use PHPUnit\Framework\TestCase;
 
-class BecomeAnAnimeMemberActionTest extends TestCase {
+class SubscribeMemberActionTest extends TestCase {
     public $animeRepository;
     public $memberRepository;
-    public $becomeAnAnimeMemberAction;
+    public $subscribeMemberAction;
     public AnimesModelData $anime;
     public MembersModelData $member;
 
@@ -26,7 +26,7 @@ class BecomeAnAnimeMemberActionTest extends TestCase {
         $this->animeRepository = $this->createMock(AnimeRepository::class);
         $this->memberRepository = $this->createMock(MemberRepository::class);
 
-        $this->becomeAnAnimeMemberAction = new BecomeAnAnimeMemberAction(
+        $this->subscribeMemberAction = new SubscribeMemberAction(
             $this->animeRepository,
             $this->memberRepository
         );
@@ -37,12 +37,6 @@ class BecomeAnAnimeMemberActionTest extends TestCase {
 
     public function test_shouldnt_do_anything_when_the_user_is_already_a_member()
     {
-        $this->animeRepository
-            ->expects($this->once())
-            ->method('findBySlug')
-            ->with($this->anime->slug)
-            ->willReturn($this->anime);
-
         $this->memberRepository
             ->expects($this->once())
             ->method('queryByIdAndAnimeId')
@@ -57,7 +51,7 @@ class BecomeAnAnimeMemberActionTest extends TestCase {
             ->expects($this->never())
             ->method('associateTheUser');
 
-        $this->becomeAnAnimeMemberAction->run($this->anime->slug, $this->member->id, SubscriptionTypesEnum::PLAN_TO_WATCH);
+        $this->subscribeMemberAction->run($this->anime->id, $this->member->id, SubscriptionTypesEnum::PLAN_TO_WATCH);
     }
 
     public function test_should_change_the_type_of_member_subscription()
@@ -65,12 +59,6 @@ class BecomeAnAnimeMemberActionTest extends TestCase {
         $subscription = SubscriptionTypesEnum::PLAN_TO_WATCH;
 
         $this->member->type = SubscriptionTypesEnum::DROPPED;
-
-        $this->animeRepository
-            ->expects($this->once())
-            ->method('findBySlug')
-            ->with($this->anime->slug)
-            ->willReturn($this->anime);
 
         $this->memberRepository
             ->expects($this->once())
@@ -87,18 +75,12 @@ class BecomeAnAnimeMemberActionTest extends TestCase {
             ->expects($this->never())
             ->method('associateTheUser');
 
-        $this->becomeAnAnimeMemberAction->run($this->anime->slug, $this->member->id, $subscription);
+        $this->subscribeMemberAction->run($this->anime->id, $this->member->id, $subscription);
     }
 
     public function test_should_become_a_member_successfully()
     {
         $subscription = SubscriptionTypesEnum::PLAN_TO_WATCH;
-
-        $this->animeRepository
-            ->expects($this->once())
-            ->method('findBySlug')
-            ->with($this->anime->slug)
-            ->willReturn($this->anime);
 
         $this->memberRepository
             ->expects($this->once())
@@ -115,6 +97,6 @@ class BecomeAnAnimeMemberActionTest extends TestCase {
             ->method('associateTheUser')
             ->with($this->anime->id, $this->member->id, $subscription);
 
-        $this->becomeAnAnimeMemberAction->run($this->anime->slug, $this->member->id, $subscription);
+        $this->subscribeMemberAction->run($this->anime->id, $this->member->id, $subscription);
     }
 }

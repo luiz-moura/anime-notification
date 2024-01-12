@@ -6,28 +6,27 @@ use Domain\Animes\Contracts\AnimeRepository;
 use Domain\Animes\Contracts\MemberRepository;
 use Domain\Animes\Enums\SubscriptionTypesEnum;
 
-class BecomeAnAnimeMemberAction
+class SubscribeMemberAction
 {
     public function __construct(
         private AnimeRepository $animeRepository,
         private MemberRepository $memberRepository,
     ) {}
 
-    public function run(string $animeSlug, int $userId, SubscriptionTypesEnum $type): void
+    public function run(string $animeId, int $userId, SubscriptionTypesEnum $type): void
     {
-        $anime = $this->animeRepository->findBySlug($animeSlug);
-        $member = $this->memberRepository->queryByIdAndAnimeId($userId, $anime->id);
+        $member = $this->memberRepository->queryByIdAndAnimeId($userId, $animeId);
 
         if ($member && $member->type === $type) {
             return;
         }
 
         if ($member) {
-            $this->animeRepository->updateMemberType($anime->id, $member->id, $type);
+            $this->animeRepository->updateMemberType($animeId, $member->id, $type);
 
             return;
         }
 
-        $this->animeRepository->associateTheUser($anime->id, $userId, $type);
+        $this->animeRepository->associateTheUser($animeId, $userId, $type);
     }
 }

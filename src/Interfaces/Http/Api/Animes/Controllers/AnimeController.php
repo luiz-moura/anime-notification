@@ -2,19 +2,31 @@
 
 namespace Interfaces\Http\Api\Animes\Controllers;
 
-use Domain\Animes\Actions\BecomeAnAnimeMemberAction;
+use Domain\Animes\Actions\SubscribeMemberAction;
+use Domain\Animes\Actions\UnsubscribeMemberAction;
 use Domain\Animes\Enums\SubscriptionTypesEnum;
 use Infra\Abstracts\Controller;
 
 class AnimeController extends Controller
 {
-    public function becomeMember(
-        string $animeSlug,
-        BecomeAnAnimeMemberAction $becomeAnAnimeMemberAction
+    public function subscribeMember(
+        int $animeId,
+        SubscribeMemberAction $subscribeMemberAction
     ) {
         $userId = auth()->user()->id;
 
-        $becomeAnAnimeMemberAction->run($animeSlug, $userId, SubscriptionTypesEnum::WATCHING);
+        $subscribeMemberAction->run($animeId, $userId, SubscriptionTypesEnum::WATCHING);
+
+        return response()->noContent();
+    }
+
+    public function unsubscribeMember(
+        int $animeId,
+        UnsubscribeMemberAction $unsubscribeMemberAction
+    ) {
+        $userId = auth()->user()->id;
+
+        $unsubscribeMemberAction->run($animeId, $userId);
 
         return response()->noContent();
     }

@@ -8,7 +8,6 @@ use Domain\Shared\Medias\DTOs\Models\MediasModelData;
 use Infra\Integration\AnimeApi\DTOs\AnimesData as ApiAnimesData;
 use Infra\Storage\Services\StoreMediaService;
 
-
 class StoreAnimeImageAction
 {
     public function __construct(
