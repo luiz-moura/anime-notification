@@ -15,7 +15,7 @@ class AnimesModelMapper
             'id' => $data['id'],
             'mal_id' => $data['mal_id'],
             'mal_url' => $data['mal_url'],
-            'title' => $data['slug'],
+            'title' => $data['title'],
             'slug' => $data['slug'],
             'approved' => $data['approved'] ?? true,
             'airing' => $data['airing'],

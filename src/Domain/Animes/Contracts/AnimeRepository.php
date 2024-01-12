@@ -12,6 +12,7 @@ interface AnimeRepository
 {
     public function queryByMalIds(array $ids): ?AnimesCollection;
     public function queryByBroadcsatTimeRange(DateTime $beginning, DateTime $end): ?AnimesCollection;
+    public function queryByCurrentSeason(): ?AnimesCollection;
     public function create(AnimesData $animes): AnimesModelData;
     public function findById(int $id): AnimesModelData;
     public function updateMemberType(int $animeId, int $userId, SubscriptionTypesEnum $type): void;

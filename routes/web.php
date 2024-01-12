@@ -44,6 +44,8 @@ Route::middleware('auth')->group(function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
+    Route::get('/schedule', [MemberController::class, 'schedule'])->name('schedule');
+
     Route::prefix('anime')->controller(AnimeController::class)->group(function () {
         Route::get('{id}/subscribe', 'subscribeMember')->name('anime.subscribe');
         Route::get('{id}/unsubscribe', 'unsubscribeMember')->name('anime.unsubscribe');

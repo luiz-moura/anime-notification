@@ -40,6 +40,18 @@ class AnimeRepository extends Repository implements AnimeRepositoryContract
             : null;
     }
 
+    public function queryByCurrentSeason(): ?AnimesCollection
+    {
+        $animes = $this->model->select()
+            ->with(['images', 'broadcast', 'genres'])
+            ->whereRelation('broadcast', 'airing', true)
+            ->get();
+
+        return $animes
+            ? AnimesCollection::fromModel($animes->toArray())
+            : null;
+    }
+
     public function queryByBroadcsatTimeRange(DateTime $beginning, DateTime $end): ?AnimesCollection
     {
         $animes = Anime::with('broadcast')

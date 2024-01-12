@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Domain\Animes\Contracts\AnimeRepository as AnimeRepositoryContract;
+use Domain\Animes\Contracts\AnimeSubscriptionRepository as AnimeSubscriptionRepositoryContract;
 use Domain\Animes\Contracts\AnimeTitleRepository as AnimeTitleRepositoryContract;
 use Domain\Animes\Contracts\BroadcastRepository as BroadcastRepositoryContract;
 use Domain\Animes\Contracts\GenreRepository as GenreRepositoryContract;
@@ -11,6 +12,7 @@ use Domain\Shared\Medias\Contracts\MediaRepository as MediaRepositoryContract;
 use Illuminate\Support\ServiceProvider;
 use Infra\Persistente\Eloquent\Repositories\AnimeRepository;
 use Infra\Persistente\Eloquent\Repositories\AnimeTitleRepository;
+use Infra\Persistente\Eloquent\Repositories\AnimeUserRepository;
 use Infra\Persistente\Eloquent\Repositories\BroadcastRepository;
 use Infra\Persistente\Eloquent\Repositories\GenreRepository;
 use Infra\Persistente\Eloquent\Repositories\MediaRepository;
@@ -31,6 +33,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(GenreRepositoryContract::class, GenreRepository::class);
         $this->app->bind(BroadcastRepositoryContract::class, BroadcastRepository::class);
         $this->app->bind(MediaRepositoryContract::class, MediaRepository::class);
+        $this->app->bind(AnimeSubscriptionRepositoryContract::class, AnimeUserRepository::class);
     }
 
     /**
