@@ -19,11 +19,16 @@ createInertiaApp({
             <>
                 <App {...props} />
                 <ToastContainer
-                    autoClose={3000}
-                    draggable={false}
-                    limit={1}
-                    icon={false}
-                    theme="colored"
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={true}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
                 />
             </>
         );
