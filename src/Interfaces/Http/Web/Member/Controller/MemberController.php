@@ -15,7 +15,7 @@ class MemberController extends Controller
         $memberSchedule = $getTheMemberScheduleUseCase->run($userId);
 
         return Inertia::render('Schedule', [
-            'animes' => $memberSchedule->animes,
+            'animeSchedule' => $memberSchedule->animeSchedule,
             'subscriptions' => $memberSchedule->subscriptions
         ]);
     }
