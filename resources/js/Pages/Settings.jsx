@@ -3,14 +3,20 @@ import { useEffect, useState } from "react";
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { acceptedNotifications, requestPermission } from "@/Services/notification";
+import { toast } from "react-toastify";
 
 export default function Settings({ auth }) {
     const [notification, setNotification] = useState(false)
 
-    const handleRequestPermission = async () =>  {
-        await requestPermission()
+    const handlePermission = async () =>  {
+        try {
+            await requestPermission()
+        } catch (e) {
+            toast.error('😔 ' + e.message)
+        }
 
         if (acceptedNotifications()) {
+            toast.success('😁 Notifications activated successfully')
             setNotification(true)
         }
     }
@@ -34,7 +40,7 @@ export default function Settings({ auth }) {
                             <input
                                 type="checkbox"
                                 className="checkbox checkbox-warning"
-                                onChange={handleRequestPermission}
+                                onChange={handlePermission}
                                 checked={notification ? 'checked' : ''}
                             />
                         </label>
