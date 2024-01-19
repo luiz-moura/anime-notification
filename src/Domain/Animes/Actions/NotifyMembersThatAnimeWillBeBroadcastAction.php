@@ -18,6 +18,11 @@ class NotifyMembersThatAnimeWillBeBroadcastAction
     public function run(AnimesModelData $anime): void
     {
         $members = $this->memberRepository->queryByAnimeId($anime->id);
+
+        if ($members->isEmpty()) {
+            return;
+        }
+
         $tokens = collect($members)->pluck('fcm_token')->all();
 
         $this->noticationService->sendMessage(

@@ -20,5 +20,7 @@ class NotifyMembersThatAnimeWillBeBroadcastJob implements ShouldQueue
     public function handle(NotifyMembersThatAnimeWillBeBroadcastAction $notifyMembersThatAnimeWillBeBroadcast): void
     {
         $notifyMembersThatAnimeWillBeBroadcast->run($this->anime);
+
+        logger("ANIME NOTIFICATION SENT: {$this->anime->title}, mal_id: {$this->anime->mal_id}");
     }
 }

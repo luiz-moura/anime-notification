@@ -62,10 +62,34 @@ class NotifyMembersThatAnimeWillBeBroadcastActionTest extends TestCase
             ->method('sendMessage')
             ->with($tokens, 'New episode released', "New {$this->anime->title} episode released", 'http://image-url.com');
 
-        $this->urlHelper->expects($this->once())
+        $this->urlHelper
+            ->expects($this->once())
             ->method('url')
             ->with($this->anime->images->first()->path)
             ->willReturn('http://image-url.com');
+
+        $this->notifyMembersThatAnimeWillBeBroadcastAction->run($this->anime);
+    }
+
+    public function test_should_not_notify_when_no_members_are_found()
+    {
+        $members = new MembersCollection();
+
+        $tokens = collect($members)->pluck('fcm_token')->all();
+
+        $this->memberRepository
+            ->expects($this->once())
+            ->method('queryByAnimeId')
+            ->with($this->anime->id)
+            ->willReturn($members);
+
+        $this->noticationService
+            ->expects($this->never())
+            ->method('sendMessage');
+
+        $this->urlHelper
+            ->expects($this->never())
+            ->method('url');
 
         $this->notifyMembersThatAnimeWillBeBroadcastAction->run($this->anime);
     }
