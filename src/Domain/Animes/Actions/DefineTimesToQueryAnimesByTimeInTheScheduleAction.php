@@ -6,12 +6,12 @@ class DefineTimesToQueryAnimesByTimeInTheScheduleAction
 {
     public function run(callable $callback): void
     {
-        $today = today();
+        $today = today()->startOfDay();
 
         for ($i = 0; $i <= 23; $i++) {
             $current = $today->toImmutable();
 
-            $callback(beginning: $current, end: $current->endOfHour());
+            $callback(beginning: $current->toDateTime(), end: $current->endOfHour()->toDateTime());
 
             $today->addHour();
         }

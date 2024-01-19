@@ -21,7 +21,7 @@ class ImportAnimesFromApiUseCase
         $animesAlreadyRegistered = $this->animeRepository->queryByMalIds($this->getMalIds($apiAnimes));
         $unregisteredAnimes = $apiAnimes->whereNotIn('mal_id', $this->getMalIds($animesAlreadyRegistered));
 
-        $animesThatLeftSchedule = $this->animeRepository->queryAiringByDayExceptMalIds($day, $this->getMalIds($apiAnimes));
+        $animesThatLeftSchedule = $this->animeRepository->queryAiringByDayExceptMalIds("{$day}s", $this->getMalIds($apiAnimes));
 
         $unregisteredAnimes->each(fn(ApiAnimesData $anime) => $registerAnime($anime));
 
