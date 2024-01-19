@@ -14,7 +14,7 @@ class QueryAnimesThatWillBeBroadcastInTimeRangeAction
     {
         $animes = $this->animeRepository->queryByBroadcsatTimeRange($beginning, $end);
 
-        if (!$animes) {
+        if ($animes->isEmpty()) {
             return;
         }
 
