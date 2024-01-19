@@ -2,7 +2,7 @@
 
 namespace Interfaces\Console\Commands;
 
-use App\Jobs\ImportAnimesFromApiJob;
+use App\Jobs\SearchForAnimeBroadcastByDayOfTheWeekJob;
 use Illuminate\Console\Command;
 
 class ImportAnimes extends Command
@@ -13,6 +13,6 @@ class ImportAnimes extends Command
 
     public function handle(): void
     {
-        ImportAnimesFromApiJob::dispatch();
+        SearchForAnimeBroadcastByDayOfTheWeekJob::dispatch();
     }
 }
