@@ -11,12 +11,12 @@ use Infra\Integration\AnimeApi\DTOs\Mappers\AnimesMapper;
 use Tests\Mocks\AnimesApiDataMock;
 use PHPUnit\Framework\TestCase;
 use Illuminate\Support\Str;
-use Infra\Storage\DTOs\MediaData;
+use Infra\Storage\DTOs\StoredMediaData;
 use Infra\Storage\Services\StoreMediaService;
 
 class StoreAnimeImageActionTest extends TestCase
 {
-    private $animeApi;
+    private $apiAnime;
     private $storeAnimeImageAction;
     private $mediaRepository;
     private $storeMediaService;
@@ -28,7 +28,7 @@ class StoreAnimeImageActionTest extends TestCase
         $this->mediaRepository = $this->createMock(MediaRepository::class);
         $this->storeMediaService = $this->createMock(StoreMediaService::class);
 
-        $this->animeApi = AnimesData::fromArray(
+        $this->apiAnime = AnimesData::fromArray(
             AnimesMapper::fromArray(AnimesApiDataMock::create())
         );
 
@@ -40,9 +40,9 @@ class StoreAnimeImageActionTest extends TestCase
 
     public function test_should_store_the_image_successfully()
     {
-        $filename = Str::slug($this->animeApi->title) . '+' . 'Xv1KLy' . '.jpg';
+        $filename = Str::slug($this->apiAnime->title) . '+' . 'Xv1KLy' . '.jpg';
 
-        $file = MediaData::fromArray([
+        $file = StoredMediaData::fromArray([
             'path' => "animes/{$filename}",
             'filename' => $filename,
             'extension' => 'dasdas',
@@ -52,13 +52,13 @@ class StoreAnimeImageActionTest extends TestCase
         $this->storeMediaService
             ->expects($this->once())
             ->method('generateFileNameByTitle')
-            ->with($this->animeApi->title, $this->animeApi->images->jpg->large_image_url)
+            ->with($this->apiAnime->title, $this->apiAnime->images->jpg->large_image_url)
             ->willReturn($filename);
 
         $this->storeMediaService
             ->expects($this->once())
             ->method('byExternalUrl')
-            ->with($this->animeApi->images->jpg->large_image_url, $filename, 'animes')
+            ->with($this->apiAnime->images->jpg->large_image_url, $filename, 'animes')
             ->willReturn($file);
 
         $this->mediaRepository
@@ -66,8 +66,8 @@ class StoreAnimeImageActionTest extends TestCase
             ->method('create')
             ->with(
                 ImagesData::fromArray([
-                    'title' => $this->animeApi->title,
-                    'path'=> $file->path,
+                    'title' => $this->apiAnime->title,
+                    'path' => $file->path,
                     'mimetype' => $file->mimetype,
                     'disk' => 'local'
                 ])
@@ -75,13 +75,13 @@ class StoreAnimeImageActionTest extends TestCase
             ->willReturn(
                 MediasModelData::fromArray([
                     'id' => 1,
-                    'title' => $this->animeApi->title,
+                    'title' => $this->apiAnime->title,
                     'path' => $file->path,
                     'mimetype' => 'jpg',
                     'disk' => 'local'
                 ])
             );
 
-        $this->storeAnimeImageAction->run($this->animeApi);
+        $this->storeAnimeImageAction->run($this->apiAnime);
     }
 }

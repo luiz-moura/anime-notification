@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use DateTime;
-use Domain\Animes\Actions\HandleAnimesThatWillBeBroadcastInTimeRangeAction;
+use Domain\Animes\Actions\QueryAnimesThatWillBeBroadcastInTimeRangeAction;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -17,14 +17,12 @@ class ScheduleNotificationsForMembersJob implements ShouldQueue
 
     public function __construct(private DateTime $beginning, private DateTime $end) {}
 
-    public function handle(HandleAnimesThatWillBeBroadcastInTimeRangeAction $handleAnimesThatWillBeBroadcastInTimeRangeAction): void
+    public function handle(QueryAnimesThatWillBeBroadcastInTimeRangeAction $action): void
     {
-        $handleAnimesThatWillBeBroadcastInTimeRangeAction->run(
+        $action->run(
             $this->beginning,
             $this->end,
-            function ($anime, $timeLeftToBeTransmitted) {
-                NotifyMembersThatAnimeWillBeBroadcastJob::dispatch($anime)->delay($timeLeftToBeTransmitted);
-            }
+            fn($anime, $timeLeftToBeTransmitted) => NotifyMembersThatAnimeWillBeBroadcastJob::dispatch($anime)->delay($timeLeftToBeTransmitted)
         );
     }
 }

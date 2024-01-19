@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use Domain\Animes\Actions\DefineTimeForQueryAnimeThatWillBeBroadcastTodayAction;
+use Domain\Animes\Actions\DefineTimesToQueryAnimesByTimeInTheScheduleAction;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -16,8 +16,10 @@ class ScheduleAnimeQueriesThatWillBeBroadcastTodayJob implements ShouldQueue
 
     public function __construct() {}
 
-    public function handle(DefineTimeForQueryAnimeThatWillBeBroadcastTodayAction $action): void
+    public function handle(DefineTimesToQueryAnimesByTimeInTheScheduleAction $action): void
     {
-        $action->run(fn () => ScheduleNotificationsForMembersJob::dispatch());
+        $action->run(
+            fn($beginning, $end) => ScheduleNotificationsForMembersJob::dispatch($beginning, $end)->delay(now()->diffInSeconds($beginning))
+        );
     }
 }

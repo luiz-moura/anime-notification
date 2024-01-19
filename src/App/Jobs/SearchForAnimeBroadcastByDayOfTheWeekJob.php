@@ -8,14 +8,16 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 
-class SearchForAnimesAiringOnTheDaysOfTheWeekJob implements ShouldQueue
+class SearchForAnimeBroadcastByDayOfTheWeekJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
 
     public function __construct() {}
 
     public function handle(): void
     {
-        collect(Carbon::getDays())->map(fn (string $day) => SearchForAnimesAiringDailyJob::dispatch($day));
+        collect(Carbon::getDays())->map(fn(string $day) => ImportAnimesFromApiJob::dispatch($day));
     }
 }

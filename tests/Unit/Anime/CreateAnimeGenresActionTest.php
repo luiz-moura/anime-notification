@@ -16,7 +16,7 @@ use Illuminate\Support\Str;
 
 class CreateAnimeGenresActionTest extends TestCase
 {
-    private $animeApi;
+    private $apiAnime;
     private $genresModel;
     private $createAnimeGenresAction;
     private $genreRepository;
@@ -27,7 +27,7 @@ class CreateAnimeGenresActionTest extends TestCase
 
         $this->genreRepository = $this->createMock(GenreRepository::class);
 
-        $this->animeApi = AnimesData::fromArray(
+        $this->apiAnime = AnimesData::fromArray(
             AnimesMapper::fromArray(AnimesApiDataMock::create())
         );
 
@@ -42,17 +42,17 @@ class CreateAnimeGenresActionTest extends TestCase
             ->expects($this->once())
             ->method('queryByMalIds')
             ->with([
-                $this->animeApi->genres[0]->mal_id,
-                $this->animeApi->explicit_genres[0]->mal_id,
-                $this->animeApi->themes[0]->mal_id,
-                $this->animeApi->demographics[0]->mal_id,
+                $this->apiAnime->genres[0]->mal_id,
+                $this->apiAnime->explicit_genres[0]->mal_id,
+                $this->apiAnime->themes[0]->mal_id,
+                $this->apiAnime->demographics[0]->mal_id,
             ])
             ->willReturn(null);
 
-        $genre1 = $this->animeApi->genres[0];
-        $genre2 = $this->animeApi->explicit_genres[0];
-        $genre3 = $this->animeApi->themes[0];
-        $genre4 = $this->animeApi->demographics[0];
+        $genre1 = $this->apiAnime->genres[0];
+        $genre2 = $this->apiAnime->explicit_genres[0];
+        $genre3 = $this->apiAnime->themes[0];
+        $genre4 = $this->apiAnime->demographics[0];
 
         $this->genreRepository
             ->expects($this->exactly(4))
@@ -90,26 +90,26 @@ class CreateAnimeGenresActionTest extends TestCase
                 )
             );
 
-        $this->createAnimeGenresAction->run($this->animeApi);
+        $this->createAnimeGenresAction->run($this->apiAnime);
     }
 
     public function test_should_not_register_genres_that_are_already_in_the_database()
     {
         $this->genresModel = new GenresModelCollection([
-            GenresModelDataMock::create(['mal_id' => $this->animeApi->genres[0]->mal_id]),
-            GenresModelDataMock::create(['mal_id' => $this->animeApi->explicit_genres[0]->mal_id]),
-            GenresModelDataMock::create(['mal_id' => $this->animeApi->demographics[0]->mal_id]),
-            GenresModelDataMock::create(['mal_id' => $this->animeApi->themes[0]->mal_id]),
+            GenresModelDataMock::create(['mal_id' => $this->apiAnime->genres[0]->mal_id]),
+            GenresModelDataMock::create(['mal_id' => $this->apiAnime->explicit_genres[0]->mal_id]),
+            GenresModelDataMock::create(['mal_id' => $this->apiAnime->demographics[0]->mal_id]),
+            GenresModelDataMock::create(['mal_id' => $this->apiAnime->themes[0]->mal_id]),
         ]);
 
         $this->genreRepository
             ->expects($this->once())
             ->method('queryByMalIds')
             ->with([
-                $this->animeApi->genres[0]->mal_id,
-                $this->animeApi->explicit_genres[0]->mal_id,
-                $this->animeApi->themes[0]->mal_id,
-                $this->animeApi->demographics[0]->mal_id,
+                $this->apiAnime->genres[0]->mal_id,
+                $this->apiAnime->explicit_genres[0]->mal_id,
+                $this->apiAnime->themes[0]->mal_id,
+                $this->apiAnime->demographics[0]->mal_id,
             ])
             ->willReturn($this->genresModel);
 
@@ -117,6 +117,6 @@ class CreateAnimeGenresActionTest extends TestCase
             ->expects($this->never())
             ->method('create');
 
-        $this->createAnimeGenresAction->run($this->animeApi);
+        $this->createAnimeGenresAction->run($this->apiAnime);
     }
 }

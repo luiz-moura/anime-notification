@@ -56,7 +56,7 @@ class AnimeRepository extends Repository implements AnimeRepositoryContract
     {
         $animes = Anime::with('broadcast')
             ->whereHas('broadcast', function ($query) use ($beginning, $end) {
-                $query->where('day', today()->timezone('Asia/Tokyo')->dayName  . 's')
+                $query->where('day', today()->dayName  . 's')
                     ->where('time', '>=', $beginning->format('H:i:s'))
                     ->where('time', '<=', $end->format('H:i:s'));
             })
@@ -65,6 +65,25 @@ class AnimeRepository extends Repository implements AnimeRepositoryContract
         return $animes
             ? AnimesCollection::fromModel($animes->toArray())
             : null;
+    }
+
+    public function queryAiringByDayExceptMalIds(string $day, array $malIds): ?AnimesCollection
+    {
+        $animes = Anime::select()
+            ->whereRelation('broadcast', 'day', $day)
+            ->where('airing', true)
+            ->whereNotIn('mal_id', $malIds)
+            ->get();
+
+        return $animes
+            ? AnimesCollection::fromModel($animes->toArray())
+            : null;
+    }
+
+    public function updateAiringStatusByMalIds(array $malIds, bool $status): void
+    {
+        $this->model->whereIn('mal_id', $malIds)
+            ->update(['status' => $status]);
     }
 
     public function updateMemberType(int $animeId, int $userId, SubscriptionTypesEnum $type): void

@@ -2,29 +2,28 @@
 
 namespace App\Console;
 
+use App\Jobs\ImportAnimesFromApiJob;
 use App\Jobs\ScheduleAnimeQueriesThatWillBeBroadcastTodayJob;
-use App\Jobs\SearchForAnimesAiringOnTheDaysOfTheWeekJob;
+use App\Jobs\SearchForAnimeBroadcastByDayOfTheWeekJob;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Interfaces\Console\Commands\ImportAnimes;
 use Interfaces\Console\Commands\NotifyMembers;
-use Interfaces\Console\Commands\RegisterAnimeThatAreAiring;
 
 class Kernel extends ConsoleKernel
 {
     protected $commands = [
-        RegisterAnimeThatAreAiring::class,
+        ImportAnimes::class,
         NotifyMembers::class,
     ];
 
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->job(SearchForAnimesAiringOnTheDaysOfTheWeekJob::class)
-            ->dailyAt('01:00')
-            ->timezone('Asia/Tokyo');
+        $schedule->job(SearchForAnimeBroadcastByDayOfTheWeekJob::class)
+            ->dailyAt('01:00');
 
         $schedule->job(ScheduleAnimeQueriesThatWillBeBroadcastTodayJob::class)
-            ->dailyAt('00:00')
-            ->timezone('Asia/Tokyo');
+            ->dailyAt('00:00');
     }
 
     protected function commands(): void
