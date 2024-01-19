@@ -13,14 +13,14 @@ class AnimeScheduleMapper
         )->all();
 
         return [
-            'mondays' => new AnimesCollection($schedule['mondays']),
-            'tuesdays' => new AnimesCollection($schedule['tuesdays']),
-            'wednesdays' => new AnimesCollection($schedule['wednesdays']),
-            'thursdays' => new AnimesCollection($schedule['thursdays']),
-            'fridays' => new AnimesCollection($schedule['fridays']),
-            'saturdays' => new AnimesCollection($schedule['saturdays']),
-            'sundays' => new AnimesCollection($schedule['sundays']),
-            'unknown' => new AnimesCollection($schedule['unknown']),
+            'mondays' => new AnimesCollection($schedule['mondays'] ?? null),
+            'tuesdays' => new AnimesCollection($schedule['tuesdays'] ?? null),
+            'wednesdays' => new AnimesCollection($schedule['wednesdays'] ?? null),
+            'thursdays' => new AnimesCollection($schedule['thursdays'] ?? null),
+            'fridays' => new AnimesCollection($schedule['fridays'] ?? null),
+            'saturdays' => new AnimesCollection($schedule['saturdays'] ?? null),
+            'sundays' => new AnimesCollection($schedule['sundays'] ?? null),
+            'unknown' => new AnimesCollection($schedule['unknown'] ?? null),
         ];
     }
 }

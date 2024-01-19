@@ -2,17 +2,17 @@
 
 namespace Interfaces\Http\Web\Member\Controller;
 
-use Domain\Animes\UseCases\GetTheMemberScheduleUseCase;
+use Domain\Animes\UseCases\GetMemberScheduleUseCase;
 use Inertia\Inertia;
 use Inertia\Response;
 use Infra\Abstracts\Controller;
 
 class MemberController extends Controller
 {
-    public function schedule(GetTheMemberScheduleUseCase $getTheMemberScheduleUseCase): Response
+    public function schedule(GetMemberScheduleUseCase $getMemberScheduleUseCase): Response
     {
         $userId = auth()->user()->id;
-        $memberSchedule = $getTheMemberScheduleUseCase->run($userId);
+        $memberSchedule = $getMemberScheduleUseCase->run($userId);
 
         return Inertia::render('Schedule', [
             'animeSchedule' => $memberSchedule->animeSchedule,
