@@ -13,7 +13,7 @@ class MembersModelDataMock
             'id' => fake()->randomNumber(),
             'name' => fake()->randomNumber(),
             'email' => fake()->randomNumber(),
-            'fcm_token' => fake()->url(),
+            'fcm_token' => fake()->uuid(),
             'type' => fake()->randomElement(SubscriptionTypesEnum::cases()),
         ] );
     }

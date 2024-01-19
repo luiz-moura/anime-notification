@@ -39,7 +39,7 @@ class SubscribeMemberActionTest extends TestCase {
     {
         $this->memberRepository
             ->expects($this->once())
-            ->method('queryByIdAndAnimeId')
+            ->method('findByIdAndAnimeId')
             ->with($this->member->id, $this->anime->id)
             ->willReturn($this->member);
 
@@ -62,7 +62,7 @@ class SubscribeMemberActionTest extends TestCase {
 
         $this->memberRepository
             ->expects($this->once())
-            ->method('queryByIdAndAnimeId')
+            ->method('findByIdAndAnimeId')
             ->with($this->member->id, $this->anime->id)
             ->willReturn($this->member);
 
@@ -84,7 +84,7 @@ class SubscribeMemberActionTest extends TestCase {
 
         $this->memberRepository
             ->expects($this->once())
-            ->method('queryByIdAndAnimeId')
+            ->method('findByIdAndAnimeId')
             ->with($this->member->id, $this->anime->id)
             ->willReturn(null);
 

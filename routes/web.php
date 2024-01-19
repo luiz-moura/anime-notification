@@ -4,20 +4,9 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use Interfaces\Http\Api\Animes\Controllers\AnimeController;
+use Interfaces\Http\Web\Member\Controller\SubscriptionController;
 use Interfaces\Http\Web\Member\Controller\MemberController;
 use Interfaces\Http\Web\Users\ProfileController;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/welcome', function () {
     return Inertia::render('Welcome', [
@@ -46,7 +35,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/schedule', [MemberController::class, 'schedule'])->name('schedule');
 
-    Route::prefix('anime')->controller(AnimeController::class)->group(function () {
+    Route::prefix('anime')->controller(SubscriptionController::class)->group(function () {
         Route::get('{id}/subscribe', 'subscribeMember')->name('anime.subscribe');
         Route::get('{id}/unsubscribe', 'unsubscribeMember')->name('anime.unsubscribe');
     });
@@ -56,8 +45,8 @@ Route::middleware('auth')->group(function () {
     })->name('profile.settings');
 });
 
-Route::get('/', function() {
-    dd(now()->timezone('Asia/Tokyo')->format('Y-m-d H:i:s'));
+Route::get('/', function () {
+    dd(now()->format('Y-m-d H:i:s'));
 });
 
 require __DIR__ . '/auth.php';

@@ -1,13 +1,13 @@
 <?php
 
-namespace Interfaces\Http\Api\Animes\Controllers;
+namespace Interfaces\Http\Web\Member\Controller;
 
 use Domain\Animes\Actions\SubscribeMemberAction;
 use Domain\Animes\Actions\UnsubscribeMemberAction;
 use Domain\Animes\Enums\SubscriptionTypesEnum;
 use Infra\Abstracts\Controller;
 
-class AnimeController extends Controller
+class SubscriptionController extends Controller
 {
     public function subscribeMember(
         int $animeId,

@@ -26,7 +26,7 @@ class UserRepository extends Repository implements MemberRepositoryContract
             : null;
     }
 
-    public function queryByIdAndAnimeId(int $userId, int $animeId): ?MembersModelData
+    public function findByIdAndAnimeId(int $userId, int $animeId): ?MembersModelData
     {
         $user = $this->model->select()
             ->where('id', $userId)
@@ -34,7 +34,7 @@ class UserRepository extends Repository implements MemberRepositoryContract
                 'animes' => fn ($query) => $query->where('id', $animeId)
             ])
             ->whereRelation('animes', 'id', $animeId)
-            ->first();
+            ->firstOrFail();
 
         return $user
             ?  MembersModelData::fromModel($user->toArray())

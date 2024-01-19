@@ -15,7 +15,7 @@ class SubscribeMemberAction
 
     public function run(string $animeId, int $userId, SubscriptionTypesEnum $type): void
     {
-        $member = $this->memberRepository->queryByIdAndAnimeId($userId, $animeId);
+        $member = $this->memberRepository->findByIdAndAnimeId($userId, $animeId);
 
         if ($member && $member->type === $type) {
             return;
