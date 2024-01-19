@@ -9,6 +9,8 @@ use Kreait\Firebase\Messaging\Notification;
 
 class FirebaseService implements NoticationService
 {
+    public function __construct(public Messaging $messaging) {}
+
     public function sendMessage(array $tokens, string $title, string $message, ?string $imageUrl = null): void
     {
         $message = CloudMessage::new()->withNotification(
@@ -18,8 +20,8 @@ class FirebaseService implements NoticationService
         $this->messaging()->sendMulticast($message, $tokens);
     }
 
-    private function messaging(): Messaging
+    public function messaging()
     {
-        return app(Messaging::class);
+        return app('firebase.messaging');
     }
 }
