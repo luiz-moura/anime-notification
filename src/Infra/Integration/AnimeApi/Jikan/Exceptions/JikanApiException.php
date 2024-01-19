@@ -6,8 +6,12 @@ use Exception;
 use Illuminate\Support\Facades\Lang;
 use Throwable;
 
-class JikanApiException extends Exception {
-    public function __construct($code = 0, Throwable $previous) {
-        parent::__construct(Lang::get('exceptions.api.jikan.request_failed'), $code, $previous);
+class JikanApiException extends Exception
+{
+    private const CODE = 500;
+
+    public function __construct(Throwable $previous)
+    {
+        parent::__construct(Lang::get('exceptions.api.jikan.request_failed'), self::CODE, $previous);
     }
 }
