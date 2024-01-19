@@ -10,10 +10,10 @@ use Domain\Animes\Enums\SubscriptionTypesEnum;
 
 interface AnimeRepository
 {
-    public function queryByMalIds(array $ids): ?AnimesCollection;
-    public function queryByBroadcsatTimeRange(DateTime $beginning, DateTime $end): ?AnimesCollection;
-    public function queryByCurrentSeason(): ?AnimesCollection;
-    public function queryAiringByDayExceptMalIds(string $day, array $malIds): ?AnimesCollection;
+    public function queryByMalIds(array $ids): AnimesCollection;
+    public function queryByBroadcsatTimeRange(DateTime $beginning, DateTime $end): AnimesCollection;
+    public function queryByCurrentSeason(): AnimesCollection;
+    public function queryAiringByDayExceptMalIds(string $day, array $malIds): AnimesCollection;
     public function create(AnimesData $animes): AnimesModelData;
     public function findById(int $id): AnimesModelData;
     public function updateAiringStatusByMalIds(array $malIds, bool $status): void;

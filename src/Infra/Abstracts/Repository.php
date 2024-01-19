@@ -2,17 +2,16 @@
 
 namespace Infra\Abstracts;
 
-use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class Repository
 {
-    protected EloquentBuilder $model;
+    protected Model $model;
     protected $modelClass;
 
     public function __construct()
     {
-        $this->model = $this->resolveModel()->query();
+        $this->model = $this->resolveModel();
     }
 
     private function resolveModel(): Model

@@ -6,5 +6,5 @@ use Domain\Animes\DTOs\Collections\SubscriptionsCollection;
 
 interface AnimeSubscriptionRepository
 {
-    public function queryByMemberId(int $memberId): ?SubscriptionsCollection;
+    public function queryByMemberId(int $memberId): SubscriptionsCollection;
 }

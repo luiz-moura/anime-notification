@@ -11,12 +11,10 @@ class AnimeUserRepository extends Repository implements AnimeSubscriptionReposit
 {
     protected $modelClass = AnimeUser::class;
 
-    public function queryByMemberId(int $memberId): ?SubscriptionsCollection
+    public function queryByMemberId(int $memberId): SubscriptionsCollection
     {
-        $subscriptions = $this->model->where('user_id', $memberId)->get();
-
-        return $subscriptions
-            ? SubscriptionsCollection::fromModel($subscriptions->toArray())
-            : null;
+        return SubscriptionsCollection::fromModel(
+            $this->model->where('user_id', $memberId)->get()?->toArray()
+        );
     }
 }

@@ -12,32 +12,26 @@ class UserRepository extends Repository implements MemberRepositoryContract
 {
     protected $modelClass = User::class;
 
-    public function queryByAnimeId(int $animeId): ?MembersCollection
+    public function queryByAnimeId(int $animeId): MembersCollection
     {
-        $users = $this->model->select()
-            ->with([
-                'animes' => fn ($query) => $query->where('id', $animeId)
-            ])
-            ->whereRelation('animes', 'id', $animeId)
-            ->get();
-
-        return $users
-            ? MembersCollection::fromModel($users->toArray())
-            : null;
+        return MembersCollection::fromModel(
+            $this->model->query()
+                ->with(['animes' => fn($query) => $query->where('id', $animeId)])
+                ->whereRelation('animes', 'id', $animeId)
+                ->get()
+                ?->toArray()
+        );
     }
 
-    public function findByIdAndAnimeId(int $userId, int $animeId): ?MembersModelData
+    public function findByIdAndAnimeId(int $userId, int $animeId): MembersModelData
     {
-        $user = $this->model->select()
-            ->where('id', $userId)
-            ->with([
-                'animes' => fn ($query) => $query->where('id', $animeId)
-            ])
-            ->whereRelation('animes', 'id', $animeId)
-            ->firstOrFail();
-
-        return $user
-            ?  MembersModelData::fromModel($user->toArray())
-            : null;
+        return MembersModelData::fromModel(
+            $this->model->query()
+                ->where('id', $userId)
+                ->with(['animes' => fn($query) => $query->where('id', $animeId)])
+                ->whereRelation('animes', 'id', $animeId)
+                ->firstOrFail()
+                ->toArray()
+        );
     }
 }

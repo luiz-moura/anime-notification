@@ -29,61 +29,58 @@ class AnimeRepository extends Repository implements AnimeRepositoryContract
         );
     }
 
-    public function queryByMalIds(array $ids): ?AnimesCollection
+    public function queryByMalIds(array $ids): AnimesCollection
     {
-        $animes = $this->model->select()
-            ->whereIn('mal_id', $ids)
-            ->get();
-
-        return $animes
-            ? AnimesCollection::fromModel($animes->toArray())
-            : null;
+        return AnimesCollection::fromModel(
+            $this->model->query()
+                ->whereIn('mal_id', $ids)
+                ->get()
+                ?->toArray()
+        );
     }
 
-    public function queryByCurrentSeason(): ?AnimesCollection
+    public function queryByCurrentSeason(): AnimesCollection
     {
-        $animes = $this->model->select()
-            ->with(['images', 'broadcast', 'genres'])
-            ->whereRelation('broadcast', 'airing', true)
-            ->get();
-
-        return $animes
-            ? AnimesCollection::fromModel($animes->toArray())
-            : null;
+        return AnimesCollection::fromModel(
+            $this->model->query()
+                ->with(['images', 'broadcast', 'genres'])
+                ->whereRelation('broadcast', 'airing', true)
+                ->get()
+                ?->toArray()
+        );
     }
 
-    public function queryByBroadcsatTimeRange(DateTime $beginning, DateTime $end): ?AnimesCollection
+    public function queryByBroadcsatTimeRange(DateTime $beginning, DateTime $end): AnimesCollection
     {
-        $animes = Anime::with('broadcast')
-            ->whereHas('broadcast', function ($query) use ($beginning, $end) {
-                $query->where('day', today()->dayName  . 's')
-                    ->where('time', '>=', $beginning->format('H:i:s'))
-                    ->where('time', '<=', $end->format('H:i:s'));
-            })
-            ->get();
-
-        return $animes
-            ? AnimesCollection::fromModel($animes->toArray())
-            : null;
+        return AnimesCollection::fromModel(
+            $this->model->query()
+                ->with('broadcast')
+                ->has('users')
+                ->whereHas('broadcast', function ($query) use ($beginning, $end) {
+                    $query->where('day', today()->dayName . 's')
+                        ->where('time', '>=', $beginning->format('H:i:s'))
+                        ->where('time', '<=', $end->format('H:i:s'));
+                })
+                ->get()
+                ?->toArray()
+        );
     }
 
-    public function queryAiringByDayExceptMalIds(string $day, array $malIds): ?AnimesCollection
+    public function queryAiringByDayExceptMalIds(string $day, array $malIds): AnimesCollection
     {
-        $animes = Anime::select()
-            ->whereRelation('broadcast', 'day', $day)
-            ->where('airing', true)
-            ->whereNotIn('mal_id', $malIds)
-            ->get();
-
-        return $animes
-            ? AnimesCollection::fromModel($animes->toArray())
-            : null;
+        return AnimesCollection::fromModel(
+            $this->model->query()
+                ->whereRelation('broadcast', 'day', $day)
+                ->where('airing', true)
+                ->whereNotIn('mal_id', $malIds)
+                ->get()
+                ?->toArray()
+        );
     }
 
     public function updateAiringStatusByMalIds(array $malIds, bool $status): void
     {
-        $this->model->whereIn('mal_id', $malIds)
-            ->update(['status' => $status]);
+        $this->model->whereIn('mal_id', $malIds)->update(['airing' => $status]);
     }
 
     public function updateMemberType(int $animeId, int $userId, SubscriptionTypesEnum $type): void

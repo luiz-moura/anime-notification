@@ -17,14 +17,13 @@ class GenreRepository extends Repository implements GenreRepositoryContract
         $this->model->create($genre->toArray());
     }
 
-    public function queryByMalIds(array $ids): ?GenresCollection
+    public function queryByMalIds(array $ids): GenresCollection
     {
-        $genres = $this->model->select()
-            ->whereIn('mal_id', $ids)
-            ->get();
-
-        return $genres
-            ? GenresCollection::fromModel($genres->toArray())
-            : null;
+        return GenresCollection::fromModel(
+            $this->model->query()
+                ->whereIn('mal_id', $ids)
+                ->get()
+                ?->toArray()
+        );
     }
 }

@@ -7,6 +7,6 @@ use Domain\Animes\DTOs\GenresData;
 
 interface GenreRepository
 {
-    public function queryByMalIds(array $ids): ?GenresCollection;
+    public function queryByMalIds(array $ids): GenresCollection;
     public function create(GenresData $genre): void;
 }
