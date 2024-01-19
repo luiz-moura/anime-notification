@@ -10,7 +10,7 @@ class MediasModelDataMock
     {
         return MediasModelData::fromArray($extra + [
             'id' => fake()->randomNumber(),
-           'title' => fake()->title(),
+            'title' => fake()->title(),
             'path' => fake()->filePath(),
             'mimetype' => fake()->fileExtension(),
             'disk' => 'local',

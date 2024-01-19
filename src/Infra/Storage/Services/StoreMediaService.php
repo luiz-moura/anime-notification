@@ -3,14 +3,14 @@
 namespace Infra\Storage\Services;
 
 use Illuminate\Support\Facades\Storage;
-use Infra\Storage\DTOs\MediaData;
+use Infra\Storage\DTOs\StoredMediaData;
 use Illuminate\Support\Str;
 use Infra\Storage\Exceptions\FailFetchImageException;
 use Throwable;
 
 class StoreMediaService
 {
-    public function byExternalUrl(string $url, string $filename, string $dir): MediaData
+    public function byExternalUrl(string $url, string $filename, string $dir): StoredMediaData
     {
         $path = "{$dir}/{$filename}";
 
@@ -22,7 +22,7 @@ class StoreMediaService
 
         Storage::put($path, $file);
 
-        return MediaData::fromArray([
+        return StoredMediaData::fromArray([
             'path' => $path,
             'filename' => $filename,
             'extension' => strrchr($filename, '.'),

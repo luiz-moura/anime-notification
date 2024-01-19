@@ -4,7 +4,7 @@ namespace Infra\Storage\DTOs;
 
 use Infra\Abstracts\DataTransferObject;
 
-class MediaData extends DataTransferObject
+class StoredMediaData extends DataTransferObject
 {
     public function __construct(
         public string $path,
