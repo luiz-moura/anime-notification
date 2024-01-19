@@ -1,6 +1,6 @@
 <?php
 
-namespace Infra\Integration\Messaging\Contracts;
+namespace Infra\Integration\Notification\Contracts;
 
 interface NoticationService
 {
