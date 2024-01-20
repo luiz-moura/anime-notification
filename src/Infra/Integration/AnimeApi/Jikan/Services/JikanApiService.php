@@ -3,6 +3,7 @@
 namespace Infra\Integration\AnimeApi\Jikan\Services;
 
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Infra\Integration\AnimeApi\Contracts\AnimeApiService;
 use Infra\Integration\AnimeApi\DTOs\Collections\AnimesCollection;
@@ -12,19 +13,30 @@ class JikanApiService implements AnimeApiService
 {
     public function getSchedulesByDay(string $day): AnimesCollection
     {
-        $response = $this->client()
-            ->withQueryParameters([
-                'kids' => false,
-                'filter' => $day,
-            ])
-            ->get('{+endpoint}/schedules');
+        $data = [];
+        $hasNextPage = true;
+        $page = 1;
 
-        if ($response->failed()) {
-            throw new JikanApiException($response->getStatusCode(), $response->getException());
+        while($hasNextPage) {
+            $response = $this->client()
+                ->withQueryParameters([
+                    'page' => $page,
+                    'filter' => $day
+                ])
+                ->get('{+endpoint}/schedules');
+
+            if ($response->failed()) {
+                throw new JikanApiException($response->toException());
+            }
+
+            $data[] = $response->json()['data'];
+
+            $hasNextPage = $response->json()['pagination']['has_next_page'];
+            $page++;
         }
 
         return AnimesCollection::fromApi(
-            $response->json()['data']
+            Arr::collapse($data)
         );
     }
 
