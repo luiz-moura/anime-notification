@@ -77,7 +77,7 @@ class ImportAnimesFromApiUseCaseTest extends TestCase
         $this->animeRepository
             ->expects($this->once())
             ->method('queryAiringByDayExceptMalIds')
-            ->with($day, collect($this->animesApi)->pluck('mal_id')->all())
+            ->with("{$day}s", collect($this->animesApi)->pluck('mal_id')->all())
             ->willReturn($animesThatLeftSchedule);
 
         $this->importAnimesFromApiUseCase->run(
@@ -115,7 +115,7 @@ class ImportAnimesFromApiUseCaseTest extends TestCase
         $this->animeRepository
             ->expects($this->once())
             ->method('queryAiringByDayExceptMalIds')
-            ->with($day, collect($this->animesApi)->pluck('mal_id')->all())
+            ->with("{$day}s", collect($this->animesApi)->pluck('mal_id')->all())
             ->willReturn($animesThatLeftSchedule);
 
         $this->importAnimesFromApiUseCase->run(

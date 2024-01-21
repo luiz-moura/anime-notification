@@ -56,7 +56,7 @@ class QueryAnimesThatWillBeBroadcastInTimeRangeActionTest extends TestCase
         });
     }
 
-    public function test_should_return_unregistered_animes_and_those_that_left_the_schedule_2222()
+    public function test_should_not_run_a_routine_when_not_found_any_anime()
     {
         $animes = new AnimesCollection();
 

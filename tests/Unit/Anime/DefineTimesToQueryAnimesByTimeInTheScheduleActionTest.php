@@ -26,8 +26,8 @@ class DefineTimesToQueryAnimesByTimeInTheScheduleActionTest extends TestCase
         $this->defineTimesToQueryAnimesByTimeInTheScheduleAction->run(function ($beginning, $end) {
             $current = $this->today->toImmutable();
 
-            $this->assertTrue($beginning->equalTo($current));
-            $this->assertTrue($end->equalTo($current->endOfHour()));
+            $this->assertTrue(Carbon::createFromDate($beginning)->equalTo($current));
+            $this->assertTrue(Carbon::createFromDate($end)->equalTo($current->endOfHour()));
 
             $this->today->addHour();
         });

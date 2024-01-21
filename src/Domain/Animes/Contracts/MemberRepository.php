@@ -8,5 +8,5 @@ use Domain\Animes\DTOs\Models\MembersModelData;
 interface MemberRepository
 {
     public function queryByAnimeId(int $animeId): MembersCollection;
-    public function findByIdAndAnimeId(int $userId, int $animeId): MembersModelData;
+    public function findByIdAndAnimeId(int $userId, int $animeId): ?MembersModelData;
 }

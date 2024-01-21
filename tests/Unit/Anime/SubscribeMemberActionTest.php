@@ -12,7 +12,8 @@ use Tests\Mocks\AnimesModelDataMock;
 use Tests\Mocks\MembersModelDataMock;
 use PHPUnit\Framework\TestCase;
 
-class SubscribeMemberActionTest extends TestCase {
+class SubscribeMemberActionTest extends TestCase
+{
     public $animeRepository;
     public $memberRepository;
     public $subscribeMemberAction;

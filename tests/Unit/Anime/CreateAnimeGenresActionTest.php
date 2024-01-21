@@ -47,7 +47,7 @@ class CreateAnimeGenresActionTest extends TestCase
                 $this->apiAnime->themes[0]->mal_id,
                 $this->apiAnime->demographics[0]->mal_id,
             ])
-            ->willReturn(null);
+            ->willReturn(new GenresModelCollection());
 
         $genre1 = $this->apiAnime->genres[0];
         $genre2 = $this->apiAnime->explicit_genres[0];
