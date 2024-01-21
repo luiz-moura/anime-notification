@@ -2,6 +2,7 @@
 
 namespace Domain\Animes\DTOs\Mappers;
 
+use Domain\Animes\DTOs\Collections\NotificationTokenCollection;
 use Domain\Animes\Enums\SubscriptionTypesEnum;
 
 class MembersModelMapper
@@ -12,8 +13,8 @@ class MembersModelMapper
             'id' => $data['id'] ?? null,
             'name' => $data['name'],
             'email' => $data['email'],
-            'fcm_token' => $data['fcm_token'] ?? null,
             'type' => SubscriptionTypesEnum::from($data['animes'][0]['subscription']['type']),
+            'notification_tokens' => NotificationTokenCollection::fromModel($data['fcm_tokens']),
         ];
     }
 }

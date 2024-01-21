@@ -23,7 +23,14 @@ class NotifyMembersThatAnimeWillBeBroadcastAction
             return;
         }
 
-        $tokens = collect($members)->pluck('fcm_token')->all();
+        $tokens = collect($members)->pluck('notification_tokens')
+            ->collapse()
+            ->pluck('token')
+            ->all();
+
+        if (!$tokens) {
+            return;
+        }
 
         $this->noticationService->sendMessage(
             $tokens,

@@ -16,22 +16,26 @@ class UserRepository extends Repository implements MemberRepositoryContract
     {
         return MembersCollection::fromModel(
             $this->model->query()
-                ->with(['animes' => fn($query) => $query->where('id', $animeId)])
+                ->with([
+                    'fcm_tokens',
+                    'animes' => fn($query) => $query->where('id', $animeId)
+                ])
                 ->whereRelation('animes', 'id', $animeId)
                 ->get()
                 ?->toArray()
         );
     }
 
-    public function findByIdAndAnimeId(int $userId, int $animeId): MembersModelData
+    public function findByIdAndAnimeId(int $userId, int $animeId): ?MembersModelData
     {
-        return MembersModelData::fromModel(
-            $this->model->query()
-                ->where('id', $userId)
-                ->with(['animes' => fn($query) => $query->where('id', $animeId)])
-                ->whereRelation('animes', 'id', $animeId)
-                ->firstOrFail()
-                ->toArray()
-        );
+        $member = $this->model->query()
+            ->where('id', $userId)
+            ->with(['animes' => fn($query) => $query->where('id', $animeId)])
+            ->whereRelation('animes', 'id', $animeId)
+            ->first();
+
+        return $member
+            ? MembersModelData::fromModel($member->toArray())
+            : null;
     }
 }

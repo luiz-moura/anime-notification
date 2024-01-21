@@ -1,11 +1,13 @@
 <?php
 
+use Domain\Animes\Actions\NotifyMembersThatAnimeWillBeBroadcastAction;
+use Domain\Animes\Contracts\AnimeRepository;
 use Illuminate\Foundation\Application;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Interfaces\Http\Web\Member\Controller\SubscriptionController;
 use Interfaces\Http\Web\Member\Controller\MemberController;
+use Interfaces\Http\Web\Member\Controller\NotificationController;
 use Interfaces\Http\Web\Users\ProfileController;
 
 Route::get('/welcome', function () {
@@ -17,28 +19,24 @@ Route::get('/welcome', function () {
     ]);
 });
 
-Route::post('setToken', function (Request $request) {
-    $token = $request->input('fcm_token');
-    $request->user()->update(['fcm_token' => $token]);
-
-    return response()->noContent();
-});
-
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
-
-    Route::get('/schedule', [MemberController::class, 'schedule'])->name('schedule');
+    Route::prefix('profile')->controller(ProfileController::class)->group(function () {
+        Route::get('/', 'edit')->name('profile.edit');
+        Route::patch('/', 'update')->name('profile.update');
+        Route::delete('/', 'destroy')->name('profile.destroy');
+    });
 
     Route::prefix('anime')->controller(SubscriptionController::class)->group(function () {
         Route::get('{id}/subscribe', 'subscribeMember')->name('anime.subscribe');
         Route::get('{id}/unsubscribe', 'unsubscribeMember')->name('anime.unsubscribe');
     });
+
+    Route::get('schedule', [MemberController::class, 'schedule'])->name('member.schedule');
+    Route::post('notification/set-token', [NotificationController::class, 'setToken']);
+
+    Route::get('dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
 
     Route::get('settings', function () {
         return Inertia::render('Settings');

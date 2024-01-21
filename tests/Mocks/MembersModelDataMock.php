@@ -2,6 +2,7 @@
 
 namespace Tests\Mocks;
 
+use Domain\Animes\DTOs\Collections\NotificationTokenCollection;
 use Domain\Animes\DTOs\Models\MembersModelData;
 use Domain\Animes\Enums\SubscriptionTypesEnum;
 
@@ -13,8 +14,10 @@ class MembersModelDataMock
             'id' => fake()->randomNumber(),
             'name' => fake()->randomNumber(),
             'email' => fake()->randomNumber(),
-            'fcm_token' => fake()->uuid(),
             'type' => fake()->randomElement(SubscriptionTypesEnum::cases()),
-        ] );
+            'notification_tokens' => new NotificationTokenCollection([
+                NotificationTokenDataMock::create()
+            ]),
+        ]);
     }
 }

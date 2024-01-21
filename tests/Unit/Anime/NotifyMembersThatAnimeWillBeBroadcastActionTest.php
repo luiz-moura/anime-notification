@@ -6,6 +6,7 @@ use Domain\Animes\Actions\NotifyMembersThatAnimeWillBeBroadcastAction;
 use Domain\Animes\Contracts\MemberRepository;
 use Domain\Animes\DTOs\Collections\ImagesCollection;
 use Domain\Animes\DTOs\Collections\MembersCollection;
+use Domain\Animes\DTOs\Collections\NotificationTokenCollection;
 use Domain\Animes\DTOs\Models\AnimesModelData;
 use Infra\Helpers\UrlHelper;
 use Infra\Integration\Notification\Contracts\NoticationService;
@@ -49,7 +50,10 @@ class NotifyMembersThatAnimeWillBeBroadcastActionTest extends TestCase
             MembersModelDataMock::create()
         ]);
 
-        $tokens = collect($members)->pluck('fcm_token')->all();
+        $tokens = collect($members)->pluck('notification_tokens')
+            ->collapse()
+            ->pluck('token')
+            ->all();
 
         $this->memberRepository
             ->expects($this->once())
@@ -75,7 +79,28 @@ class NotifyMembersThatAnimeWillBeBroadcastActionTest extends TestCase
     {
         $members = new MembersCollection();
 
-        $tokens = collect($members)->pluck('fcm_token')->all();
+        $this->memberRepository
+            ->expects($this->once())
+            ->method('queryByAnimeId')
+            ->with($this->anime->id)
+            ->willReturn($members);
+
+        $this->noticationService
+            ->expects($this->never())
+            ->method('sendMessage');
+
+        $this->urlHelper
+            ->expects($this->never())
+            ->method('url');
+
+        $this->notifyMembersThatAnimeWillBeBroadcastAction->run($this->anime);
+    }
+
+    public function test_should_not_notify_when_there_are_no_tokens_registered()
+    {
+        $members = new MembersCollection([
+            MembersModelDataMock::create(['notification_tokens' => new NotificationTokenCollection()])
+        ]);
 
         $this->memberRepository
             ->expects($this->once())
