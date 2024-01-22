@@ -100,12 +100,12 @@ class AnimeRepository extends Repository implements AnimeRepositoryContract
         $this->model->findOrFail($animeId)->users()->detach($userId);
     }
 
-    public function attachImages(int $animeId, int|array $imageIds): void
+    public function attachImages(int $animeId, array|int $imageIds): void
     {
         $this->model->findOrFail($animeId)->images()->attach($imageIds);
     }
 
-    public function attachGenres(int $animeId, int|array $genreIds): void
+    public function attachGenres(int $animeId, array|int $genreIds): void
     {
         $this->model->findOrFail($animeId)->genres()->attach($genreIds);
     }

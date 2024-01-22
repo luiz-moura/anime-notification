@@ -14,14 +14,16 @@ class ImportAnimesFromApiJob implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
 
-    public function __construct(private string $day) {}
+    public function __construct(private string $day)
+    {
+    }
 
     public function handle(ImportAnimesFromApiUseCase $useCase): void
     {
         $useCase->run(
             $this->day,
-            fn($anime) => RegisterAnimeJob::dispatch($anime),
-            fn($animes) => UpdateAnimeStatusOutOfScheduleJob::dispatch($animes)
+            fn ($anime) => RegisterAnimeJob::dispatch($anime),
+            fn ($animes) => UpdateAnimeStatusOutOfScheduleJob::dispatch($animes)
         );
     }
 }

@@ -8,7 +8,6 @@ use Illuminate\Console\Command;
 class NotifyMembers extends Command
 {
     protected $signature = 'app:notify-members';
-
     protected $description = 'Notifies members that the anime will be broadcast';
 
     public function handle(): void

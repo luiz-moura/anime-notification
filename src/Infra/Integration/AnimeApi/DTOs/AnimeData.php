@@ -3,8 +3,8 @@
 namespace Infra\Integration\AnimeApi\DTOs;
 
 use Infra\Abstracts\DataTransferObject;
-use Infra\Integration\AnimeApi\DTOs\Collections\TitlesCollection;
 use Infra\Integration\AnimeApi\DTOs\Collections\MalCollection;
+use Infra\Integration\AnimeApi\DTOs\Collections\TitlesCollection;
 use Infra\Integration\AnimeApi\DTOs\Mappers\AnimeMapper;
 
 class AnimeData extends DataTransferObject
@@ -43,7 +43,8 @@ class AnimeData extends DataTransferObject
         public ?MalCollection $explicit_genres,
         public ?MalCollection $themes,
         public ?MalCollection $demographics,
-    ) {}
+    ) {
+    }
 
     public static function fromApi(array $data): self
     {

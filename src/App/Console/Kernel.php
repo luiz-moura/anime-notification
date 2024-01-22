@@ -2,7 +2,6 @@
 
 namespace App\Console;
 
-use App\Jobs\ImportAnimesFromApiJob;
 use App\Jobs\ScheduleAnimeQueriesThatWillBeBroadcastTodayJob;
 use App\Jobs\SearchForAnimeBroadcastByDayOfTheWeekJob;
 use Illuminate\Console\Scheduling\Schedule;

@@ -2,10 +2,10 @@
 
 namespace Interfaces\Http\Web\Auth\Controllers;
 
-use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 use Infra\Abstracts\Controller;
 use Infra\Persistente\Eloquent\Models\User;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthenticateGoogleController extends Controller
 {
@@ -23,17 +23,17 @@ class AuthenticateGoogleController extends Controller
             Auth::login($user);
 
             return redirect('/dashboard');
-        } else {
-            $newUser = User::create([
-                'name' => $googleUser->name,
-                'email' => $googleUser->email,
-                'google_id'=> $googleUser->id,
-                'password' => encrypt('')
-            ]);
-
-            Auth::login($newUser);
-
-            return redirect('/dashboard');
         }
+
+        $newUser = User::create([
+            'name' => $googleUser->name,
+            'email' => $googleUser->email,
+            'google_id' => $googleUser->id,
+            'password' => encrypt(''),
+        ]);
+
+        Auth::login($newUser);
+
+        return redirect('/dashboard');
     }
 }

@@ -12,7 +12,8 @@ class ImportAnimesFromApiUseCase
     public function __construct(
         private AnimeApiService $animeApiService,
         private AnimeRepository $animeRepository,
-    ) {}
+    ) {
+    }
 
     public function run(string $day, callable $registerAnime, callable $updateAnimeStatusOutOfSchedule): void
     {
@@ -23,7 +24,7 @@ class ImportAnimesFromApiUseCase
 
         $animesThatLeftSchedule = $this->animeRepository->queryAiringByDayExceptMalIds("{$day}s", $this->getMalIds($apiAnimes));
 
-        $unregisteredAnimes->each(fn(ApiAnimeData $anime) => $registerAnime($anime));
+        $unregisteredAnimes->each(fn (ApiAnimeData $anime) => $registerAnime($anime));
 
         if ($animesThatLeftSchedule->isNotEmpty()) {
             $updateAnimeStatusOutOfSchedule($animesThatLeftSchedule);

@@ -7,7 +7,9 @@ use Domain\Animes\DTOs\Collections\AnimesCollection;
 
 class UpdateAnimeStatusOutOfScheduleAction
 {
-    public function __construct(private AnimeRepository $animeRepository) {}
+    public function __construct(private AnimeRepository $animeRepository)
+    {
+    }
 
     public function run(AnimesCollection $animes): void
     {

@@ -15,14 +15,16 @@ class ScheduleNotificationsForMembersJob implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
 
-    public function __construct(private DateTime $beginning, private DateTime $end) {}
+    public function __construct(private DateTime $beginning, private DateTime $end)
+    {
+    }
 
     public function handle(QueryAnimesThatWillBeBroadcastInTimeRangeAction $action): void
     {
         $action->run(
             $this->beginning,
             $this->end,
-            fn($anime, $timeLeftToBeTransmitted) => NotifyMembersThatAnimeWillBeBroadcastJob::dispatch($anime)->delay($timeLeftToBeTransmitted)
+            fn ($anime, $timeLeftToBeTransmitted) => NotifyMembersThatAnimeWillBeBroadcastJob::dispatch($anime)->delay($timeLeftToBeTransmitted)
         );
     }
 }

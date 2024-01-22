@@ -13,7 +13,7 @@ class SubscriptionsCollection extends Collection
     {
         return new static(
             array_map(
-                fn($item) => SubscriptionData::fromModel($item),
+                fn ($item) => SubscriptionData::fromModel($item),
                 $items
             )
         );

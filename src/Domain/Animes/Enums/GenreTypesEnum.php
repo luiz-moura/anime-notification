@@ -2,7 +2,6 @@
 
 namespace Domain\Animes\Enums;
 
-
 enum GenreTypesEnum: string
 {
     case DEMOGRAPHIC = 'demographic';

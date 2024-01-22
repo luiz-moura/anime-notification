@@ -6,13 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class AnimeTitle extends Model
 {
-    protected $table = 'anime_titles';
-
     public $timestamps = false;
-
+    protected $table = 'anime_titles';
     protected $fillable = [
         'title',
         'type',
-        'anime_id'
+        'anime_id',
     ];
 }

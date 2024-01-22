@@ -8,7 +8,9 @@ use Domain\Animes\Contracts\AnimeRepository;
 
 class QueryAnimesThatWillBeBroadcastInTimeRangeAction
 {
-    public function __construct(private AnimeRepository $animeRepository) {}
+    public function __construct(private AnimeRepository $animeRepository)
+    {
+    }
 
     public function run(DateTime $beginning, DateTime $end, callable $callback): void
     {

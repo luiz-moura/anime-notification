@@ -2,9 +2,9 @@
 
 namespace Interfaces\Http\Web\Auth\Requests;
 
-use Infra\Persistente\Eloquent\Models\User;
 use Illuminate\Validation\Rule;
 use Infra\Abstracts\Request;
+use Infra\Persistente\Eloquent\Models\User;
 
 class ProfileUpdateRequest extends Request
 {

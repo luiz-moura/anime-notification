@@ -13,7 +13,7 @@ class NotificationTokensCollection extends Collection
     {
         return new static(
             array_map(
-                fn($item) => NotificationTokenData::fromModel($item),
+                fn ($item) => NotificationTokenData::fromModel($item),
                 $items
             )
         );

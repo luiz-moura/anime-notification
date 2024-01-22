@@ -2,8 +2,8 @@
 
 namespace Domain\Animes\DTOs\Collections;
 
-use Domain\Animes\DTOs\TitleData;
 use Domain\Animes\DTOs\Models\TitleModelData;
+use Domain\Animes\DTOs\TitleData;
 use Infra\Abstracts\Collection;
 
 class TitlesCollection extends Collection
@@ -14,7 +14,7 @@ class TitlesCollection extends Collection
     {
         return new static(
             array_map(
-                fn($item) => TitleModelData::fromModel($item),
+                fn ($item) => TitleModelData::fromModel($item),
                 $items
             )
         );

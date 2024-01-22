@@ -13,5 +13,6 @@ class GenreData extends DataTransferObject
         public string $name,
         public string $slug,
         public GenreTypesEnum $type,
-    ) {}
+    ) {
+    }
 }

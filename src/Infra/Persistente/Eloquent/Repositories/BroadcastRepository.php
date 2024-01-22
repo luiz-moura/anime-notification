@@ -2,8 +2,8 @@
 
 namespace Infra\Persistente\Eloquent\Repositories;
 
-use Domain\Animes\DTOs\BroadcastData;
 use Domain\Animes\Contracts\BroadcastRepository as BroadcastRepositoryContract;
+use Domain\Animes\DTOs\BroadcastData;
 use Domain\Animes\DTOs\Models\BroadcastModelData;
 use Infra\Abstracts\Repository;
 use Infra\Persistente\Eloquent\Models\Broadcast;

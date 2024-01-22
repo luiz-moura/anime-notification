@@ -14,7 +14,9 @@ class SearchForAnimeBroadcastByDayOfTheWeekJob implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
 
-    public function __construct(private ?int $delayInSeconds = 0) {}
+    public function __construct(private ?int $delayInSeconds = 0)
+    {
+    }
 
     public function handle(): void
     {

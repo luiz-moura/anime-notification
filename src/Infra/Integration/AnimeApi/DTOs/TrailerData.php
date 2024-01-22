@@ -11,5 +11,6 @@ class TrailerData extends DataTransferObject
         public ?string $url,
         public ?string $embed_url,
         public ?TrailerImageData $images,
-    ) {}
+    ) {
+    }
 }

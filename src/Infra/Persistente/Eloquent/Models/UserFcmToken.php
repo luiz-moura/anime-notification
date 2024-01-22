@@ -15,10 +15,9 @@ class UserFcmToken extends Authenticatable implements MustVerifyEmail
     use Notifiable;
 
     protected $table = 'user_fcm_tokens';
-
     protected $fillable = [
         'user_id',
         'user_agent',
-        'token'
+        'token',
     ];
 }

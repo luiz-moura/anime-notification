@@ -7,12 +7,12 @@ use Domain\Animes\Contracts\GenreRepository;
 use Domain\Animes\DTOs\Collections\GenresCollection as GenresModelCollection;
 use Domain\Animes\DTOs\GenreData;
 use Domain\Animes\Enums\GenreTypesEnum;
+use Illuminate\Support\Str;
 use Infra\Integration\AnimeApi\DTOs\AnimeData;
 use Infra\Integration\AnimeApi\DTOs\Mappers\AnimeMapper;
+use PHPUnit\Framework\TestCase;
 use Tests\Mocks\AnimeApiDataMock;
 use Tests\Mocks\GenreModelDataMock;
-use PHPUnit\Framework\TestCase;
-use Illuminate\Support\Str;
 
 class CreateAnimeGenresActionTest extends TestCase
 {
@@ -36,7 +36,7 @@ class CreateAnimeGenresActionTest extends TestCase
         );
     }
 
-    public function test_should_register_all_genres_that_are_not_in_the_database()
+    public function testShouldRegisterAllGenresThatAreNotInTheDatabase()
     {
         $this->genreRepository
             ->expects($this->once())
@@ -93,7 +93,7 @@ class CreateAnimeGenresActionTest extends TestCase
         $this->createAnimeGenresAction->run($this->apiAnime);
     }
 
-    public function test_should_not_register_genres_that_are_already_in_the_database()
+    public function testShouldNotRegisterGenresThatAreAlreadyInTheDatabase()
     {
         $this->genresModel = new GenresModelCollection([
             GenreModelDataMock::create(['mal_id' => $this->apiAnime->genres[0]->mal_id]),

@@ -7,7 +7,9 @@ use Domain\Animes\DTOs\NotificationTokenData;
 
 class CreateNotificationTokenForMemberAction
 {
-    public function __construct(private NotificationTokenRepository $memberNotificationTokenRepository) {}
+    public function __construct(private NotificationTokenRepository $memberNotificationTokenRepository)
+    {
+    }
 
     public function run(NotificationTokenData $notificationToken): void
     {

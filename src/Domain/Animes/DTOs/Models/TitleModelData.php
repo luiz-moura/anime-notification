@@ -2,9 +2,8 @@
 
 namespace Domain\Animes\DTOs\Models;
 
-use Domain\Animes\DTOs\TitleData;
-use Domain\Animes\DTOs\Mappers\TitlesMapper;
 use Domain\Animes\DTOs\Mappers\TitleModelMapper;
+use Domain\Animes\DTOs\TitleData;
 use Illuminate\Support\Arr;
 
 class TitleModelData extends TitleData

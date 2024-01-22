@@ -15,7 +15,9 @@ class NotifyMembersThatAnimeWillBeBroadcastJob implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
 
-    public function __construct(private AnimeModelData $anime) {}
+    public function __construct(private AnimeModelData $anime)
+    {
+    }
 
     public function handle(NotifyMembersThatAnimeWillBeBroadcastAction $notifyMembersThatAnimeWillBeBroadcast): void
     {

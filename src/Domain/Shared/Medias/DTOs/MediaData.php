@@ -11,5 +11,6 @@ class MediaData extends DataTransferObject
         public string $path,
         public string $mimetype,
         public string $disk,
-    ) {}
+    ) {
+    }
 }

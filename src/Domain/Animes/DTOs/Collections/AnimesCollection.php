@@ -10,21 +10,21 @@ class AnimesCollection extends Collection
 {
     protected string $collectionOf = AnimeData::class;
 
-    public static function fromApi(array $items): AnimesCollection
+    public static function fromApi(array $items): self
     {
         return new static(
             array_map(
-                fn($item) => AnimeData::fromApi($item),
+                fn ($item) => AnimeData::fromApi($item),
                 $items
             )
         );
     }
 
-    public static function fromModel(array $items): AnimesCollection
+    public static function fromModel(array $items): self
     {
         return new static(
             array_map(
-                fn($item) => AnimeModelData::fromModel($item),
+                fn ($item) => AnimeModelData::fromModel($item),
                 $items
             )
         );

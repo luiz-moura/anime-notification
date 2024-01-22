@@ -13,7 +13,8 @@ class NotifyMembersThatAnimeWillBeBroadcastAction
         private MemberRepository $memberRepository,
         private NoticationService $noticationService,
         private UrlHelper $urlHelper
-    ) {}
+    ) {
+    }
 
     public function run(AnimeModelData $anime): void
     {

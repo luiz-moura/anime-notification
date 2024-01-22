@@ -15,7 +15,9 @@ class UpdateAnimeStatusOutOfScheduleJob implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
 
-    public function __construct(private AnimesCollection $animes) {}
+    public function __construct(private AnimesCollection $animes)
+    {
+    }
 
     public function handle(UpdateAnimeStatusOutOfScheduleAction $action): void
     {

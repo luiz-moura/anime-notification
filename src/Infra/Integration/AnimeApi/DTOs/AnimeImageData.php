@@ -9,5 +9,6 @@ class AnimeImageData extends DataTransferObject
     public function __construct(
         public ImageData $jpg,
         public ImageData $webp,
-    ) {}
+    ) {
+    }
 }

@@ -10,7 +10,6 @@ use Infra\Persistente\Eloquent\Models\User;
 class UserFactory extends Factory
 {
     protected $model = User::class;
-
     protected static ?string $password;
 
     /**

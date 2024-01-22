@@ -9,9 +9,9 @@ use Infra\Integration\AnimeApi\Contracts\AnimeApiService;
 use Infra\Integration\AnimeApi\DTOs\AnimeData;
 use Infra\Integration\AnimeApi\DTOs\Collections\AnimesCollection as ApiAnimesCollection;
 use Infra\Integration\AnimeApi\DTOs\Mappers\AnimeMapper;
+use PHPUnit\Framework\TestCase;
 use Tests\Mocks\AnimeApiDataMock;
 use Tests\Mocks\AnimeModelDataMock;
-use PHPUnit\Framework\TestCase;
 
 class ImportAnimesFromApiUseCaseTest extends TestCase
 {
@@ -48,7 +48,7 @@ class ImportAnimesFromApiUseCaseTest extends TestCase
         ]);
     }
 
-    public function test_should_return_unregistered_animes_and_those_that_left_the_schedule()
+    public function testShouldReturnUnregisteredAnimesAndThoseThatLeftTheSchedule()
     {
         $day = 'monday';
 
@@ -82,12 +82,12 @@ class ImportAnimesFromApiUseCaseTest extends TestCase
 
         $this->importAnimesFromApiUseCase->run(
             $day,
-            fn() => 'do-something',
-            fn() => 'do-something',
+            fn () => 'do-something',
+            fn () => 'do-something',
         );
     }
 
-    public function test_should_not_find_any_anime_to_be_registered_or_that_have_been_left_on_the_schedule()
+    public function testShouldNotFindAnyAnimeToBeRegisteredOrThatHaveBeenLeftOnTheSchedule()
     {
         $day = 'saturday';
 
@@ -120,8 +120,8 @@ class ImportAnimesFromApiUseCaseTest extends TestCase
 
         $this->importAnimesFromApiUseCase->run(
             $day,
-            fn() => 'do-something',
-            fn() => 'do-something',
+            fn () => 'do-something',
+            fn () => 'do-something',
         );
     }
 }

@@ -15,7 +15,9 @@ class RegisterAnimeJob implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
 
-    public function __construct(private ApiAnimeData $anime) {}
+    public function __construct(private ApiAnimeData $anime)
+    {
+    }
 
     public function handle(CreateAnimeUseCase $createAnimeAction): void
     {

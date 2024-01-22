@@ -21,7 +21,7 @@ class DefineTimesToQueryAnimesByTimeInTheScheduleActionTest extends TestCase
         $this->today = today();
     }
 
-    public function test_should_define_the_time_for_anime_query_in_the_day_schedule()
+    public function testShouldDefineTheTimeForAnimeQueryInTheDaySchedule()
     {
         $this->defineTimesToQueryAnimesByTimeInTheScheduleAction->run(function ($beginning, $end) {
             $current = $this->today->toImmutable();

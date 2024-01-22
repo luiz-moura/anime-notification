@@ -18,7 +18,7 @@ class UserRepository extends Repository implements MemberRepositoryContract
             $this->model->query()
                 ->with([
                     'fcm_tokens',
-                    'animes' => fn($query) => $query->where('id', $animeId)
+                    'animes' => fn ($query) => $query->where('id', $animeId),
                 ])
                 ->whereRelation('animes', 'id', $animeId)
                 ->get()
@@ -30,7 +30,7 @@ class UserRepository extends Repository implements MemberRepositoryContract
     {
         $member = $this->model->query()
             ->where('id', $userId)
-            ->with(['animes' => fn($query) => $query->where('id', $animeId)])
+            ->with(['animes' => fn ($query) => $query->where('id', $animeId)])
             ->whereRelation('animes', 'id', $animeId)
             ->first();
 

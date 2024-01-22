@@ -8,22 +8,22 @@ use Domain\Animes\Contracts\AnimeRepository;
 use Domain\Animes\Contracts\AnimeTitleRepository;
 use Domain\Animes\Contracts\BroadcastRepository;
 use Domain\Animes\Contracts\GenreRepository;
-use Domain\Animes\UseCases\CreateAnimeUseCase;
-use Domain\Shared\Medias\Contracts\MediaRepository;
 use Domain\Animes\DTOs\AnimeData;
 use Domain\Animes\DTOs\Collections\GenresCollection;
 use Domain\Animes\DTOs\Mappers\AnimeModelMapper;
 use Domain\Animes\DTOs\Models\AnimeModelData;
-use PHPUnit\Framework\TestCase;
-use Tests\Mocks\BroadcastModelDataMock;
-use Tests\Mocks\GenreModelDataMock;
-use Tests\Mocks\MediaModelDataMock;
-use Tests\Mocks\AnimeApiDataMock;
+use Domain\Animes\UseCases\CreateAnimeUseCase;
+use Domain\Shared\Medias\Contracts\MediaRepository;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Infra\Integration\AnimeApi\DTOs\AnimeData as ApiAnimeData;
 use Infra\Integration\AnimeApi\DTOs\Mappers\AnimeMapper;
 use Infra\Storage\Services\StoreMediaService;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
+use PHPUnit\Framework\TestCase;
+use Tests\Mocks\AnimeApiDataMock;
+use Tests\Mocks\BroadcastModelDataMock;
+use Tests\Mocks\GenreModelDataMock;
+use Tests\Mocks\MediaModelDataMock;
 
 class CreateAnimeUseCaseTest extends TestCase
 {
@@ -67,14 +67,14 @@ class CreateAnimeUseCaseTest extends TestCase
         );
     }
 
-    public function test_should_register_the_anime_successfully()
+    public function testShouldRegisterTheAnimeSuccessfully()
     {
-        DB::shouldReceive('transaction')->once()->andReturnUsing(fn($callback) => $callback());
+        DB::shouldReceive('transaction')->once()->andReturnUsing(fn ($callback) => $callback());
 
         $animeRaw = AnimeData::fromApi($this->apiAnime->toArray());
         $animeModel = AnimeModelData::fromArray(
             AnimeModelMapper::fromArray(
-                Arr::except($animeRaw->toArray(), ['titles', 'images', 'broadcast', 'genres'])  + ['id' => 1]
+                Arr::except($animeRaw->toArray(), ['titles', 'images', 'broadcast', 'genres']) + ['id' => 1]
             )
         );
         $animeImage = MediaModelDataMock::create();

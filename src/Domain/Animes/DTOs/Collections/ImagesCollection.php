@@ -14,7 +14,7 @@ class ImagesCollection extends Collection
     {
         return new static(
             array_map(
-                fn($item) => ImageModelData::fromModel($item),
+                fn ($item) => ImageModelData::fromModel($item),
                 $items
             )
         );

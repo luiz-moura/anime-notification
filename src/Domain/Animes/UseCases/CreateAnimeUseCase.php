@@ -12,8 +12,8 @@ use Domain\Animes\DTOs\AnimeData;
 use Domain\Animes\DTOs\TitleData;
 use Domain\Shared\Medias\Contracts\MediaRepository;
 use Illuminate\Support\Facades\DB;
-use Infra\Storage\Services\StoreMediaService;
 use Infra\Integration\AnimeApi\DTOs\AnimeData as ApiAnimeData;
+use Infra\Storage\Services\StoreMediaService;
 
 class CreateAnimeUseCase
 {
@@ -26,7 +26,8 @@ class CreateAnimeUseCase
         private StoreMediaService $storeMediaService,
         private CreateAnimeGenresAction $createAnimeGenresAction,
         private StoreAnimeImageAction $storeAnimeImageAction,
-    ) {}
+    ) {
+    }
 
     public function run(ApiAnimeData $apiAnime)
     {
@@ -62,7 +63,7 @@ class CreateAnimeUseCase
             $apiAnime->genres,
             $apiAnime->explicit_genres,
             $apiAnime->themes,
-            $apiAnime->demographics
+            $apiAnime->demographics,
         ]);
 
         $malIds = $this->getMalIds($apiGenres->collapse());

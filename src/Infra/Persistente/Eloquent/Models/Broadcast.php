@@ -6,10 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Broadcast extends Model
 {
-    protected $table = 'broadcasts';
-
     public $timestamps = false;
-
+    protected $table = 'broadcasts';
     protected $fillable = [
         'anime_id',
         'day',

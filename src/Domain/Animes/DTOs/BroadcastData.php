@@ -11,5 +11,6 @@ class BroadcastData extends DataTransferObject
         public ?string $time,
         public ?string $timezone,
         public ?string $date_formatted,
-    ) {}
+    ) {
+    }
 }

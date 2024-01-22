@@ -6,8 +6,8 @@ use Carbon\Carbon;
 use Domain\Animes\Actions\QueryAnimesThatWillBeBroadcastInTimeRangeAction;
 use Domain\Animes\Contracts\AnimeRepository;
 use Domain\Animes\DTOs\Collections\AnimesCollection;
-use Tests\Mocks\AnimeModelDataMock;
 use PHPUnit\Framework\TestCase;
+use Tests\Mocks\AnimeModelDataMock;
 use Tests\Mocks\BroadcastModelDataMock;
 
 class QueryAnimesThatWillBeBroadcastInTimeRangeActionTest extends TestCase
@@ -34,11 +34,11 @@ class QueryAnimesThatWillBeBroadcastInTimeRangeActionTest extends TestCase
         $anime = AnimeModelDataMock::create();
         $anime->broadcast = BroadcastModelDataMock::create(['time' => '10:00:00']);
         $this->animes = new AnimesCollection([
-            $anime
+            $anime,
         ]);
     }
 
-    public function test_should_return_unregistered_animes_and_those_that_left_the_schedule()
+    public function testShouldReturnUnregisteredAnimesAndThoseThatLeftTheSchedule()
     {
         $this->animeRepository
             ->expects($this->once())
@@ -56,7 +56,7 @@ class QueryAnimesThatWillBeBroadcastInTimeRangeActionTest extends TestCase
         });
     }
 
-    public function test_should_not_run_a_routine_when_not_found_any_anime()
+    public function testShouldNotRunARoutineWhenNotFoundAnyAnime()
     {
         $animes = new AnimesCollection();
 
@@ -66,6 +66,6 @@ class QueryAnimesThatWillBeBroadcastInTimeRangeActionTest extends TestCase
             ->with($this->beginning, $this->end)
             ->willReturn($animes);
 
-        $this->queryAnimesThatWillBeBroadcastInTimeRangeAction->run($this->beginning, $this->end, fn() => null);
+        $this->queryAnimesThatWillBeBroadcastInTimeRangeAction->run($this->beginning, $this->end, fn () => null);
     }
 }

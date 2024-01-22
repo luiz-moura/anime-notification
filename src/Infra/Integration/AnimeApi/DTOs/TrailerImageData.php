@@ -12,5 +12,6 @@ class TrailerImageData extends DataTransferObject
         public ?string $medium_image_url,
         public ?string $large_image_url,
         public ?string $maximum_image_url,
-    ) {}
+    ) {
+    }
 }

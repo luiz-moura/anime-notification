@@ -7,8 +7,8 @@ use Domain\Animes\Contracts\AnimeSubscriptionRepository as AnimeSubscriptionRepo
 use Domain\Animes\Contracts\AnimeTitleRepository as AnimeTitleRepositoryContract;
 use Domain\Animes\Contracts\BroadcastRepository as BroadcastRepositoryContract;
 use Domain\Animes\Contracts\GenreRepository as GenreRepositoryContract;
-use Domain\Animes\Contracts\NotificationTokenRepository as MemberNotificationTokenRepositoryContract;
 use Domain\Animes\Contracts\MemberRepository as MemberRepositoryContract;
+use Domain\Animes\Contracts\NotificationTokenRepository as MemberNotificationTokenRepositoryContract;
 use Domain\Shared\Medias\Contracts\MediaRepository as MediaRepositoryContract;
 use Illuminate\Support\ServiceProvider;
 use Infra\Persistente\Eloquent\Repositories\AnimeRepository;
@@ -44,5 +44,7 @@ class RepositoryServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot() {}
+    public function boot()
+    {
+    }
 }

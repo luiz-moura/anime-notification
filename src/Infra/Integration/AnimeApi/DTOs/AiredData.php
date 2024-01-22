@@ -11,5 +11,6 @@ class AiredData extends DataTransferObject
         public ?DateTime $from,
         public ?DateTime $to,
         public ?string $string,
-    ) {}
+    ) {
+    }
 }

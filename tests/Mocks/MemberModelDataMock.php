@@ -16,7 +16,7 @@ class MemberModelDataMock
             'email' => fake()->randomNumber(),
             'type' => fake()->randomElement(SubscriptionTypesEnum::cases()),
             'notification_tokens' => new NotificationTokensCollection([
-                NotificationTokenDataMock::create()
+                NotificationTokenDataMock::create(),
             ]),
         ]);
     }

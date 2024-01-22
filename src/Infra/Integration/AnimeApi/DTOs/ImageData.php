@@ -10,5 +10,6 @@ class ImageData extends DataTransferObject
         public ?string $image_url,
         public ?string $small_image_url,
         public ?string $large_image_url,
-    ) {}
+    ) {
+    }
 }

@@ -14,12 +14,14 @@ class ScheduleAnimeQueriesThatWillBeBroadcastTodayJob implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
 
-    public function __construct() {}
+    public function __construct()
+    {
+    }
 
     public function handle(DefineTimesToQueryAnimesByTimeInTheScheduleAction $action): void
     {
         $action->run(
-            fn($beginning, $end) => ScheduleNotificationsForMembersJob::dispatch($beginning, $end)->delay(now()->diffInSeconds($beginning))
+            fn ($beginning, $end) => ScheduleNotificationsForMembersJob::dispatch($beginning, $end)->delay(now()->diffInSeconds($beginning))
         );
     }
 }

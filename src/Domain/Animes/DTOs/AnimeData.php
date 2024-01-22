@@ -3,9 +3,9 @@
 namespace Domain\Animes\DTOs;
 
 use DateTime;
+use Domain\Animes\DTOs\Collections\GenresCollection;
 use Domain\Animes\DTOs\Collections\ImagesCollection;
 use Domain\Animes\DTOs\Collections\TitlesCollection;
-use Domain\Animes\DTOs\Collections\GenresCollection;
 use Domain\Animes\DTOs\Mappers\AnimeApiMapper;
 use Infra\Abstracts\DataTransferObject;
 
@@ -34,7 +34,8 @@ class AnimeData extends DataTransferObject
         public ?ImagesCollection $images,
         public ?BroadcastData $broadcast,
         public ?GenresCollection $genres,
-    ) {}
+    ) {
+    }
 
     public static function fromApi(array $data): self
     {

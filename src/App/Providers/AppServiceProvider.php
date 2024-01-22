@@ -2,13 +2,13 @@
 
 namespace App\Providers;
 
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Infra\Integration\AnimeApi\Contracts\AnimeApiService;
 use Infra\Integration\AnimeApi\Jikan\Services\JikanApiService;
-use Infra\Integration\Notification\Firebase\FirebaseService;
 use Infra\Integration\Notification\Contracts\NoticationService;
+use Infra\Integration\Notification\Firebase\FirebaseService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Factory::guessFactoryNamesUsing(function (string $modelName) {
-            return 'Database\\Factories\\'.class_basename($modelName).'Factory';
+            return 'Database\\Factories\\' . class_basename($modelName) . 'Factory';
         });
 
         if ($this->app->environment('local')) {

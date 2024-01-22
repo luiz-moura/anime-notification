@@ -2,16 +2,16 @@
 
 namespace Tests\Feature\Auth;
 
-use Infra\Persistente\Eloquent\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use Infra\Persistente\Eloquent\Models\User;
 use Tests\TestCase;
 
 class PasswordUpdateTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_password_can_be_updated(): void
+    public function testPasswordCanBeUpdated(): void
     {
         $user = User::factory()->create();
 
@@ -31,7 +31,7 @@ class PasswordUpdateTest extends TestCase
         $this->assertTrue(Hash::check('new-password', $user->refresh()->password));
     }
 
-    public function test_correct_password_must_be_provided_to_update_password(): void
+    public function testCorrectPasswordMustBeProvidedToUpdatePassword(): void
     {
         $user = User::factory()->create();
 

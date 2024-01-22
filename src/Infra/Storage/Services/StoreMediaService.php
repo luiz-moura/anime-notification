@@ -3,8 +3,8 @@
 namespace Infra\Storage\Services;
 
 use Illuminate\Support\Facades\Storage;
-use Infra\Storage\DTOs\StoredMediaData;
 use Illuminate\Support\Str;
+use Infra\Storage\DTOs\StoredMediaData;
 use Infra\Storage\Exceptions\FailFetchImageException;
 use Throwable;
 
@@ -25,8 +25,8 @@ class StoreMediaService
         return StoredMediaData::fromArray([
             'path' => $path,
             'filename' => $filename,
-            'extension' => strrchr($filename, '.'),
-            'mimetype' => Storage::mimeType($path)
+            'extension' => mb_strrchr($filename, '.'),
+            'mimetype' => Storage::mimeType($path),
         ]);
     }
 

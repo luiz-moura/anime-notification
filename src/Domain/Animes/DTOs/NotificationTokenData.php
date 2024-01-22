@@ -11,7 +11,8 @@ class NotificationTokenData extends DataTransferObject
         public int $user_id,
         public string $user_agent,
         public string $token,
-    ) {}
+    ) {
+    }
 
     public static function fromModel(array $data): self
     {

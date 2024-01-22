@@ -16,7 +16,7 @@ class MemberController extends Controller
 
         return Inertia::render('Schedule', [
             'animeSchedule' => $memberSchedule->animeSchedule,
-            'subscriptions' => $memberSchedule->subscriptions
+            'subscriptions' => $memberSchedule->subscriptions,
         ]);
     }
 }

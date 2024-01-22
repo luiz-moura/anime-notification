@@ -17,11 +17,11 @@ class JikanApiService implements AnimeApiService
         $hasNextPage = true;
         $page = 1;
 
-        while($hasNextPage) {
+        while ($hasNextPage) {
             $response = $this->client()
                 ->withQueryParameters([
                     'page' => $page,
-                    'filter' => $day
+                    'filter' => $day,
                 ])
                 ->get('{+endpoint}/schedules');
 
@@ -43,7 +43,7 @@ class JikanApiService implements AnimeApiService
     private function client(): PendingRequest
     {
         return Http::withUrlParameters([
-            'endpoint' => env('JIKAN_API_URI')
+            'endpoint' => env('JIKAN_API_URI'),
         ])->acceptJson();
     }
 }

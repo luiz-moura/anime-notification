@@ -10,7 +10,8 @@ class UnsubscribeMemberAction
     public function __construct(
         private AnimeRepository $animeRepository,
         private MemberRepository $memberRepository,
-    ) {}
+    ) {
+    }
 
     public function run(string $animeId, int $userId): void
     {

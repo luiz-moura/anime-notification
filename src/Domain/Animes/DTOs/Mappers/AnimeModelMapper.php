@@ -2,9 +2,9 @@
 
 namespace Domain\Animes\DTOs\Mappers;
 
+use Domain\Animes\DTOs\Collections\GenresCollection;
 use Domain\Animes\DTOs\Collections\ImagesCollection;
 use Domain\Animes\DTOs\Collections\TitlesCollection;
-use Domain\Animes\DTOs\Collections\GenresCollection;
 use Domain\Animes\DTOs\Models\BroadcastModelData;
 
 class AnimeModelMapper
@@ -42,7 +42,7 @@ class AnimeModelMapper
                 : null,
             'genres' => !empty($data['genres'])
                 ? GenresCollection::fromModel($data['genres'])
-                : null
+                : null,
         ];
     }
 }

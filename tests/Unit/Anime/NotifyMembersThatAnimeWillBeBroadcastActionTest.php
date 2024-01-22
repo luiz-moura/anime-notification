@@ -10,8 +10,8 @@ use Domain\Animes\DTOs\Collections\NotificationTokensCollection;
 use Domain\Animes\DTOs\Models\AnimeModelData;
 use Infra\Helpers\UrlHelper;
 use Infra\Integration\Notification\Contracts\NoticationService;
-use Tests\Mocks\AnimeModelDataMock;
 use PHPUnit\Framework\TestCase;
+use Tests\Mocks\AnimeModelDataMock;
 use Tests\Mocks\MediaModelDataMock;
 use Tests\Mocks\MemberModelDataMock;
 
@@ -40,14 +40,14 @@ class NotifyMembersThatAnimeWillBeBroadcastActionTest extends TestCase
         $this->anime = AnimeModelDataMock::create();
         $media = MediaModelDataMock::create();
         $this->anime->images = ImagesCollection::fromModel([
-            $media->toArray()
+            $media->toArray(),
         ]);
     }
 
-    public function test_should_release_notification_of_anime_being_broadcast_to_members()
+    public function testShouldReleaseNotificationOfAnimeBeingBroadcastToMembers()
     {
         $members = new MembersCollection([
-            MemberModelDataMock::create()
+            MemberModelDataMock::create(),
         ]);
 
         $tokens = collect($members)->pluck('notification_tokens')
@@ -75,7 +75,7 @@ class NotifyMembersThatAnimeWillBeBroadcastActionTest extends TestCase
         $this->notifyMembersThatAnimeWillBeBroadcastAction->run($this->anime);
     }
 
-    public function test_should_not_notify_when_no_members_are_found()
+    public function testShouldNotNotifyWhenNoMembersAreFound()
     {
         $members = new MembersCollection();
 
@@ -96,10 +96,10 @@ class NotifyMembersThatAnimeWillBeBroadcastActionTest extends TestCase
         $this->notifyMembersThatAnimeWillBeBroadcastAction->run($this->anime);
     }
 
-    public function test_should_not_notify_when_there_are_no_tokens_registered()
+    public function testShouldNotNotifyWhenThereAreNoTokensRegistered()
     {
         $members = new MembersCollection([
-            MemberModelDataMock::create(['notification_tokens' => new NotificationTokensCollection()])
+            MemberModelDataMock::create(['notification_tokens' => new NotificationTokensCollection()]),
         ]);
 
         $this->memberRepository

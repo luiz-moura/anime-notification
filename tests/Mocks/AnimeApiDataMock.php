@@ -32,7 +32,7 @@ class AnimeApiDataMock
                 [
                     'title' => fake()->title(),
                     'type' => fake()->word(),
-                ]
+                ],
             ],
             'images' => [
                 'jpg' => [
@@ -44,7 +44,7 @@ class AnimeApiDataMock
                     'image_url' => fake()->url() . '.' . fake()->fileExtension(),
                     'small_image_url' => fake()->url() . '.' . fake()->fileExtension(),
                     'large_image_url' => fake()->url() . '.' . fake()->fileExtension(),
-                ]
+                ],
             ],
             'aired' => [
                 'from' => fake()->dateTime()->format('Y-m-d'),
@@ -64,7 +64,7 @@ class AnimeApiDataMock
                     'type' => fake()->slug(),
                     'name' => fake()->name(),
                     'url' => fake()->url(),
-                ]
+                ],
             ],
             'explicit_genres' => [
                 [
@@ -72,7 +72,7 @@ class AnimeApiDataMock
                     'type' => fake()->slug(),
                     'name' => fake()->name(),
                     'url' => fake()->url(),
-                ]
+                ],
             ],
             'themes' => [
                 [
@@ -80,7 +80,7 @@ class AnimeApiDataMock
                     'type' => fake()->slug(),
                     'name' => fake()->name(),
                     'url' => fake()->url(),
-                ]
+                ],
             ],
             'demographics' => [
                 [
@@ -88,7 +88,7 @@ class AnimeApiDataMock
                     'type' => fake()->slug(),
                     'name' => fake()->name(),
                     'url' => fake()->url(),
-                ]
+                ],
             ],
             'producers' => null,
             'licensors' => null,

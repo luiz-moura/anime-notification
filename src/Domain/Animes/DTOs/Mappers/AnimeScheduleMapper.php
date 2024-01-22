@@ -9,7 +9,7 @@ class AnimeScheduleMapper
     public static function fromAnimesCollection(AnimesCollection $animes): array
     {
         $schedule = collect($animes)->groupBy(
-            fn($anime) => strtolower($anime->broadcast->day ?? 'unknown')
+            fn ($anime) => mb_strtolower($anime->broadcast->day ?? 'unknown')
         )->all();
 
         return [

@@ -17,7 +17,8 @@ class AnimeScheduleData extends DataTransferObject
         public AnimesCollection $saturdays,
         public AnimesCollection $sundays,
         public AnimesCollection $unknown,
-    ) {}
+    ) {
+    }
 
     public static function fromAnimesCollection(AnimesCollection $data): self
     {

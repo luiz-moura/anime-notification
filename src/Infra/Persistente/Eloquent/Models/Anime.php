@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Anime extends Model
 {
     protected $table = 'animes';
-
     protected $fillable = [
         'mal_id',
         'mal_url',

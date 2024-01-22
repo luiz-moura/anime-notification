@@ -8,9 +8,9 @@ use Domain\Animes\Contracts\MemberRepository;
 use Domain\Animes\DTOs\Models\AnimeModelData;
 use Domain\Animes\DTOs\Models\MemberModelData;
 use Domain\Animes\Enums\SubscriptionTypesEnum;
+use PHPUnit\Framework\TestCase;
 use Tests\Mocks\AnimeModelDataMock;
 use Tests\Mocks\MemberModelDataMock;
-use PHPUnit\Framework\TestCase;
 
 class SubscribeMemberActionTest extends TestCase
 {
@@ -36,7 +36,7 @@ class SubscribeMemberActionTest extends TestCase
         $this->member = MemberModelDataMock::create(['type' => SubscriptionTypesEnum::PLAN_TO_WATCH]);
     }
 
-    public function test_shouldnt_do_anything_when_the_user_is_already_a_member()
+    public function testShouldntDoAnythingWhenTheUserIsAlreadyAMember()
     {
         $this->memberRepository
             ->expects($this->once())
@@ -55,7 +55,7 @@ class SubscribeMemberActionTest extends TestCase
         $this->subscribeMemberAction->run($this->anime->id, $this->member->id, SubscriptionTypesEnum::PLAN_TO_WATCH);
     }
 
-    public function test_should_change_the_type_of_member_subscription()
+    public function testShouldChangeTheTypeOfMemberSubscription()
     {
         $subscription = SubscriptionTypesEnum::PLAN_TO_WATCH;
 
@@ -79,7 +79,7 @@ class SubscribeMemberActionTest extends TestCase
         $this->subscribeMemberAction->run($this->anime->id, $this->member->id, $subscription);
     }
 
-    public function test_should_become_a_member_successfully()
+    public function testShouldBecomeAMemberSuccessfully()
     {
         $subscription = SubscriptionTypesEnum::PLAN_TO_WATCH;
 

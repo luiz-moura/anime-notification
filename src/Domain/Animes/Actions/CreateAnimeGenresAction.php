@@ -3,14 +3,16 @@
 namespace Domain\Animes\Actions;
 
 use Domain\Animes\Contracts\GenreRepository;
-use Domain\Animes\Enums\GenreTypesEnum;
 use Domain\Animes\DTOs\GenreData;
-use Infra\Integration\AnimeApi\DTOs\AnimeData as ApiAnimeData;
+use Domain\Animes\Enums\GenreTypesEnum;
 use Illuminate\Support\Str;
+use Infra\Integration\AnimeApi\DTOs\AnimeData as ApiAnimeData;
 
 class CreateAnimeGenresAction
 {
-    public function __construct(private GenreRepository $genreRepository) {}
+    public function __construct(private GenreRepository $genreRepository)
+    {
+    }
 
     public function run(ApiAnimeData $apiAnime): void
     {
@@ -18,7 +20,7 @@ class CreateAnimeGenresAction
             GenreTypesEnum::COMMON->value => $apiAnime->genres,
             GenreTypesEnum::EXPLICIT->value => $apiAnime->explicit_genres,
             GenreTypesEnum::THEME->value => $apiAnime->themes,
-            GenreTypesEnum::DEMOGRAPHIC->value => $apiAnime->demographics
+            GenreTypesEnum::DEMOGRAPHIC->value => $apiAnime->demographics,
         ]);
 
         $malIds = $apiGenres->collapse()->pluck('mal_id')->values();

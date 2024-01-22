@@ -5,11 +5,11 @@ namespace Interfaces\Http\Web\Auth\Controllers;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use Infra\Abstracts\Controller;
+use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
+use Infra\Abstracts\Controller;
 use Interfaces\Http\Web\Auth\Requests\LoginRequest;
 
 class AuthenticatedSessionController extends Controller

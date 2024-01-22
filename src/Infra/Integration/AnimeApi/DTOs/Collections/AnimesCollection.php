@@ -13,7 +13,7 @@ class AnimesCollection extends Collection
     {
         return new self(
             array_map(
-                fn($item) => AnimeData::fromApi($item),
+                fn ($item) => AnimeData::fromApi($item),
                 $items
             )
         );

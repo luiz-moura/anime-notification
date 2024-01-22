@@ -11,5 +11,6 @@ class StoredMediaData extends DataTransferObject
         public string $filename,
         public string $extension,
         public string $mimetype
-    ) {}
+    ) {
+    }
 }

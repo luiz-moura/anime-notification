@@ -26,7 +26,7 @@ class CreateNotificationTokenForMemberActionTest extends TestCase
         $this->notificationToken = NotificationTokenDataMock::create();
     }
 
-    public function test_should_register_a_new_token_successfully()
+    public function testShouldRegisterANewTokenSuccessfully()
     {
         $this->notificationTokenRepository
             ->expects($this->once())
@@ -42,7 +42,7 @@ class CreateNotificationTokenForMemberActionTest extends TestCase
         $this->createNotificationTokenForMemberAction->run($this->notificationToken);
     }
 
-    public function test_should_not_register_a_token_that_already_exists()
+    public function testShouldNotRegisterATokenThatAlreadyExists()
     {
         $this->notificationTokenRepository
             ->expects($this->once())

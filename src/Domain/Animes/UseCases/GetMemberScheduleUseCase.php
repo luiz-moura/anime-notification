@@ -12,7 +12,8 @@ class GetMemberScheduleUseCase
     public function __construct(
         private AnimeSubscriptionRepository $animeSubscriptionRepository,
         private AnimeRepository $animeRepository
-    ) {}
+    ) {
+    }
 
     public function run(int $memberId): MemberScheduleData
     {
@@ -21,7 +22,7 @@ class GetMemberScheduleUseCase
 
         return MemberScheduleData::fromArray([
             'animeSchedule' => AnimeScheduleData::fromAnimesCollection($animesOnTheSchedule),
-            'subscriptions' => $subscriptions
+            'subscriptions' => $subscriptions,
         ]);
     }
 }
