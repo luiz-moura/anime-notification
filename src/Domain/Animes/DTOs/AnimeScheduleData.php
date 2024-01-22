@@ -17,11 +17,10 @@ class AnimeScheduleData extends DataTransferObject
         public AnimesCollection $saturdays,
         public AnimesCollection $sundays,
         public AnimesCollection $unknown,
-    ) {
-    }
+    ) {}
 
-    public static function fromAnimeCollection(AnimesCollection $data): self
+    public static function fromAnimesCollection(AnimesCollection $data): self
     {
-        return new self(...AnimeScheduleMapper::fromAnimeCollection($data));
+        return new self(...AnimeScheduleMapper::fromAnimesCollection($data));
     }
 }

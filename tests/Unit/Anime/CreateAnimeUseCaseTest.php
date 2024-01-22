@@ -10,17 +10,17 @@ use Domain\Animes\Contracts\BroadcastRepository;
 use Domain\Animes\Contracts\GenreRepository;
 use Domain\Animes\UseCases\CreateAnimeUseCase;
 use Domain\Shared\Medias\Contracts\MediaRepository;
-use Domain\Animes\DTOs\AnimesData;
+use Domain\Animes\DTOs\AnimeData;
 use Domain\Animes\DTOs\Collections\GenresCollection;
-use Domain\Animes\DTOs\Mappers\AnimesModelMapper;
-use Domain\Animes\DTOs\Models\AnimesModelData;
+use Domain\Animes\DTOs\Mappers\AnimeModelMapper;
+use Domain\Animes\DTOs\Models\AnimeModelData;
 use PHPUnit\Framework\TestCase;
-use Tests\Mocks\BroadcastsModelDataMock;
-use Tests\Mocks\GenresModelDataMock;
-use Tests\Mocks\MediasModelDataMock;
-use Tests\Mocks\AnimesApiDataMock;
-use Infra\Integration\AnimeApi\DTOs\AnimesData as ApiAnimeData;
-use Infra\Integration\AnimeApi\DTOs\Mappers\AnimesMapper;
+use Tests\Mocks\BroadcastModelDataMock;
+use Tests\Mocks\GenreModelDataMock;
+use Tests\Mocks\MediaModelDataMock;
+use Tests\Mocks\AnimeApiDataMock;
+use Infra\Integration\AnimeApi\DTOs\AnimeData as ApiAnimeData;
+use Infra\Integration\AnimeApi\DTOs\Mappers\AnimeMapper;
 use Infra\Storage\Services\StoreMediaService;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -52,7 +52,7 @@ class CreateAnimeUseCaseTest extends TestCase
         $this->storeAnimeImageAction = $this->createMock(StoreAnimeImageAction::class);
 
         $this->apiAnime = ApiAnimeData::fromArray(
-            AnimesMapper::fromArray(AnimesApiDataMock::create())
+            AnimeMapper::fromArray(AnimeApiDataMock::create())
         );
 
         $this->createAnimeUseCase = new CreateAnimeUseCase(
@@ -69,20 +69,20 @@ class CreateAnimeUseCaseTest extends TestCase
 
     public function test_should_register_the_anime_successfully()
     {
-        DB::shouldReceive('transaction')->once()->andReturnUsing(fn ($callback) => $callback());
+        DB::shouldReceive('transaction')->once()->andReturnUsing(fn($callback) => $callback());
 
-        $animeRaw = AnimesData::fromApi($this->apiAnime->toArray());
-        $animeModel = AnimesModelData::fromArray(
-            AnimesModelMapper::fromArray(
+        $animeRaw = AnimeData::fromApi($this->apiAnime->toArray());
+        $animeModel = AnimeModelData::fromArray(
+            AnimeModelMapper::fromArray(
                 Arr::except($animeRaw->toArray(), ['titles', 'images', 'broadcast', 'genres'])  + ['id' => 1]
             )
         );
-        $animeImage = MediasModelDataMock::create();
+        $animeImage = MediaModelDataMock::create();
         $animeGenres = new GenresCollection([
-            GenresModelDataMock::create(['mal_id' => $this->apiAnime->genres[0]->mal_id]),
-            GenresModelDataMock::create(['mal_id' => $this->apiAnime->explicit_genres[0]->mal_id]),
-            GenresModelDataMock::create(['mal_id' => $this->apiAnime->demographics[0]->mal_id]),
-            GenresModelDataMock::create(['mal_id' => $this->apiAnime->themes[0]->mal_id]),
+            GenreModelDataMock::create(['mal_id' => $this->apiAnime->genres[0]->mal_id]),
+            GenreModelDataMock::create(['mal_id' => $this->apiAnime->explicit_genres[0]->mal_id]),
+            GenreModelDataMock::create(['mal_id' => $this->apiAnime->demographics[0]->mal_id]),
+            GenreModelDataMock::create(['mal_id' => $this->apiAnime->themes[0]->mal_id]),
         ]);
 
         $this->createAnimeGenresAction
@@ -100,7 +100,7 @@ class CreateAnimeUseCaseTest extends TestCase
             ->expects($this->once())
             ->method('create')
             ->with($animeModel->id, $animeRaw->broadcast)
-            ->willReturn(BroadcastsModelDataMock::create());
+            ->willReturn(BroadcastModelDataMock::create());
 
         $this->animeTitleRepository
             ->expects($this->once())

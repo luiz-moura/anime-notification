@@ -6,11 +6,11 @@ use Domain\Animes\Contracts\AnimeRepository;
 use Domain\Animes\DTOs\Collections\AnimesCollection as AnimesModelCollection;
 use Domain\Animes\UseCases\ImportAnimesFromApiUseCase;
 use Infra\Integration\AnimeApi\Contracts\AnimeApiService;
-use Infra\Integration\AnimeApi\DTOs\AnimesData;
+use Infra\Integration\AnimeApi\DTOs\AnimeData;
 use Infra\Integration\AnimeApi\DTOs\Collections\AnimesCollection as ApiAnimesCollection;
-use Infra\Integration\AnimeApi\DTOs\Mappers\AnimesMapper;
-use Tests\Mocks\AnimesApiDataMock;
-use Tests\Mocks\AnimesModelDataMock;
+use Infra\Integration\AnimeApi\DTOs\Mappers\AnimeMapper;
+use Tests\Mocks\AnimeApiDataMock;
+use Tests\Mocks\AnimeModelDataMock;
 use PHPUnit\Framework\TestCase;
 
 class ImportAnimesFromApiUseCaseTest extends TestCase
@@ -33,17 +33,17 @@ class ImportAnimesFromApiUseCaseTest extends TestCase
         );
 
         $this->animesApi = new ApiAnimesCollection([
-            AnimesData::fromArray(
-                AnimesMapper::fromArray(AnimesApiDataMock::create())
+            AnimeData::fromArray(
+                AnimeMapper::fromArray(AnimeApiDataMock::create())
             ),
-            AnimesData::fromArray(
-                AnimesMapper::fromArray(AnimesApiDataMock::create())
+            AnimeData::fromArray(
+                AnimeMapper::fromArray(AnimeApiDataMock::create())
             ),
-            AnimesData::fromArray(
-                AnimesMapper::fromArray(AnimesApiDataMock::create())
+            AnimeData::fromArray(
+                AnimeMapper::fromArray(AnimeApiDataMock::create())
             ),
-            AnimesData::fromArray(
-                AnimesMapper::fromArray(AnimesApiDataMock::create())
+            AnimeData::fromArray(
+                AnimeMapper::fromArray(AnimeApiDataMock::create())
             ),
         ]);
     }
@@ -53,13 +53,13 @@ class ImportAnimesFromApiUseCaseTest extends TestCase
         $day = 'monday';
 
         $animesAlreadyRegistered = new AnimesModelCollection([
-            AnimesModelDataMock::create(['mal_id' => $this->animesApi[0]->mal_id, 'airing' => false]),
-            AnimesModelDataMock::create(['mal_id' => $this->animesApi[1]->mal_id, 'airing' => false]),
+            AnimeModelDataMock::create(['mal_id' => $this->animesApi[0]->mal_id, 'airing' => false]),
+            AnimeModelDataMock::create(['mal_id' => $this->animesApi[1]->mal_id, 'airing' => false]),
         ]);
 
         $animesThatLeftSchedule = new AnimesModelCollection([
-            AnimesModelDataMock::create(['airing' => true]),
-            AnimesModelDataMock::create(['airing' => true]),
+            AnimeModelDataMock::create(['airing' => true]),
+            AnimeModelDataMock::create(['airing' => true]),
         ]);
 
         $this->animeApiService
@@ -92,10 +92,10 @@ class ImportAnimesFromApiUseCaseTest extends TestCase
         $day = 'saturday';
 
         $animesAlreadyRegistered = new AnimesModelCollection([
-            AnimesModelDataMock::create(['mal_id' => $this->animesApi[0]->mal_id, 'airing' => true]),
-            AnimesModelDataMock::create(['mal_id' => $this->animesApi[1]->mal_id, 'airing' => true]),
-            AnimesModelDataMock::create(['mal_id' => $this->animesApi[2]->mal_id, 'airing' => true]),
-            AnimesModelDataMock::create(['mal_id' => $this->animesApi[3]->mal_id, 'airing' => true]),
+            AnimeModelDataMock::create(['mal_id' => $this->animesApi[0]->mal_id, 'airing' => true]),
+            AnimeModelDataMock::create(['mal_id' => $this->animesApi[1]->mal_id, 'airing' => true]),
+            AnimeModelDataMock::create(['mal_id' => $this->animesApi[2]->mal_id, 'airing' => true]),
+            AnimeModelDataMock::create(['mal_id' => $this->animesApi[3]->mal_id, 'airing' => true]),
         ]);
 
         $animesThatLeftSchedule = new AnimesModelCollection();

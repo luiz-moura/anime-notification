@@ -4,15 +4,15 @@ namespace Domain\Animes\Actions;
 
 use Domain\Animes\Contracts\GenreRepository;
 use Domain\Animes\Enums\GenreTypesEnum;
-use Domain\Animes\DTOs\GenresData;
-use Infra\Integration\AnimeApi\DTOs\AnimesData as ApiAnimesData;
+use Domain\Animes\DTOs\GenreData;
+use Infra\Integration\AnimeApi\DTOs\AnimeData as ApiAnimeData;
 use Illuminate\Support\Str;
 
 class CreateAnimeGenresAction
 {
     public function __construct(private GenreRepository $genreRepository) {}
 
-    public function run(ApiAnimesData $apiAnime): void
+    public function run(ApiAnimeData $apiAnime): void
     {
         $apiGenres = collect([
             GenreTypesEnum::COMMON->value => $apiAnime->genres,
@@ -31,7 +31,7 @@ class CreateAnimeGenresAction
         $apiGenres->each(function ($genres, $type) use ($unregisteredGenre) {
             $genres?->whereIn('mal_id', $unregisteredGenre)->each(function ($genre) use ($type) {
                 $this->genreRepository->create(
-                    GenresData::fromArray([
+                    GenreData::fromArray([
                         'slug' => Str::slug($genre->name),
                         'name' => $genre->name,
                         'mal_id' => $genre->mal_id,

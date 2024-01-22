@@ -3,9 +3,9 @@
 namespace Domain\Animes\Actions;
 
 use Domain\Shared\Medias\Contracts\MediaRepository;
-use Domain\Animes\DTOs\ImagesData;
-use Domain\Shared\Medias\DTOs\Models\MediasModelData;
-use Infra\Integration\AnimeApi\DTOs\AnimesData as ApiAnimesData;
+use Domain\Animes\DTOs\ImageData;
+use Domain\Shared\Medias\DTOs\Models\MediaModelData;
+use Infra\Integration\AnimeApi\DTOs\AnimeData as ApiAnimeData;
 use Infra\Storage\Services\StoreMediaService;
 
 class StoreAnimeImageAction
@@ -15,7 +15,7 @@ class StoreAnimeImageAction
         private StoreMediaService $storeMediaService,
     ) {}
 
-    public function run(ApiAnimesData $apiAnime): MediasModelData
+    public function run(ApiAnimeData $apiAnime): MediaModelData
     {
         $filename =  $this->storeMediaService->generateFileNameByTitle($apiAnime->title, $apiAnime->images->jpg->large_image_url);
 
@@ -26,9 +26,9 @@ class StoreAnimeImageAction
         );
 
         return $this->mediaRepository->create(
-            ImagesData::fromArray([
+            ImageData::fromArray([
                 'title' => $apiAnime->title,
-                'path'=> $file->path,
+                'path' => $file->path,
                 'mimetype' => $file->mimetype,
                 'disk' => 'local'
             ])

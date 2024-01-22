@@ -4,9 +4,9 @@ namespace Infra\Persistente\Eloquent\Repositories;
 
 use DateTime;
 use Domain\Animes\Contracts\AnimeRepository as AnimeRepositoryContract;
-use Domain\Animes\DTOs\AnimesData;
+use Domain\Animes\DTOs\AnimeData;
 use Domain\Animes\DTOs\Collections\AnimesCollection;
-use Domain\Animes\DTOs\Models\AnimesModelData;
+use Domain\Animes\DTOs\Models\AnimeModelData;
 use Domain\Animes\Enums\SubscriptionTypesEnum;
 use Infra\Abstracts\Repository;
 use Infra\Persistente\Eloquent\Models\Anime;
@@ -15,16 +15,16 @@ class AnimeRepository extends Repository implements AnimeRepositoryContract
 {
     protected $modelClass = Anime::class;
 
-    public function findById(int $animeSlug): AnimesModelData
+    public function findById(int $animeSlug): AnimeModelData
     {
-        return AnimesModelData::fromModel(
+        return AnimeModelData::fromModel(
             $this->model->where('id', $animeSlug)->firstOrFail()->toArray()
         );
     }
 
-    public function create(AnimesData $animes): AnimesModelData
+    public function create(AnimeData $animes): AnimeModelData
     {
-        return AnimesModelData::fromModel(
+        return AnimeModelData::fromModel(
             $this->model->create($animes->toArray())->toArray()
         );
     }

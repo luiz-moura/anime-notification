@@ -3,10 +3,10 @@
 namespace Domain\Animes\Contracts;
 
 use Domain\Animes\DTOs\Collections\GenresCollection;
-use Domain\Animes\DTOs\GenresData;
+use Domain\Animes\DTOs\GenreData;
 
 interface GenreRepository
 {
     public function queryByMalIds(array $ids): GenresCollection;
-    public function create(GenresData $genre): void;
+    public function create(GenreData $genre): void;
 }

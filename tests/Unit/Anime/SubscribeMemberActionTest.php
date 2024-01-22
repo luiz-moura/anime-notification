@@ -5,11 +5,11 @@ namespace Tests\Unit\Anime;
 use Domain\Animes\Actions\SubscribeMemberAction;
 use Domain\Animes\Contracts\AnimeRepository;
 use Domain\Animes\Contracts\MemberRepository;
-use Domain\Animes\DTOs\Models\AnimesModelData;
-use Domain\Animes\DTOs\Models\MembersModelData;
+use Domain\Animes\DTOs\Models\AnimeModelData;
+use Domain\Animes\DTOs\Models\MemberModelData;
 use Domain\Animes\Enums\SubscriptionTypesEnum;
-use Tests\Mocks\AnimesModelDataMock;
-use Tests\Mocks\MembersModelDataMock;
+use Tests\Mocks\AnimeModelDataMock;
+use Tests\Mocks\MemberModelDataMock;
 use PHPUnit\Framework\TestCase;
 
 class SubscribeMemberActionTest extends TestCase
@@ -17,8 +17,8 @@ class SubscribeMemberActionTest extends TestCase
     public $animeRepository;
     public $memberRepository;
     public $subscribeMemberAction;
-    public AnimesModelData $anime;
-    public MembersModelData $member;
+    public AnimeModelData $anime;
+    public MemberModelData $member;
 
     protected function setUp(): void
     {
@@ -32,8 +32,8 @@ class SubscribeMemberActionTest extends TestCase
             $this->memberRepository
         );
 
-        $this->anime = AnimesModelDataMock::create();
-        $this->member = MembersModelDataMock::create(['type' => SubscriptionTypesEnum::PLAN_TO_WATCH]);
+        $this->anime = AnimeModelDataMock::create();
+        $this->member = MemberModelDataMock::create(['type' => SubscriptionTypesEnum::PLAN_TO_WATCH]);
     }
 
     public function test_shouldnt_do_anything_when_the_user_is_already_a_member()

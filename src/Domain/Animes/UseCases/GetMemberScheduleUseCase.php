@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\Animes\UseCases;
 
 use Domain\Animes\Contracts\AnimeRepository;
@@ -6,7 +7,8 @@ use Domain\Animes\Contracts\AnimeSubscriptionRepository;
 use Domain\Animes\DTOs\AnimeScheduleData;
 use Domain\Animes\DTOs\MemberScheduleData;
 
-class GetMemberScheduleUseCase {
+class GetMemberScheduleUseCase
+{
     public function __construct(
         private AnimeSubscriptionRepository $animeSubscriptionRepository,
         private AnimeRepository $animeRepository
@@ -18,7 +20,7 @@ class GetMemberScheduleUseCase {
         $subscriptions = $this->animeSubscriptionRepository->queryByMemberId($memberId);
 
         return MemberScheduleData::fromArray([
-            'animeSchedule' => AnimeScheduleData::fromAnimeCollection($animesOnTheSchedule),
+            'animeSchedule' => AnimeScheduleData::fromAnimesCollection($animesOnTheSchedule),
             'subscriptions' => $subscriptions
         ]);
     }

@@ -6,9 +6,9 @@ use Carbon\Carbon;
 use Domain\Animes\Actions\QueryAnimesThatWillBeBroadcastInTimeRangeAction;
 use Domain\Animes\Contracts\AnimeRepository;
 use Domain\Animes\DTOs\Collections\AnimesCollection;
-use Tests\Mocks\AnimesModelDataMock;
+use Tests\Mocks\AnimeModelDataMock;
 use PHPUnit\Framework\TestCase;
-use Tests\Mocks\BroadcastsModelDataMock;
+use Tests\Mocks\BroadcastModelDataMock;
 
 class QueryAnimesThatWillBeBroadcastInTimeRangeActionTest extends TestCase
 {
@@ -31,8 +31,8 @@ class QueryAnimesThatWillBeBroadcastInTimeRangeActionTest extends TestCase
         $this->beginning = now();
         $this->end = now()->addHour();
 
-        $anime = AnimesModelDataMock::create();
-        $anime->broadcast = BroadcastsModelDataMock::create(['time' => '10:00:00']);
+        $anime = AnimeModelDataMock::create();
+        $anime->broadcast = BroadcastModelDataMock::create(['time' => '10:00:00']);
         $this->animes = new AnimesCollection([
             $anime
         ]);

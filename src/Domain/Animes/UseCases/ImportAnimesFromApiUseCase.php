@@ -5,7 +5,7 @@ namespace Domain\Animes\UseCases;
 use Domain\Animes\Contracts\AnimeRepository;
 use Infra\Abstracts\Contracts\Collection;
 use Infra\Integration\AnimeApi\Contracts\AnimeApiService;
-use Infra\Integration\AnimeApi\DTOs\AnimesData as ApiAnimesData;
+use Infra\Integration\AnimeApi\DTOs\AnimeData as ApiAnimeData;
 
 class ImportAnimesFromApiUseCase
 {
@@ -23,7 +23,7 @@ class ImportAnimesFromApiUseCase
 
         $animesThatLeftSchedule = $this->animeRepository->queryAiringByDayExceptMalIds("{$day}s", $this->getMalIds($apiAnimes));
 
-        $unregisteredAnimes->each(fn(ApiAnimesData $anime) => $registerAnime($anime));
+        $unregisteredAnimes->each(fn(ApiAnimeData $anime) => $registerAnime($anime));
 
         if ($animesThatLeftSchedule->isNotEmpty()) {
             $updateAnimeStatusOutOfSchedule($animesThatLeftSchedule);

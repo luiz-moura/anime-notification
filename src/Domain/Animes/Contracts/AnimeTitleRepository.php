@@ -2,9 +2,9 @@
 
 namespace Domain\Animes\Contracts;
 
-use Domain\Animes\DTOs\TitlesData;
+use Domain\Animes\DTOs\TitleData;
 
 interface AnimeTitleRepository
 {
-    public function create(int $animeId, TitlesData $title): void;
+    public function create(int $animeId, TitleData $title): void;
 }

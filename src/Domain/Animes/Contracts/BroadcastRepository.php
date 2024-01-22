@@ -2,10 +2,10 @@
 
 namespace Domain\Animes\Contracts;
 
-use Domain\Animes\DTOs\BroadcastsData;
-use Domain\Animes\DTOs\Models\BroadcastsModelData;
+use Domain\Animes\DTOs\BroadcastData;
+use Domain\Animes\DTOs\Models\BroadcastModelData;
 
 interface BroadcastRepository
 {
-    public function create(int $animeId, BroadcastsData $title): BroadcastsModelData;
+    public function create(int $animeId, BroadcastData $title): BroadcastModelData;
 }

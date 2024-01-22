@@ -2,19 +2,19 @@
 
 namespace Domain\Animes\DTOs\Collections;
 
-use Domain\Animes\DTOs\AnimesData;
-use Domain\Animes\DTOs\Models\AnimesModelData;
+use Domain\Animes\DTOs\AnimeData;
+use Domain\Animes\DTOs\Models\AnimeModelData;
 use Infra\Abstracts\Collection;
 
 class AnimesCollection extends Collection
 {
-    protected string $collectionOf = AnimesData::class;
+    protected string $collectionOf = AnimeData::class;
 
     public static function fromApi(array $items): AnimesCollection
     {
         return new static(
             array_map(
-                fn ($item) => AnimesData::fromApi($item),
+                fn($item) => AnimeData::fromApi($item),
                 $items
             )
         );
@@ -24,7 +24,7 @@ class AnimesCollection extends Collection
     {
         return new static(
             array_map(
-                fn ($item) => AnimesModelData::fromModel($item),
+                fn($item) => AnimeModelData::fromModel($item),
                 $items
             )
         );

@@ -3,7 +3,7 @@
 namespace Domain\Animes\Actions;
 
 use Domain\Animes\Contracts\MemberRepository;
-use Domain\Animes\DTOs\Models\AnimesModelData;
+use Domain\Animes\DTOs\Models\AnimeModelData;
 use Infra\Helpers\UrlHelper;
 use Infra\Integration\Notification\Contracts\NoticationService;
 
@@ -15,7 +15,7 @@ class NotifyMembersThatAnimeWillBeBroadcastAction
         private UrlHelper $urlHelper
     ) {}
 
-    public function run(AnimesModelData $anime): void
+    public function run(AnimeModelData $anime): void
     {
         $members = $this->memberRepository->queryByAnimeId($anime->id);
 

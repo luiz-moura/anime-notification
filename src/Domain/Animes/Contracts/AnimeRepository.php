@@ -3,9 +3,9 @@
 namespace Domain\Animes\Contracts;
 
 use DateTime;
-use Domain\Animes\DTOs\AnimesData;
+use Domain\Animes\DTOs\AnimeData;
 use Domain\Animes\DTOs\Collections\AnimesCollection;
-use Domain\Animes\DTOs\Models\AnimesModelData;
+use Domain\Animes\DTOs\Models\AnimeModelData;
 use Domain\Animes\Enums\SubscriptionTypesEnum;
 
 interface AnimeRepository
@@ -14,8 +14,8 @@ interface AnimeRepository
     public function queryByBroadcsatTimeRange(DateTime $beginning, DateTime $end): AnimesCollection;
     public function queryByCurrentSeason(): AnimesCollection;
     public function queryAiringByDayExceptMalIds(string $day, array $malIds): AnimesCollection;
-    public function create(AnimesData $animes): AnimesModelData;
-    public function findById(int $id): AnimesModelData;
+    public function create(AnimeData $animes): AnimeModelData;
+    public function findById(int $id): AnimeModelData;
     public function updateAiringStatusByMalIds(array $malIds, bool $status): void;
     public function updateMemberType(int $animeId, int $userId, SubscriptionTypesEnum $type): void;
     public function associateTheUser(int $animeId, int $userId, SubscriptionTypesEnum $type): void;

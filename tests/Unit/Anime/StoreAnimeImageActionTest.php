@@ -3,12 +3,12 @@
 namespace Tests\Unit\Anime;
 
 use Domain\Animes\Actions\StoreAnimeImageAction;
-use Domain\Animes\DTOs\ImagesData;
+use Domain\Animes\DTOs\ImageData;
 use Domain\Shared\Medias\Contracts\MediaRepository;
-use Domain\Shared\Medias\DTOs\Models\MediasModelData;
-use Infra\Integration\AnimeApi\DTOs\AnimesData;
-use Infra\Integration\AnimeApi\DTOs\Mappers\AnimesMapper;
-use Tests\Mocks\AnimesApiDataMock;
+use Domain\Shared\Medias\DTOs\Models\MediaModelData;
+use Infra\Integration\AnimeApi\DTOs\AnimeData;
+use Infra\Integration\AnimeApi\DTOs\Mappers\AnimeMapper;
+use Tests\Mocks\AnimeApiDataMock;
 use PHPUnit\Framework\TestCase;
 use Illuminate\Support\Str;
 use Infra\Storage\DTOs\StoredMediaData;
@@ -28,8 +28,8 @@ class StoreAnimeImageActionTest extends TestCase
         $this->mediaRepository = $this->createMock(MediaRepository::class);
         $this->storeMediaService = $this->createMock(StoreMediaService::class);
 
-        $this->apiAnime = AnimesData::fromArray(
-            AnimesMapper::fromArray(AnimesApiDataMock::create())
+        $this->apiAnime = AnimeData::fromArray(
+            AnimeMapper::fromArray(AnimeApiDataMock::create())
         );
 
         $this->storeAnimeImageAction = new StoreAnimeImageAction(
@@ -65,7 +65,7 @@ class StoreAnimeImageActionTest extends TestCase
             ->expects($this->once())
             ->method('create')
             ->with(
-                ImagesData::fromArray([
+                ImageData::fromArray([
                     'title' => $this->apiAnime->title,
                     'path' => $file->path,
                     'mimetype' => $file->mimetype,
@@ -73,7 +73,7 @@ class StoreAnimeImageActionTest extends TestCase
                 ])
             )
             ->willReturn(
-                MediasModelData::fromArray([
+                MediaModelData::fromArray([
                     'id' => 1,
                     'title' => $this->apiAnime->title,
                     'path' => $file->path,

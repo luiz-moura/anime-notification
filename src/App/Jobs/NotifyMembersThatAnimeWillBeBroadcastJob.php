@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use Domain\Animes\Actions\NotifyMembersThatAnimeWillBeBroadcastAction;
-use Domain\Animes\DTOs\Models\AnimesModelData;
+use Domain\Animes\DTOs\Models\AnimeModelData;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -15,7 +15,7 @@ class NotifyMembersThatAnimeWillBeBroadcastJob implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
 
-    public function __construct(private AnimesModelData $anime) {}
+    public function __construct(private AnimeModelData $anime) {}
 
     public function handle(NotifyMembersThatAnimeWillBeBroadcastAction $notifyMembersThatAnimeWillBeBroadcast): void
     {

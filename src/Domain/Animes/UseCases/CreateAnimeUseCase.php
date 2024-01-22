@@ -8,12 +8,12 @@ use Domain\Animes\Contracts\AnimeRepository;
 use Domain\Animes\Contracts\AnimeTitleRepository;
 use Domain\Animes\Contracts\BroadcastRepository;
 use Domain\Animes\Contracts\GenreRepository;
-use Domain\Animes\DTOs\AnimesData;
-use Domain\Animes\DTOs\TitlesData;
+use Domain\Animes\DTOs\AnimeData;
+use Domain\Animes\DTOs\TitleData;
 use Domain\Shared\Medias\Contracts\MediaRepository;
 use Illuminate\Support\Facades\DB;
 use Infra\Storage\Services\StoreMediaService;
-use Infra\Integration\AnimeApi\DTOs\AnimesData as ApiAnimesData;
+use Infra\Integration\AnimeApi\DTOs\AnimeData as ApiAnimeData;
 
 class CreateAnimeUseCase
 {
@@ -28,7 +28,7 @@ class CreateAnimeUseCase
         private StoreAnimeImageAction $storeAnimeImageAction,
     ) {}
 
-    public function run(ApiAnimesData $apiAnime)
+    public function run(ApiAnimeData $apiAnime)
     {
         DB::transaction(function () use ($apiAnime) {
             $this->createAnimeGenresAction->run($apiAnime);
@@ -36,13 +36,13 @@ class CreateAnimeUseCase
         });
     }
 
-    private function createAnime(ApiAnimesData $apiAnime): void
+    private function createAnime(ApiAnimeData $apiAnime): void
     {
-        $animeRaw = AnimesData::fromApi($apiAnime->toArray());
+        $animeRaw = AnimeData::fromApi($apiAnime->toArray());
 
         $registeredAnime = $this->animeRepository->create($animeRaw);
         $this->broadcastRepository->create($registeredAnime->id, $animeRaw->broadcast);
-        $animeRaw->titles->each(function (TitlesData $title) use ($registeredAnime) {
+        $animeRaw->titles->each(function (TitleData $title) use ($registeredAnime) {
             $this->animeTitleRepository->create($registeredAnime->id, $title);
         });
 
@@ -50,13 +50,13 @@ class CreateAnimeUseCase
         $this->attachGenres($registeredAnime->id, $apiAnime);
     }
 
-    private function attachImage(int $animeId, ApiAnimesData $apiAnime): void
+    private function attachImage(int $animeId, ApiAnimeData $apiAnime): void
     {
         $image = $this->storeAnimeImageAction->run($apiAnime);
         $this->animeRepository->attachImages($animeId, $image->id);
     }
 
-    private function attachGenres(int $animeId, ApiAnimesData $apiAnime): void
+    private function attachGenres(int $animeId, ApiAnimeData $apiAnime): void
     {
         $apiGenres = collect([
             $apiAnime->genres,

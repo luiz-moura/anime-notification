@@ -3,17 +3,17 @@
 namespace Infra\Integration\AnimeApi\DTOs\Collections;
 
 use Infra\Abstracts\Collection;
-use Infra\Integration\AnimeApi\DTOs\AnimesData;
+use Infra\Integration\AnimeApi\DTOs\AnimeData;
 
 class AnimesCollection extends Collection
 {
-    protected string $collectionOf = AnimesData::class;
+    protected string $collectionOf = AnimeData::class;
 
     public static function fromApi(array $items): self
     {
         return new self(
             array_map(
-                fn ($item) => AnimesData::fromApi($item),
+                fn($item) => AnimeData::fromApi($item),
                 $items
             )
         );

@@ -5,12 +5,12 @@ namespace Tests\Unit\Anime;
 use Domain\Animes\Actions\CreateAnimeGenresAction;
 use Domain\Animes\Contracts\GenreRepository;
 use Domain\Animes\DTOs\Collections\GenresCollection as GenresModelCollection;
-use Domain\Animes\DTOs\GenresData;
+use Domain\Animes\DTOs\GenreData;
 use Domain\Animes\Enums\GenreTypesEnum;
-use Infra\Integration\AnimeApi\DTOs\AnimesData;
-use Infra\Integration\AnimeApi\DTOs\Mappers\AnimesMapper;
-use Tests\Mocks\AnimesApiDataMock;
-use Tests\Mocks\GenresModelDataMock;
+use Infra\Integration\AnimeApi\DTOs\AnimeData;
+use Infra\Integration\AnimeApi\DTOs\Mappers\AnimeMapper;
+use Tests\Mocks\AnimeApiDataMock;
+use Tests\Mocks\GenreModelDataMock;
 use PHPUnit\Framework\TestCase;
 use Illuminate\Support\Str;
 
@@ -27,8 +27,8 @@ class CreateAnimeGenresActionTest extends TestCase
 
         $this->genreRepository = $this->createMock(GenreRepository::class);
 
-        $this->apiAnime = AnimesData::fromArray(
-            AnimesMapper::fromArray(AnimesApiDataMock::create())
+        $this->apiAnime = AnimeData::fromArray(
+            AnimeMapper::fromArray(AnimeApiDataMock::create())
         );
 
         $this->createAnimeGenresAction = new CreateAnimeGenresAction(
@@ -59,28 +59,28 @@ class CreateAnimeGenresActionTest extends TestCase
             ->method('create')
             ->with(
                 $this->logicalOr(
-                    GenresData::fromArray([
+                    GenreData::fromArray([
                         'slug' => Str::slug($genre1->name),
                         'name' => $genre1->name,
                         'mal_id' => $genre1->mal_id,
                         'mal_url' => $genre1->url,
                         'type' => GenreTypesEnum::from('common'),
                     ]),
-                    GenresData::fromArray([
+                    GenreData::fromArray([
                         'slug' => Str::slug($genre2->name),
                         'name' => $genre2->name,
                         'mal_id' => $genre2->mal_id,
                         'mal_url' => $genre2->url,
                         'type' => GenreTypesEnum::from('explicit'),
                     ]),
-                    GenresData::fromArray([
+                    GenreData::fromArray([
                         'slug' => Str::slug($genre3->name),
                         'name' => $genre3->name,
                         'mal_id' => $genre3->mal_id,
                         'mal_url' => $genre3->url,
                         'type' => GenreTypesEnum::from('theme'),
                     ]),
-                    GenresData::fromArray([
+                    GenreData::fromArray([
                         'slug' => Str::slug($genre4->name),
                         'name' => $genre4->name,
                         'mal_id' => $genre4->mal_id,
@@ -96,10 +96,10 @@ class CreateAnimeGenresActionTest extends TestCase
     public function test_should_not_register_genres_that_are_already_in_the_database()
     {
         $this->genresModel = new GenresModelCollection([
-            GenresModelDataMock::create(['mal_id' => $this->apiAnime->genres[0]->mal_id]),
-            GenresModelDataMock::create(['mal_id' => $this->apiAnime->explicit_genres[0]->mal_id]),
-            GenresModelDataMock::create(['mal_id' => $this->apiAnime->demographics[0]->mal_id]),
-            GenresModelDataMock::create(['mal_id' => $this->apiAnime->themes[0]->mal_id]),
+            GenreModelDataMock::create(['mal_id' => $this->apiAnime->genres[0]->mal_id]),
+            GenreModelDataMock::create(['mal_id' => $this->apiAnime->explicit_genres[0]->mal_id]),
+            GenreModelDataMock::create(['mal_id' => $this->apiAnime->demographics[0]->mal_id]),
+            GenreModelDataMock::create(['mal_id' => $this->apiAnime->themes[0]->mal_id]),
         ]);
 
         $this->genreRepository

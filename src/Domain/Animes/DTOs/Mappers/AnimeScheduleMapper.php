@@ -6,10 +6,10 @@ use Domain\Animes\DTOs\Collections\AnimesCollection;
 
 class AnimeScheduleMapper
 {
-    public static function fromAnimeCollection(AnimesCollection $animes): array
+    public static function fromAnimesCollection(AnimesCollection $animes): array
     {
         $schedule = collect($animes)->groupBy(
-            fn ($anime) => strtolower($anime->broadcast->day ?? 'unknown')
+            fn($anime) => strtolower($anime->broadcast->day ?? 'unknown')
         )->all();
 
         return [

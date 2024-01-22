@@ -6,14 +6,14 @@ use Domain\Animes\Actions\NotifyMembersThatAnimeWillBeBroadcastAction;
 use Domain\Animes\Contracts\MemberRepository;
 use Domain\Animes\DTOs\Collections\ImagesCollection;
 use Domain\Animes\DTOs\Collections\MembersCollection;
-use Domain\Animes\DTOs\Collections\NotificationTokenCollection;
-use Domain\Animes\DTOs\Models\AnimesModelData;
+use Domain\Animes\DTOs\Collections\NotificationTokensCollection;
+use Domain\Animes\DTOs\Models\AnimeModelData;
 use Infra\Helpers\UrlHelper;
 use Infra\Integration\Notification\Contracts\NoticationService;
-use Tests\Mocks\AnimesModelDataMock;
+use Tests\Mocks\AnimeModelDataMock;
 use PHPUnit\Framework\TestCase;
-use Tests\Mocks\MediasModelDataMock;
-use Tests\Mocks\MembersModelDataMock;
+use Tests\Mocks\MediaModelDataMock;
+use Tests\Mocks\MemberModelDataMock;
 
 class NotifyMembersThatAnimeWillBeBroadcastActionTest extends TestCase
 {
@@ -21,7 +21,7 @@ class NotifyMembersThatAnimeWillBeBroadcastActionTest extends TestCase
     private $noticationService;
     private $urlHelper;
     private $notifyMembersThatAnimeWillBeBroadcastAction;
-    private AnimesModelData $anime;
+    private AnimeModelData $anime;
 
     protected function setUp(): void
     {
@@ -37,8 +37,8 @@ class NotifyMembersThatAnimeWillBeBroadcastActionTest extends TestCase
             $this->urlHelper,
         );
 
-        $this->anime = AnimesModelDataMock::create();
-        $media = MediasModelDataMock::create();
+        $this->anime = AnimeModelDataMock::create();
+        $media = MediaModelDataMock::create();
         $this->anime->images = ImagesCollection::fromModel([
             $media->toArray()
         ]);
@@ -47,7 +47,7 @@ class NotifyMembersThatAnimeWillBeBroadcastActionTest extends TestCase
     public function test_should_release_notification_of_anime_being_broadcast_to_members()
     {
         $members = new MembersCollection([
-            MembersModelDataMock::create()
+            MemberModelDataMock::create()
         ]);
 
         $tokens = collect($members)->pluck('notification_tokens')
@@ -99,7 +99,7 @@ class NotifyMembersThatAnimeWillBeBroadcastActionTest extends TestCase
     public function test_should_not_notify_when_there_are_no_tokens_registered()
     {
         $members = new MembersCollection([
-            MembersModelDataMock::create(['notification_tokens' => new NotificationTokenCollection()])
+            MemberModelDataMock::create(['notification_tokens' => new NotificationTokensCollection()])
         ]);
 
         $this->memberRepository

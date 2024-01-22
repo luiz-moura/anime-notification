@@ -9,9 +9,9 @@ use Domain\Animes\DTOs\Collections\AnimesCollection as AnimesModelCollection;
 use Domain\Animes\DTOs\Collections\SubscriptionsCollection;
 use Domain\Animes\DTOs\MemberScheduleData;
 use Domain\Animes\UseCases\GetMemberScheduleUseCase;
-use Tests\Mocks\AnimesModelDataMock;
+use Tests\Mocks\AnimeModelDataMock;
 use PHPUnit\Framework\TestCase;
-use Tests\Mocks\SubscriptionsDataMock;
+use Tests\Mocks\SubscriptionDataMock;
 
 class GetMemberScheduleUseCaseTest extends TestCase
 {
@@ -38,17 +38,17 @@ class GetMemberScheduleUseCaseTest extends TestCase
     public function test_should_return_the_anime_schedule_and_user_subscriptions()
     {
         $animesOnTheSchedule = new AnimesModelCollection([
-            AnimesModelDataMock::create(),
-            AnimesModelDataMock::create(),
+            AnimeModelDataMock::create(),
+            AnimeModelDataMock::create(),
         ]);
 
         $subscriptions = new SubscriptionsCollection([
-            SubscriptionsDataMock::create(['anime_id' => $animesOnTheSchedule[0]->id]),
-            SubscriptionsDataMock::create(['anime_id' => $animesOnTheSchedule[1]->id]),
+            SubscriptionDataMock::create(['anime_id' => $animesOnTheSchedule[0]->id]),
+            SubscriptionDataMock::create(['anime_id' => $animesOnTheSchedule[1]->id]),
         ]);
 
         $response = MemberScheduleData::fromArray([
-            'animeSchedule' => AnimeScheduleData::fromAnimeCollection($animesOnTheSchedule),
+            'animeSchedule' => AnimeScheduleData::fromAnimesCollection($animesOnTheSchedule),
             'subscriptions' => $subscriptions
         ]);
 
