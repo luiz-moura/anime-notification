@@ -14,7 +14,9 @@ class MemberModelMapper
             'name' => $data['name'],
             'email' => $data['email'],
             'type' => SubscriptionTypesEnum::from($data['animes'][0]['subscription']['type']),
-            'notification_tokens' => NotificationTokensCollection::fromModel($data['fcm_tokens']),
+            'notification_tokens' => !empty($data['fcm_tokens'])
+                ? NotificationTokensCollection::fromModel($data['fcm_tokens'])
+                : null,
         ];
     }
 }

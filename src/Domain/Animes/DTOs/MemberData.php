@@ -12,7 +12,7 @@ class MemberData extends DataTransferObject
         public string $name,
         public string $email,
         public SubscriptionTypesEnum $type,
-        public NotificationTokensCollection $notification_tokens,
+        public ?NotificationTokensCollection $notification_tokens,
     ) {
     }
 }
