@@ -1,6 +1,7 @@
 import './bootstrap';
 import '../css/app.css';
 import 'react-toastify/dist/ReactToastify.css'
+import { init as sentryInit } from '@/Services/sentry'
 
 import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
@@ -8,6 +9,8 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ToastContainer } from 'react-toastify';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+
+sentryInit()
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
