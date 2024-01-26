@@ -9,15 +9,6 @@ use Interfaces\Http\Web\Member\Controller\NotificationController;
 use Interfaces\Http\Web\Member\Controller\SubscriptionController;
 use Interfaces\Http\Web\Users\ProfileController;
 
-Route::get('/welcome', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
-
 Route::middleware('auth')->group(function () {
     Route::prefix('profile')->controller(ProfileController::class)->group(function () {
         Route::get('/', 'edit')->name('profile.edit');
