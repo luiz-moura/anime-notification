@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\ServiceProvider;
 use Infra\Integration\AnimeApi\Contracts\AnimeApiService;
 use Infra\Integration\AnimeApi\Jikan\Services\JikanApiService;
-use Infra\Integration\Notification\Contracts\NoticationService;
+use Infra\Integration\Notification\Contracts\NotificationService;
 use Infra\Integration\Notification\Firebase\FirebaseService;
 
 class AppServiceProvider extends ServiceProvider
@@ -42,7 +42,7 @@ class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton(
-            NoticationService::class,
+            NotificationService::class,
             FirebaseService::class
         );
     }

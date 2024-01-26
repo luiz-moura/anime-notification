@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Infra\Integration\Notification\Contracts\NotificationService;
 use Interfaces\Http\Web\Member\Controller\MemberController;
 use Interfaces\Http\Web\Member\Controller\NotificationController;
 use Interfaces\Http\Web\Member\Controller\SubscriptionController;
@@ -39,6 +40,12 @@ Route::middleware('auth')->group(function () {
     Route::get('settings', function () {
         return Inertia::render('Settings');
     })->name('profile.settings');
+
+    Route::get('send-test-notification', function (NotificationService $notificationService) {
+        $tokens = auth()->user()->fcm_tokens->pluck('token')->all();
+
+        $notificationService->sendMessage($tokens, 'Title test', 'Message teste');
+    });
 });
 
 Route::get('/', function () {

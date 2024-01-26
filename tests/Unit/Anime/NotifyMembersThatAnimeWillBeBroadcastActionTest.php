@@ -9,7 +9,7 @@ use Domain\Animes\DTOs\Collections\MembersCollection;
 use Domain\Animes\DTOs\Collections\NotificationTokensCollection;
 use Domain\Animes\DTOs\Models\AnimeModelData;
 use Infra\Helpers\UrlHelper;
-use Infra\Integration\Notification\Contracts\NoticationService;
+use Infra\Integration\Notification\Contracts\NotificationService;
 use PHPUnit\Framework\TestCase;
 use Tests\Mocks\AnimeModelDataMock;
 use Tests\Mocks\MediaModelDataMock;
@@ -18,7 +18,7 @@ use Tests\Mocks\MemberModelDataMock;
 class NotifyMembersThatAnimeWillBeBroadcastActionTest extends TestCase
 {
     private $memberRepository;
-    private $noticationService;
+    private $notificationService;
     private $urlHelper;
     private $notifyMembersThatAnimeWillBeBroadcastAction;
     private AnimeModelData $anime;
@@ -28,12 +28,12 @@ class NotifyMembersThatAnimeWillBeBroadcastActionTest extends TestCase
         parent::setUp();
 
         $this->memberRepository = $this->createMock(MemberRepository::class);
-        $this->noticationService = $this->createMock(NoticationService::class);
+        $this->notificationService = $this->createMock(NotificationService::class);
         $this->urlHelper = $this->createMock(UrlHelper::class);
 
         $this->notifyMembersThatAnimeWillBeBroadcastAction = new NotifyMembersThatAnimeWillBeBroadcastAction(
             $this->memberRepository,
-            $this->noticationService,
+            $this->notificationService,
             $this->urlHelper,
         );
 
@@ -61,7 +61,7 @@ class NotifyMembersThatAnimeWillBeBroadcastActionTest extends TestCase
             ->with($this->anime->id)
             ->willReturn($members);
 
-        $this->noticationService
+        $this->notificationService
             ->expects($this->once())
             ->method('sendMessage')
             ->with($tokens, 'New episode released', "New {$this->anime->title} episode released", 'http://image-url.com');
@@ -85,7 +85,7 @@ class NotifyMembersThatAnimeWillBeBroadcastActionTest extends TestCase
             ->with($this->anime->id)
             ->willReturn($members);
 
-        $this->noticationService
+        $this->notificationService
             ->expects($this->never())
             ->method('sendMessage');
 
@@ -108,7 +108,7 @@ class NotifyMembersThatAnimeWillBeBroadcastActionTest extends TestCase
             ->with($this->anime->id)
             ->willReturn($members);
 
-        $this->noticationService
+        $this->notificationService
             ->expects($this->never())
             ->method('sendMessage');
 
