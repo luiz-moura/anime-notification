@@ -2,28 +2,47 @@ import { Head } from "@inertiajs/react"
 import { useEffect, useState } from "react";
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { acceptedNotifications, requestPermission } from "@/Services/notification";
+import { didntAcceptNotifications, requestPermission, removeToken } from "@/Services/notification";
 import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 
 export default function Settings({ auth }) {
-    const [notification, setNotification] = useState(false)
-
-    const handlePermission = async () =>  {
-        try {
-            await requestPermission()
-        } catch (e) {
-            toast.error('😔 ' + e.message)
-        }
-
-        if (acceptedNotifications()) {
-            toast.success('😁 Notifications activated successfully')
-            setNotification(true)
-        }
-    }
+    const [notificationsOn, setNotificationsOn] = useState(true)
 
     useEffect(() => {
-        setNotification(acceptedNotifications())
+        setNotificationsOn(Cookies.get('notification') === 'granted')
+
+        if (didntAcceptNotifications() && notificationsOn) {
+            removeToken()
+            setNotificationsOn(false)
+        }
     }, [])
+
+    useEffect(() => {
+        Cookies.set('notification', notificationsOn ? 'granted' : 'removed')
+    }, [notificationsOn])
+
+    const handlePermission = async () =>  {
+        if (notificationsOn) {
+            removeToken()
+            setNotificationsOn(false)
+            toast.success('Notifications disabled successfully')
+
+            return
+        }
+
+        requestPermission().then(() => {
+            if (didntAcceptNotifications()) {
+                toast.warn('Rejected notifications, you can activate at any time through settings.')
+                setNotificationsOn(false)
+
+                return
+            }
+
+            toast.success('Notifications activated successfully')
+            setNotificationsOn(true)
+        }).catch(() => toast.error(e.message))
+    }
 
     return (
         <AuthenticatedLayout
@@ -41,7 +60,7 @@ export default function Settings({ auth }) {
                                 type="checkbox"
                                 className="checkbox checkbox-warning"
                                 onChange={handlePermission}
-                                checked={notification ? 'checked' : ''}
+                                checked={notificationsOn ? 'checked' : ''}
                             />
                         </label>
                     </div>

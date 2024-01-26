@@ -1,4 +1,4 @@
-import { onMessage, getToken } from "firebase/messaging"
+import { onMessage, getToken, deleteToken } from "firebase/messaging"
 import { messaging } from "@/utils/initialize"
 import PushNotificationError from "@/Errors/PushNotificationError"
 
@@ -12,20 +12,10 @@ export const requestPermission = async () => {
     }
 
     await Notification.requestPermission().then((status) => {
-        if (status !== notificationStatus.granted) {
-            throw new PushNotificationError('Rejected notifications, you can activate at any time through settings.')
+        if (status === notificationStatus.granted) {
+            setToken()
         }
-
-        const tokenDefined = setToken()
-
-        if (!tokenDefined) {
-            throw new PushNotificationError('Failed to set notification token, please try again.')
-        }
-    }).catch((e) => {
-        if (e instanceof PushNotificationError) {
-            throw e
-        }
-
+    }).catch(() => {
         throw new PushNotificationError('An error occurred, please try again')
     })
 }
@@ -44,22 +34,26 @@ export const listenToNotifications = () => {
     })
 }
 
+export const removeToken = () => {
+    deleteToken(messaging)
+}
+
 export const acceptedNotifications = () => {
     return Notification.permission === notificationStatus.granted
 }
 
-const setToken = () => {
-    getToken(messaging, { vapidKey: import.meta.env.VAPID_KEY }).then(token => {
-        navigator.sendBeacon(`/setToken?fcm_token=${token}`)
-    }).catch(() => {
-        return false
-    })
-
-    return true
+export const didntAcceptNotifications = () => {
+    return !acceptedNotifications()
 }
 
-const didntAcceptNotifications = () => {
-    return !acceptedNotifications()
+const setToken = async () => {
+    await getToken(messaging, {
+        vapidKey: import.meta.env.VITE_VAPID_PUBLIC_KEY
+    }).then(token => {
+        navigator.sendBeacon(`notification/set-token?token=${token}`)
+    }).catch(() => {
+        throw new PushNotificationError('Failed to set notification token, please try again.')
+    })
 }
 
 const doesntSupportNotifications = () => {
