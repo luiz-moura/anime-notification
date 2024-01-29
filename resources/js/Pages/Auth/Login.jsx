@@ -5,6 +5,7 @@ import GuestLayout from '@/Layouts/GuestLayout';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
+import SecondaryButton from '@/Components/SecondaryButton';
 import TextInput from '@/Components/TextInput';
 import Checkbox from '@/Components/Checkbox';
 import SignInLink from '@/Components/SignInLink';
@@ -66,6 +67,17 @@ export default function Login({ status, canResetPassword }) {
                     />
 
                     <InputError message={errors.password} className="mt-2" />
+
+                    {canResetPassword && (
+                        <div className='mt-2'>
+                            <Link
+                                href={route('password.request')}
+                                className="underline text-sm text-slate-400 hover:text-slate-600 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                            >
+                                Forgot your password?
+                            </Link>
+                        </div>
+                    )}
                 </div>
 
                 <div className="block mt-4">
@@ -75,23 +87,22 @@ export default function Login({ status, canResetPassword }) {
                             checked={data.remember}
                             onChange={(e) => setData('remember', e.target.checked)}
                         />
-                        <span className="ml-2 text-sm text-gray-600">Remember me</span>
+                        <span className="ml-2 text-sm text-slate-400">Remember me</span>
                     </label>
                 </div>
 
-                <SignInLink href={route('auth.google')}>
-                    Sign in with Google
-                </SignInLink>
+                <SecondaryButton className='mt-5'>
+                    <SignInLink href={route('auth.google')} />
+                </SecondaryButton>
+
 
                 <div className="flex items-center justify-end mt-4">
-                    {canResetPassword && (
                         <Link
-                            href={route('password.request')}
-                            className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            href={route('register')}
+                            className="underline text-sm text-slate-400 hover:text-slate-600 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                         >
-                            Forgot your password?
+                            Create account
                         </Link>
-                    )}
 
                     <PrimaryButton className="ml-4" disabled={processing}>
                         Log in
