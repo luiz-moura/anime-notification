@@ -16,6 +16,8 @@ jobs:
       DB_PASSWORD: postgres
       DB_USERNAME: postgres
       DB_DATABASE: postgres
+      DB_PORT: 5432
+      REDIS_POR: 6379
 
     # Docs: https://docs.github.com/en/actions/using-containerized-services
     services:
@@ -77,12 +79,6 @@ jobs:
 
       - name: Run Migration
         run: php artisan migrate -v
-        env:
-          DB_PORT: ${{ job.services.postgres.ports }}
-          REDIS_PORT: ${{ job.services.redis.ports }}
 
       - name: Test with phpunit
         run: vendor/bin/phpunit --coverage-text
-        env:
-          DB_PORT: ${{ job.services.postgres }}
-          REDIS_PORT: ${{ job.services.redis }}
