@@ -17,7 +17,6 @@ jobs:
       DB_USERNAME: postgres
       DB_DATABASE: postgres
 
-    # Docs: https://docs.github.com/en/actions/using-containerized-services
     services:
       postgres:
         image: postgres:latest
@@ -42,7 +41,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Docs: https://github.com/shivammathur/setup-php
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -92,3 +90,6 @@ jobs:
         env:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
           REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+
+      - name: Pint test
+        run: ./vendor/bin/pint --test
