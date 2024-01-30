@@ -13,7 +13,7 @@ class FirebaseService implements NotificationService
     {
     }
 
-    public function sendMessage(array $tokens, string $title, string $message, ?string $imageUrl = null): void
+    public function sendMessage(array $tokens, string $title, string $message, string $imageUrl = null): void
     {
         $message = CloudMessage::new()->withNotification(
             Notification::create($title, $message, $imageUrl)
