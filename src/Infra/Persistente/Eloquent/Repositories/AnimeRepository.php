@@ -15,13 +15,6 @@ class AnimeRepository extends Repository implements AnimeRepositoryContract
 {
     protected $modelClass = Anime::class;
 
-    public function findById(int $animeSlug): AnimeModelData
-    {
-        return AnimeModelData::fromModel(
-            $this->model->where('id', $animeSlug)->firstOrFail()->toArray()
-        );
-    }
-
     public function create(AnimeData $animes): AnimeModelData
     {
         return AnimeModelData::fromModel(

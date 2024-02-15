@@ -20,8 +20,6 @@ interface AnimeRepository
 
     public function create(AnimeData $animes): AnimeModelData;
 
-    public function findById(int $id): AnimeModelData;
-
     public function updateAiringStatusByMalIds(array $malIds, bool $status): void;
 
     public function updateMemberType(int $animeId, int $userId, SubscriptionTypesEnum $type): void;
