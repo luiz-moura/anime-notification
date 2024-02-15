@@ -14,7 +14,7 @@ class UpdateAnimeStatusOutOfScheduleAction
     public function run(AnimesCollection $animes): void
     {
         $this->animeRepository->updateAiringStatusByMalIds(
-            collect($animes)->pluck('mal_id')->values()->all(),
+            malIds: collect($animes)->pluck('mal_id')->values()->all(),
             status: false
         );
     }
