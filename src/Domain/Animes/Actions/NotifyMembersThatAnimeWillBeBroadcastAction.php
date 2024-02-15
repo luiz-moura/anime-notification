@@ -26,20 +26,21 @@ class NotifyMembersThatAnimeWillBeBroadcastAction
 
         $tokens = collect($members)->pluck('notification_tokens')
             ->collapse()
-            ->pluck('token')
-            ->all();
+            ->pluck('token');
 
-        if (!$tokens) {
+        if (!$tokens->isEmpty()) {
             return;
         }
 
-        $this->notificationService->sendMessage(
-            $tokens,
-            title: 'New episode released',
-            message: "New {$anime->title} episode released",
-            imageUrl: $anime->images
-                ? $this->urlHelper->url($anime->images->first()->path)
-                : null
-        );
+        $tokens->chunk(1000)->each(function (array $tokens) use ($anime) {
+            $this->notificationService->sendMessage(
+                $tokens,
+                title: 'New episode released',
+                message: "New {$anime->title} episode released",
+                imageUrl: $anime->images
+                    ? $this->urlHelper->url($anime->images->first()->path)
+                    : null
+            );
+        });
     }
 }
