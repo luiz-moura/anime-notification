@@ -40,18 +40,22 @@ class CreateAnimeUseCase
     private function createAnime(ApiAnimeData $apiAnime): void
     {
         $animeRaw = AnimeData::fromApi($apiAnime->toArray());
-
         $registeredAnime = $this->animeRepository->create($animeRaw);
-        $this->broadcastRepository->create($registeredAnime->id, $animeRaw->broadcast);
-        $animeRaw->titles->each(function (TitleData $title) use ($registeredAnime) {
-            $this->animeTitleRepository->create($registeredAnime->id, $title);
-        });
 
-        $this->attachImage($registeredAnime->id, $apiAnime);
+        $this->broadcastRepository->create($registeredAnime->id, $animeRaw->broadcast);
+        $this->createTitles($registeredAnime->id, $apiAnime);
+        $this->createAndAttachImage($registeredAnime->id, $apiAnime);
         $this->attachGenres($registeredAnime->id, $apiAnime);
     }
 
-    private function attachImage(int $animeId, ApiAnimeData $apiAnime): void
+    private function createTitles(int $animeId, ApiAnimeData $apiAnime): void
+    {
+        $apiAnime->titles->each(function (TitleData $title) use ($animeId) {
+            $this->animeTitleRepository->create($animeId, $title);
+        });
+    }
+
+    private function createAndAttachImage(int $animeId, ApiAnimeData $apiAnime): void
     {
         $image = $this->storeAnimeImageAction->run($apiAnime);
         $this->animeRepository->attachImages($animeId, $image->id);
