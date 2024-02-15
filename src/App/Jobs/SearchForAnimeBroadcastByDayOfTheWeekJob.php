@@ -14,6 +14,8 @@ class SearchForAnimeBroadcastByDayOfTheWeekJob implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
 
+    public int $tries = 3;
+
     public function __construct(private ?int $delayInSeconds = 0)
     {
     }
@@ -21,7 +23,7 @@ class SearchForAnimeBroadcastByDayOfTheWeekJob implements ShouldQueue
     public function handle(): void
     {
         collect(Carbon::getDays())->map(function (string $day) {
-            ImportAnimesFromApiJob::dispatch($day)->delay($this->delayInSeconds += 5);
+            ImportAnimesFromApiJob::dispatch($day);
         });
     }
 }

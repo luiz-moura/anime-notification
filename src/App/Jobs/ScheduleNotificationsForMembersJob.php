@@ -15,6 +15,8 @@ class ScheduleNotificationsForMembersJob implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
 
+    public int $tries = 3;
+
     public function __construct(private DateTime $beginning, private DateTime $end)
     {
     }

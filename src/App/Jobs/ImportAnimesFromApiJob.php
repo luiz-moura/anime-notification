@@ -2,17 +2,21 @@
 
 namespace App\Jobs;
 
+use DateTime;
 use Domain\Animes\UseCases\ImportAnimesFromApiUseCase;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 
-class ImportAnimesFromApiJob implements ShouldQueue
+class ImportAnimesFromApiJob implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable;
     use InteractsWithQueue;
     use Queueable;
+
+    public int $tries = 3;
 
     public function __construct(private string $day)
     {
@@ -25,5 +29,10 @@ class ImportAnimesFromApiJob implements ShouldQueue
             fn ($anime) => RegisterAnimeJob::dispatch($anime),
             fn ($animes) => UpdateAnimeStatusOutOfScheduleJob::dispatch($animes)
         );
+    }
+
+    public function retryUntil(): DateTime
+    {
+        return now()->addMinutes(1);
     }
 }
