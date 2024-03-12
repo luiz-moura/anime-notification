@@ -28,13 +28,13 @@ class NotifyMembersThatAnimeWillBeBroadcastAction
             ->collapse()
             ->pluck('token');
 
-        if (!$tokens->isEmpty()) {
+        if ($tokens->isEmpty()) {
             return;
         }
 
-        $tokens->chunk(1000)->each(function (array $tokens) use ($anime) {
+        $tokens->chunk(1000)->each(function ($tokens) use ($anime) {
             $this->notificationService->sendMessage(
-                $tokens,
+                $tokens->toArray(),
                 title: 'New episode released',
                 message: "New {$anime->title} episode released",
                 imageUrl: $anime->images

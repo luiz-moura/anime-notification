@@ -22,7 +22,7 @@ class FirebaseService implements NotificationService
         $this->messaging()->sendMulticast($message, $tokens);
     }
 
-    public function messaging()
+    private function messaging()
     {
         return app('firebase.messaging');
     }
