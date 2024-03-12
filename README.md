@@ -1,66 +1,116 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# AnimeSchedule
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+The system imports the animes, genres, images, etc. from the current season via an API and persists in the database, the user can register and choose which animes they want to be notified when new episodes are broadcast by push notification.
 
-## About Laravel
+The DDD architecture was implemented based on the article written by Brent on October 17, 2019 - [Domain-oriented Laravel](https://stitcher.io/blog/laravel-beyond-crud-01-domain-oriented-laravel) . The following patterns were also used: repository pattern, actions and use cases, data transfer objects.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Technologies
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- [Laravel](https://laravel.com/)
+- [Laravel Sail](https://laravel.com/docs/9.x/sail#main-content)
+- [Inertia](https://inertiajs.com/)
+- [Firebase PHP](https://firebase-php.readthedocs.io/en/latest/)
+- [Sentry](https://sentry.io/)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Installation
 
-## Learning Laravel
+1. Clone the project
+```bash
+  git clone https://github.com/luiz-moura/anime-schedule.git
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+2. Create .env
+```bash
+  cp .env.example .env
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+3. Install composer dependencies
+```bash
+  composer install
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+4. Create aliases for sail bash path
+```bash
+  alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
+```
 
-## Laravel Sponsors
+5. Start the server in background
+```bash
+  sail up -d
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+6. Install NPM dependencies
+```bash
+  sail npm install && sail npm run dev
+```
 
-### Premium Partners
+Project listen in port http://localhost:80
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## :elephant: Database
 
-## Contributing
+Create tables
+```bash
+  php artisan migrate:fresh
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Application structure
 
-## Code of Conduct
+```
+src
+  └ Application
+    ├── Providers
+  └ Domains
+    ├── Domain
+    │   └── Actions
+    │   └── UseCases
+    │   └── DTOs
+    │   └── Contracts
+    │   └── Enums
+    │   └── Exceptions
+  └ Infrastructure
+    │   └── Persistence
+    │   └── Storage
+    │   └── Integration
+  └ Interfaces
+    │   └── Console
+    │   └── Http
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Sail commands
 
-## Security Vulnerabilities
+Start queue
+```bash
+  sail queue:work
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Stop the server
+```bash
+  sail stop
+```
 
-## License
+All commands sail
+```bash
+  sail help
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## :white_check_mark: Run tests
+```bash
+  sail test
+```
+
+## Commands
+
+Run commands with sail 
+```bash
+  sail artisan command:name
+```
+
+| Command | Description |
+| --- | --- |
+| ```app:import-animes``` | Search animes airing from the api and register them in the database |
+| ```app:notify-members``` | Notifies members that the anime will be broadcast |
+
+### 🔗 Links
+
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/luiz-moura/)
