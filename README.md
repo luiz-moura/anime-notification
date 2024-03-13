@@ -25,9 +25,9 @@ The DDD architecture was implemented based on the article written by Brent on Oc
   cp .env.example .env
 ```
 
-3. Install composer dependencies
+3. Start the server in background
 ```bash
-  composer install
+  docker-compose up -d
 ```
 
 4. Create aliases for sail bash path
@@ -35,17 +35,22 @@ The DDD architecture was implemented based on the article written by Brent on Oc
   alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
 ```
 
-5. Start the server in background
+5. Generate key
 ```bash
-  sail up -d
+  sail artisan key:generate
 ```
 
-6. Install NPM dependencies
+6. Install composer dependencies
+```bash
+  sail composer install
+```
+
+7. Install NPM dependencies
 ```bash
   sail npm install && sail npm run dev
-```
+``` 
 
-Project listen in port http://localhost:80
+ - Project listen in port http://localhost:80
 
 ## :elephant: Database
 
