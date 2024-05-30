@@ -1,9 +1,8 @@
 # AnimeSchedule
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-The system imports the animes, genres, images, etc. from the current season via an API and persists in the database, the user can register and choose which animes they want to be notified when new episodes are broadcast by push notification.
-
-The DDD architecture was implemented based on the article written by Brent on October 17, 2019 - [Domain-oriented Laravel](https://stitcher.io/blog/laravel-beyond-crud-01-domain-oriented-laravel) . The following patterns were also used: repository pattern, actions and use cases, data transfer objects.
+- The app allows you to add your favorite anime to your watch list and sends you real-time notifications when new episodes are released. Additionally, offers a built-in calendar, showing all the broadcast dates and times for the anime you're watching.
+ - The system imports the animes, genres, images, etc. from the current season via an API and persists in the database.
 
 ## Technologies
 
@@ -48,7 +47,7 @@ The DDD architecture was implemented based on the article written by Brent on Oc
 7. Install NPM dependencies
 ```bash
   sail npm install && sail npm run dev
-``` 
+```
 
  - Project listen in port http://localhost:80
 
@@ -59,7 +58,9 @@ Create tables
   php artisan migrate:fresh
 ```
 
-## Application structure
+## Application
+
+The DDD was implemented based on the article written by Brent on October 17, 2019 - [Domain-oriented Laravel](https://stitcher.io/blog/laravel-beyond-crud-01-domain-oriented-laravel) . The following patterns were also used: repository pattern, actions and use cases, data transfer objects.
 
 ```
 src
@@ -106,7 +107,7 @@ All commands sail
 
 ## Commands
 
-Run commands with sail 
+Run commands with sail
 ```bash
   sail artisan command:name
 ```
