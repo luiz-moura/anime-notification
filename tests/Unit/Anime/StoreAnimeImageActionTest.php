@@ -11,42 +11,45 @@ use Infra\Integration\AnimeApi\DTOs\AnimeData;
 use Infra\Integration\AnimeApi\DTOs\Mappers\AnimeMapper;
 use Infra\Storage\DTOs\StoredMediaData;
 use Infra\Storage\Services\StoreMediaService;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Tests\Mocks\AnimeApiDataMock;
 
 class StoreAnimeImageActionTest extends TestCase
 {
-    private $apiAnime;
-    private $storeAnimeImageAction;
-    private $mediaRepository;
-    private $storeMediaService;
+    private StoreAnimeImageAction $sut;
+    private MockObject|MediaRepository $mediaRepository;
+    private MockObject|StoreMediaService $storeMediaService;
+    private AnimeData $apiAnime;
 
     protected function setUp(): void
     {
         parent::setUp();
 
+        /** @var MediaRepository */
         $this->mediaRepository = $this->createMock(MediaRepository::class);
+        /** @var StoreMediaService */
         $this->storeMediaService = $this->createMock(StoreMediaService::class);
 
         $this->apiAnime = AnimeData::fromArray(
             AnimeMapper::fromArray(AnimeApiDataMock::create())
         );
 
-        $this->storeAnimeImageAction = new StoreAnimeImageAction(
+        $this->sut = new StoreAnimeImageAction(
             $this->mediaRepository,
             $this->storeMediaService
         );
     }
 
-    public function testShouldStoreTheImageSuccessfully()
+    public function testShouldStoreTheImageSuccessfully(): void
     {
         $filename = Str::slug($this->apiAnime->title) . '+Xv1KLy.jpg';
 
         $file = StoredMediaData::fromArray([
             'path' => "animes/{$filename}",
             'filename' => $filename,
-            'extension' => 'dasdas',
-            'mimetype' => 'jpg',
+            'extension' => '.jpg',
+            'mimetype' => 'image/jpg',
         ]);
 
         $this->storeMediaService
@@ -82,6 +85,6 @@ class StoreAnimeImageActionTest extends TestCase
                 ])
             );
 
-        $this->storeAnimeImageAction->run($this->apiAnime);
+        $this->sut->run($this->apiAnime);
     }
 }

@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Factory::guessFactoryNamesUsing(function (string $modelName) {
+        Factory::guessFactoryNamesUsing(function (string $modelName): string {
             return 'Database\\Factories\\' . class_basename($modelName) . 'Factory';
         });
 
@@ -36,14 +36,7 @@ class AppServiceProvider extends ServiceProvider
             Mail::alwaysTo('killua@gmail.com');
         }
 
-        $this->app->singleton(
-            AnimeApiService::class,
-            JikanApiService::class
-        );
-
-        $this->app->singleton(
-            NotificationService::class,
-            FirebaseService::class
-        );
+        $this->app->singleton(AnimeApiService::class, JikanApiService::class);
+        $this->app->singleton(NotificationService::class, FirebaseService::class);
     }
 }

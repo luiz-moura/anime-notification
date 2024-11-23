@@ -14,7 +14,7 @@ class GenresCollection extends Collection
     {
         return new static(
             array_map(
-                fn ($item) => GenreModelData::fromModel($item),
+                fn ($item): GenreModelData => GenreModelData::fromModel($item),
                 $items
             )
         );

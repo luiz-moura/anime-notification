@@ -10,33 +10,35 @@ use Domain\Animes\Enums\GenreTypesEnum;
 use Illuminate\Support\Str;
 use Infra\Integration\AnimeApi\DTOs\AnimeData;
 use Infra\Integration\AnimeApi\DTOs\Mappers\AnimeMapper;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Tests\Mocks\AnimeApiDataMock;
 use Tests\Mocks\GenreModelDataMock;
 
 class CreateAnimeGenresActionTest extends TestCase
 {
-    private $apiAnime;
-    private $genresModel;
-    private $createAnimeGenresAction;
-    private $genreRepository;
+    private CreateAnimeGenresAction $sut;
+    private GenreRepository|MockObject $genreRepository;
+    private AnimeData $apiAnime;
+    private GenresModelCollection $genresModel;
 
     protected function setUp(): void
     {
         parent::setUp();
 
+        /** @var GenreRepository */
         $this->genreRepository = $this->createMock(GenreRepository::class);
 
         $this->apiAnime = AnimeData::fromArray(
             AnimeMapper::fromArray(AnimeApiDataMock::create())
         );
 
-        $this->createAnimeGenresAction = new CreateAnimeGenresAction(
+        $this->sut = new CreateAnimeGenresAction(
             $this->genreRepository
         );
     }
 
-    public function testShouldRegisterAllGenresThatAreNotInTheDatabase()
+    public function testShouldRegisterAllGenresThatAreNotInTheDatabase(): void
     {
         $this->genreRepository
             ->expects($this->once())
@@ -90,10 +92,10 @@ class CreateAnimeGenresActionTest extends TestCase
                 )
             );
 
-        $this->createAnimeGenresAction->run($this->apiAnime);
+        $this->sut->run($this->apiAnime);
     }
 
-    public function testShouldNotRegisterGenresThatAreAlreadyInTheDatabase()
+    public function testShouldNotRegisterGenresThatAreAlreadyInTheDatabase(): void
     {
         $this->genresModel = new GenresModelCollection([
             GenreModelDataMock::create(['mal_id' => $this->apiAnime->genres[0]->mal_id]),
@@ -117,6 +119,6 @@ class CreateAnimeGenresActionTest extends TestCase
             ->expects($this->never())
             ->method('create');
 
-        $this->createAnimeGenresAction->run($this->apiAnime);
+        $this->sut->run($this->apiAnime);
     }
 }

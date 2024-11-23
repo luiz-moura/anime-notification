@@ -8,22 +8,22 @@ use PHPUnit\Framework\TestCase;
 
 class DefineTimesToQueryAnimesByTimeInTheScheduleActionTest extends TestCase
 {
-    private $today;
-    private $defineTimesToQueryAnimesByTimeInTheScheduleAction;
+    private DefineTimesToQueryAnimesByTimeInTheScheduleAction $sut;
+    private Carbon $today;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->defineTimesToQueryAnimesByTimeInTheScheduleAction = new DefineTimesToQueryAnimesByTimeInTheScheduleAction();
+        $this->sut = new DefineTimesToQueryAnimesByTimeInTheScheduleAction();
 
         Carbon::setTestNow(now());
         $this->today = today();
     }
 
-    public function testShouldDefineTheTimeForAnimeQueryInTheDaySchedule()
+    public function testShouldDefineTheTimeForAnimeQueryInTheDaySchedule(): void
     {
-        $this->defineTimesToQueryAnimesByTimeInTheScheduleAction->run(function ($beginning, $end) {
+        $this->sut->run(function ($beginning, $end): void {
             $current = $this->today->toImmutable();
 
             $this->assertTrue(Carbon::createFromDate($beginning)->equalTo($current));

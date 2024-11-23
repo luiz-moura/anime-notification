@@ -14,7 +14,7 @@ class TitlesCollection extends Collection
     {
         return new static(
             array_map(
-                fn ($item) => TitleModelData::fromModel($item),
+                fn ($item): TitleModelData => TitleModelData::fromModel($item),
                 $items
             )
         );

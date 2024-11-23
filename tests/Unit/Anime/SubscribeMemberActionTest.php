@@ -8,15 +8,16 @@ use Domain\Animes\Contracts\MemberRepository;
 use Domain\Animes\DTOs\Models\AnimeModelData;
 use Domain\Animes\DTOs\Models\MemberModelData;
 use Domain\Animes\Enums\SubscriptionTypesEnum;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Tests\Mocks\AnimeModelDataMock;
 use Tests\Mocks\MemberModelDataMock;
 
 class SubscribeMemberActionTest extends TestCase
 {
-    public $animeRepository;
-    public $memberRepository;
-    public $subscribeMemberAction;
+    public MockObject|SubscribeMemberAction $sut;
+    public MockObject|AnimeRepository $animeRepository;
+    public MockObject|MemberRepository $memberRepository;
     public AnimeModelData $anime;
     public MemberModelData $member;
 
@@ -24,10 +25,12 @@ class SubscribeMemberActionTest extends TestCase
     {
         parent::setUp();
 
+        /** @var AnimeRepository */
         $this->animeRepository = $this->createMock(AnimeRepository::class);
+        /** @var MemberRepository */
         $this->memberRepository = $this->createMock(MemberRepository::class);
 
-        $this->subscribeMemberAction = new SubscribeMemberAction(
+        $this->sut = new SubscribeMemberAction(
             $this->animeRepository,
             $this->memberRepository
         );
@@ -36,7 +39,7 @@ class SubscribeMemberActionTest extends TestCase
         $this->member = MemberModelDataMock::create(['type' => SubscriptionTypesEnum::PLAN_TO_WATCH]);
     }
 
-    public function testShouldntDoAnythingWhenTheUserIsAlreadyAMember()
+    public function testShouldntDoAnythingWhenTheUserIsAlreadyAMember(): void
     {
         $this->memberRepository
             ->expects($this->once())
@@ -52,10 +55,10 @@ class SubscribeMemberActionTest extends TestCase
             ->expects($this->never())
             ->method('associateTheUser');
 
-        $this->subscribeMemberAction->run($this->anime->id, $this->member->id, SubscriptionTypesEnum::PLAN_TO_WATCH);
+        $this->sut->run($this->anime->id, $this->member->id, SubscriptionTypesEnum::PLAN_TO_WATCH);
     }
 
-    public function testShouldChangeTheTypeOfMemberSubscription()
+    public function testShouldChangeTheTypeOfMemberSubscription(): void
     {
         $subscription = SubscriptionTypesEnum::PLAN_TO_WATCH;
 
@@ -76,10 +79,10 @@ class SubscribeMemberActionTest extends TestCase
             ->expects($this->never())
             ->method('associateTheUser');
 
-        $this->subscribeMemberAction->run($this->anime->id, $this->member->id, $subscription);
+        $this->sut->run($this->anime->id, $this->member->id, $subscription);
     }
 
-    public function testShouldBecomeAMemberSuccessfully()
+    public function testShouldBecomeAMemberSuccessfully(): void
     {
         $subscription = SubscriptionTypesEnum::PLAN_TO_WATCH;
 
@@ -98,6 +101,6 @@ class SubscribeMemberActionTest extends TestCase
             ->method('associateTheUser')
             ->with($this->anime->id, $this->member->id, $subscription);
 
-        $this->subscribeMemberAction->run($this->anime->id, $this->member->id, $subscription);
+        $this->sut->run($this->anime->id, $this->member->id, $subscription);
     }
 }

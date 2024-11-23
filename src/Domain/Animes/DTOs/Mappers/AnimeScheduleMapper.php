@@ -2,6 +2,7 @@
 
 namespace Domain\Animes\DTOs\Mappers;
 
+use Domain\Animes\DTOs\AnimeData;
 use Domain\Animes\DTOs\Collections\AnimesCollection;
 
 class AnimeScheduleMapper
@@ -9,7 +10,7 @@ class AnimeScheduleMapper
     public static function fromAnimesCollection(AnimesCollection $animes): array
     {
         $schedule = collect($animes)->groupBy(
-            fn ($anime) => mb_strtolower($anime->broadcast->day ?? 'unknown')
+            fn (AnimeData $anime): string => mb_strtolower($anime->broadcast->day ?? 'unknown')
         )->all();
 
         return [

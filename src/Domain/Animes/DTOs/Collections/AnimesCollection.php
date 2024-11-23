@@ -14,7 +14,7 @@ class AnimesCollection extends Collection
     {
         return new static(
             array_map(
-                fn ($item) => AnimeData::fromApi($item),
+                fn ($item): AnimeData => AnimeData::fromApi($item),
                 $items
             )
         );
@@ -24,7 +24,7 @@ class AnimesCollection extends Collection
     {
         return new static(
             array_map(
-                fn ($item) => AnimeModelData::fromModel($item),
+                fn ($item): AnimeModelData => AnimeModelData::fromModel($item),
                 $items
             )
         );

@@ -4,6 +4,7 @@ namespace Infra\Integration\Notification\Firebase;
 
 use Infra\Integration\Notification\Contracts\NotificationService;
 use Kreait\Firebase\Contract\Messaging;
+use Kreait\Firebase\Messaging as FirebaseMessaging;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification;
 
@@ -22,7 +23,7 @@ class FirebaseService implements NotificationService
         $this->messaging()->sendMulticast($message, $tokens);
     }
 
-    private function messaging()
+    private function messaging(): FirebaseMessaging
     {
         return app('firebase.messaging');
     }

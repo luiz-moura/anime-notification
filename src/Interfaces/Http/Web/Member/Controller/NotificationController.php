@@ -4,6 +4,7 @@ namespace Interfaces\Http\Web\Member\Controller;
 
 use Domain\Animes\Actions\CreateNotificationTokenForMemberAction;
 use Domain\Animes\DTOs\NotificationTokenData;
+use Illuminate\Http\Response;
 use Infra\Abstracts\Controller;
 use Interfaces\Http\Web\Member\Requests\NotificationSetTokenRequest;
 
@@ -12,7 +13,7 @@ class NotificationController extends Controller
     public function setToken(
         NotificationSetTokenRequest $request,
         CreateNotificationTokenForMemberAction $createNotificationTokenForMemberAction
-    ) {
+    ): Response {
         $createNotificationTokenForMemberAction->run(
             NotificationTokenData::fromArray([
                 'token' => $request->input('token'),

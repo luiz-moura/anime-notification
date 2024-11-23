@@ -22,29 +22,29 @@ abstract class DataTransferObject implements DataTransferObjectContract
     {
         $properties = get_object_vars($this);
 
-        return array_map(function ($property) {
-            return $this->parse($property);
-        }, $properties);
+        return array_map(fn ($property): mixed => $this->parse($property), $properties);
     }
 
     private function parse(mixed $property): mixed
     {
-        if (is_object($property)) {
-            $isEnum = (new ReflectionClass($property::class))->isEnum();
-            if ($isEnum) {
-                return $property->value;
+        if (! is_object($property)) {
+            return $property;
+        }
+
+        $isEnum = (new ReflectionClass($property::class))->isEnum();
+        if ($isEnum) {
+            return $property->value;
+        }
+
+        $arrayable = method_exists($property, 'toArray');
+        if ($arrayable) {
+            if ($property instanceof Collection) {
+                $property = $property->toArray();
+
+                return array_map(fn (mixed $item): mixed => $this->parse($item), $property);
             }
 
-            $arrayable = method_exists($property, 'toArray');
-            if ($arrayable) {
-                if ($property instanceof Collection) {
-                    $property = $property->toArray();
-
-                    return array_map(fn ($item) => $item->toArray(), $property);
-                }
-
-                return $property->toArray();
-            }
+            return $property->toArray();
         }
 
         return $property;

@@ -7,6 +7,8 @@ use Domain\Animes\DTOs\GenreData;
 use Domain\Animes\Enums\GenreTypesEnum;
 use Illuminate\Support\Str;
 use Infra\Integration\AnimeApi\DTOs\AnimeData as ApiAnimeData;
+use Infra\Integration\AnimeApi\DTOs\Collections\MalCollection;
+use Infra\Integration\AnimeApi\DTOs\MalData;
 
 class CreateAnimeGenresAction
 {
@@ -30,8 +32,8 @@ class CreateAnimeGenresAction
 
         $unregisteredGenre = $malIds->diff($registeredGenresMalIds)->all();
 
-        $apiGenres->each(function ($genres, $type) use ($unregisteredGenre) {
-            $genres?->whereIn('mal_id', $unregisteredGenre)->each(function ($genre) use ($type) {
+        $apiGenres->each(function (?MalCollection $genres, string $type) use ($unregisteredGenre): void {
+            $genres?->whereIn('mal_id', $unregisteredGenre)->each(function (MalData $genre) use ($type): void {
                 $this->genreRepository->create(
                     GenreData::fromArray([
                         'slug' => Str::slug($genre->name),

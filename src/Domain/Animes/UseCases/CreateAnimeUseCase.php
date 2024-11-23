@@ -30,7 +30,7 @@ class CreateAnimeUseCase
     ) {
     }
 
-    public function run(ApiAnimeData $apiAnime)
+    public function run(ApiAnimeData $apiAnime): void
     {
         DB::transaction(function () use ($apiAnime) {
             $this->createAnimeGenresAction->run($apiAnime);
@@ -51,7 +51,7 @@ class CreateAnimeUseCase
 
     private function createTitles(int $animeId, TitlesCollection $titles): void
     {
-        $titles->each(function (TitleData $title) use ($animeId) {
+        $titles->each(function (TitleData $title) use ($animeId): void {
             $this->animeTitleRepository->create($animeId, $title);
         });
     }

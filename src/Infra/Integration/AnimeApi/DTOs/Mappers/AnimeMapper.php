@@ -41,7 +41,7 @@ class AnimeMapper
             'season' => $data['season'] ?? null,
             'year' => $data['year'] ?? null,
             'titles' => TitlesCollection::fromArray(
-                array_map(fn ($title) => TitleData::fromArray([
+                array_map(fn ($title): TitleData => TitleData::fromArray([
                     'type' => $title['type'],
                     'title' => $title['title'],
                 ]), $data['titles'])
@@ -85,7 +85,7 @@ class AnimeMapper
                 ]) : null,
             'genres' => !empty($data['genres'])
                 ? MalCollection::fromArray(
-                    array_map(fn ($genre) => MalData::fromArray([
+                    array_map(fn ($genre): MalData => MalData::fromArray([
                         'mal_id' => $genre['mal_id'],
                         'type' => $genre['type'],
                         'name' => $genre['name'],
@@ -94,7 +94,7 @@ class AnimeMapper
                 ) : null,
             'explicit_genres' => !empty($data['explicit_genres'])
                 ? MalCollection::fromArray(
-                    array_map(fn ($genre) => MalData::fromArray([
+                    array_map(fn ($genre): MalData => MalData::fromArray([
                         'mal_id' => $genre['mal_id'],
                         'type' => $genre['type'],
                         'name' => $genre['name'],
@@ -103,7 +103,7 @@ class AnimeMapper
                 ) : null,
             'themes' => !empty($data['themes'])
                 ? MalCollection::fromArray(
-                    array_map(fn ($genre) => MalData::fromArray([
+                    array_map(fn ($genre): MalData => MalData::fromArray([
                         'mal_id' => $genre['mal_id'],
                         'type' => $genre['type'],
                         'name' => $genre['name'],
@@ -112,7 +112,7 @@ class AnimeMapper
                 ) : null,
             'demographics' => !empty($data['demographics'])
                 ? MalCollection::fromArray(
-                    array_map(fn ($genre) => MalData::fromArray([
+                    array_map(fn ($genre): MalData => MalData::fromArray([
                         'mal_id' => $genre['mal_id'],
                         'type' => $genre['type'],
                         'name' => $genre['name'],
@@ -121,7 +121,7 @@ class AnimeMapper
                 ) : null,
             'producers' => !empty($data['producers'])
                 ? MalCollection::fromArray(
-                    array_map(fn ($genre) => MalData::fromArray([
+                    array_map(fn ($genre): MalData => MalData::fromArray([
                         'mal_id' => $genre['mal_id'],
                         'type' => $genre['type'],
                         'name' => $genre['name'],
@@ -130,7 +130,7 @@ class AnimeMapper
                 ) : null,
             'licensors' => !empty($data['licensors'])
                 ? MalCollection::fromArray(
-                    array_map(fn ($genre) => MalData::fromArray([
+                    array_map(fn ($genre): MalData => MalData::fromArray([
                         'mal_id' => $genre['mal_id'],
                         'type' => $genre['type'],
                         'name' => $genre['name'],
@@ -139,7 +139,7 @@ class AnimeMapper
                 ) : null,
             'studios' => !empty($data['studios'])
                 ? MalCollection::fromArray(
-                    array_map(fn ($genre) => MalData::fromArray([
+                    array_map(fn ($genre): MalData => MalData::fromArray([
                         'mal_id' => $genre['mal_id'],
                         'type' => $genre['type'],
                         'name' => $genre['name'],

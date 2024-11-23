@@ -43,13 +43,13 @@ class AnimeRepository extends Repository implements AnimeRepositoryContract
         );
     }
 
-    public function queryByBroadcsatTimeRange(DateTime $beginning, DateTime $end): AnimesCollection
+    public function queryByBroadcastTimeRange(DateTime $beginning, DateTime $end): AnimesCollection
     {
         return AnimesCollection::fromModel(
             $this->model->query()
                 ->with('broadcast')
                 ->has('users')
-                ->whereHas('broadcast', function ($query) use ($beginning, $end) {
+                ->whereHas('broadcast', function ($query) use ($beginning, $end): void {
                     $query->where('day', today()->dayName . 's')
                         ->where('time', '>=', $beginning->format('H:i:s'))
                         ->where('time', '<=', $end->format('H:i:s'));

@@ -12,7 +12,7 @@ interface AnimeRepository
 {
     public function queryByMalIds(array $ids): AnimesCollection;
 
-    public function queryByBroadcsatTimeRange(DateTime $beginning, DateTime $end): AnimesCollection;
+    public function queryByBroadcastTimeRange(DateTime $beginning, DateTime $end): AnimesCollection;
 
     public function queryByCurrentSeason(): AnimesCollection;
 

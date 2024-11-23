@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use Infra\Integration\AnimeApi\DTOs\AnimeData as ApiAnimeData;
 use Infra\Integration\AnimeApi\DTOs\Mappers\AnimeMapper;
 use Infra\Storage\Services\StoreMediaService;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Tests\Mocks\AnimeApiDataMock;
 use Tests\Mocks\BroadcastModelDataMock;
@@ -27,35 +28,43 @@ use Tests\Mocks\MediaModelDataMock;
 
 class CreateAnimeUseCaseTest extends TestCase
 {
-    private $apiAnime;
-    private $genreRepository;
-    private $animeRepository;
-    private $mediaRepository;
-    private $broadcastRepository;
-    private $animeTitleRepository;
-    private $storeMediaService;
-    private $createAnimeGenresAction;
-    private $storeAnimeImageAction;
-    private $createAnimeUseCase;
+    private CreateAnimeUseCase $sut;
+    private MockObject|GenreRepository $genreRepository;
+    private MockObject|AnimeRepository $animeRepository;
+    private MockObject|MediaRepository $mediaRepository;
+    private MockObject|BroadcastRepository $broadcastRepository;
+    private MockObject|AnimeTitleRepository $animeTitleRepository;
+    private MockObject|StoreMediaService $storeMediaService;
+    private MockObject|CreateAnimeGenresAction $createAnimeGenresAction;
+    private MockObject|StoreAnimeImageAction $storeAnimeImageAction;
+    private ApiAnimeData $apiAnime;
 
     protected function setUp(): void
     {
         parent::setUp();
 
+        /** @var GenreRepository */
         $this->genreRepository = $this->createMock(GenreRepository::class);
+        /** @var AnimeRepository */
         $this->animeRepository = $this->createMock(AnimeRepository::class);
+        /** @var MediaRepository */
         $this->mediaRepository = $this->createMock(MediaRepository::class);
+        /** @var BroadcastRepository */
         $this->broadcastRepository = $this->createMock(BroadcastRepository::class);
+        /** @var AnimeTitleRepository */
         $this->animeTitleRepository = $this->createMock(AnimeTitleRepository::class);
+        /** @var StoreMediaService */
         $this->storeMediaService = $this->createMock(StoreMediaService::class);
+        /** @var CreateAnimeGenresAction */
         $this->createAnimeGenresAction = $this->createMock(CreateAnimeGenresAction::class);
+        /** @var StoreAnimeImageAction */
         $this->storeAnimeImageAction = $this->createMock(StoreAnimeImageAction::class);
 
         $this->apiAnime = ApiAnimeData::fromArray(
             AnimeMapper::fromArray(AnimeApiDataMock::create())
         );
 
-        $this->createAnimeUseCase = new CreateAnimeUseCase(
+        $this->sut = new CreateAnimeUseCase(
             $this->genreRepository,
             $this->animeRepository,
             $this->mediaRepository,
@@ -67,9 +76,9 @@ class CreateAnimeUseCaseTest extends TestCase
         );
     }
 
-    public function testShouldRegisterTheAnimeSuccessfully()
+    public function testShouldRegisterTheAnimeSuccessfully(): void
     {
-        DB::shouldReceive('transaction')->once()->andReturnUsing(fn ($callback) => $callback());
+        DB::shouldReceive('transaction')->once()->andReturnUsing(fn ($callback): mixed => $callback());
 
         $animeRaw = AnimeData::fromApi($this->apiAnime->toArray());
         $animeModel = AnimeModelData::fromArray(
@@ -129,6 +138,6 @@ class CreateAnimeUseCaseTest extends TestCase
             ->method('attachGenres')
             ->with($animeModel->id, array_values(array_column($animeGenres->all(), 'id')));
 
-        $this->createAnimeUseCase->run($this->apiAnime);
+        $this->sut->run($this->apiAnime);
     }
 }

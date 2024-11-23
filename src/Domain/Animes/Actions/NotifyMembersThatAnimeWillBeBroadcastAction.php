@@ -4,6 +4,7 @@ namespace Domain\Animes\Actions;
 
 use Domain\Animes\Contracts\MemberRepository;
 use Domain\Animes\DTOs\Models\AnimeModelData;
+use Illuminate\Support\Collection;
 use Infra\Helpers\UrlHelper;
 use Infra\Integration\Notification\Contracts\NotificationService;
 
@@ -32,7 +33,7 @@ class NotifyMembersThatAnimeWillBeBroadcastAction
             return;
         }
 
-        $tokens->chunk(1000)->each(function ($tokens) use ($anime) {
+        $tokens->chunk(1000)->each(function (Collection $tokens) use ($anime): void {
             $this->notificationService->sendMessage(
                 $tokens->toArray(),
                 title: 'New episode released',

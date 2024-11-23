@@ -10,6 +10,7 @@ use Domain\Animes\DTOs\Collections\NotificationTokensCollection;
 use Domain\Animes\DTOs\Models\AnimeModelData;
 use Infra\Helpers\UrlHelper;
 use Infra\Integration\Notification\Contracts\NotificationService;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Tests\Mocks\AnimeModelDataMock;
 use Tests\Mocks\MediaModelDataMock;
@@ -17,21 +18,24 @@ use Tests\Mocks\MemberModelDataMock;
 
 class NotifyMembersThatAnimeWillBeBroadcastActionTest extends TestCase
 {
-    private $memberRepository;
-    private $notificationService;
-    private $urlHelper;
-    private $notifyMembersThatAnimeWillBeBroadcastAction;
+    private NotifyMembersThatAnimeWillBeBroadcastAction $sut;
+    private MockObject|MemberRepository $memberRepository;
+    private MockObject|NotificationService $notificationService;
+    private MockObject|UrlHelper $urlHelper;
     private AnimeModelData $anime;
 
     protected function setUp(): void
     {
         parent::setUp();
 
+        /** @var MemberRepository */
         $this->memberRepository = $this->createMock(MemberRepository::class);
+        /** @var NotificationService */
         $this->notificationService = $this->createMock(NotificationService::class);
+        /** @var UrlHelper */
         $this->urlHelper = $this->createMock(UrlHelper::class);
 
-        $this->notifyMembersThatAnimeWillBeBroadcastAction = new NotifyMembersThatAnimeWillBeBroadcastAction(
+        $this->sut = new NotifyMembersThatAnimeWillBeBroadcastAction(
             $this->memberRepository,
             $this->notificationService,
             $this->urlHelper,
@@ -44,7 +48,7 @@ class NotifyMembersThatAnimeWillBeBroadcastActionTest extends TestCase
         ]);
     }
 
-    public function testShouldReleaseNotificationOfAnimeBeingBroadcastToMembers()
+    public function testShouldReleaseNotificationOfAnimeBeingBroadcastToMembers(): void
     {
         $members = new MembersCollection([
             MemberModelDataMock::create(),
@@ -72,10 +76,10 @@ class NotifyMembersThatAnimeWillBeBroadcastActionTest extends TestCase
             ->with($this->anime->images->first()->path)
             ->willReturn('http://image-url.com');
 
-        $this->notifyMembersThatAnimeWillBeBroadcastAction->run($this->anime);
+        $this->sut->run($this->anime);
     }
 
-    public function testShouldNotNotifyWhenNoMembersAreFound()
+    public function testShouldNotNotifyWhenNoMembersAreFound(): void
     {
         $members = new MembersCollection();
 
@@ -93,10 +97,10 @@ class NotifyMembersThatAnimeWillBeBroadcastActionTest extends TestCase
             ->expects($this->never())
             ->method('url');
 
-        $this->notifyMembersThatAnimeWillBeBroadcastAction->run($this->anime);
+        $this->sut->run($this->anime);
     }
 
-    public function testShouldNotNotifyWhenThereAreNoTokensRegistered()
+    public function testShouldNotNotifyWhenThereAreNoTokensRegistered(): void
     {
         $members = new MembersCollection([
             MemberModelDataMock::create(['notification_tokens' => new NotificationTokensCollection()]),
@@ -116,6 +120,6 @@ class NotifyMembersThatAnimeWillBeBroadcastActionTest extends TestCase
             ->expects($this->never())
             ->method('url');
 
-        $this->notifyMembersThatAnimeWillBeBroadcastAction->run($this->anime);
+        $this->sut->run($this->anime);
     }
 }

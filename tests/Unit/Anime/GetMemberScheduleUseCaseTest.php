@@ -9,25 +9,28 @@ use Domain\Animes\DTOs\Collections\AnimesCollection as AnimesModelCollection;
 use Domain\Animes\DTOs\Collections\SubscriptionsCollection;
 use Domain\Animes\DTOs\MemberScheduleData;
 use Domain\Animes\UseCases\GetMemberScheduleUseCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Tests\Mocks\AnimeModelDataMock;
 use Tests\Mocks\SubscriptionDataMock;
 
 class GetMemberScheduleUseCaseTest extends TestCase
 {
-    private $animeSubscriptionRepository;
-    private $animeRepository;
-    private $getMemberScheduleUseCase;
+    private GetMemberScheduleUseCase $sut;
+    private MockObject|AnimeSubscriptionRepository $animeSubscriptionRepository;
+    private MockObject|AnimeRepository $animeRepository;
     private $memberId;
 
     protected function setUp(): void
     {
         parent::setUp();
 
+        /** @var AnimeSubscriptionRepository */
         $this->animeSubscriptionRepository = $this->createMock(AnimeSubscriptionRepository::class);
+        /** @var AnimeRepository */
         $this->animeRepository = $this->createMock(AnimeRepository::class);
 
-        $this->getMemberScheduleUseCase = new GetMemberScheduleUseCase(
+        $this->sut = new GetMemberScheduleUseCase(
             $this->animeSubscriptionRepository,
             $this->animeRepository
         );
@@ -35,7 +38,7 @@ class GetMemberScheduleUseCaseTest extends TestCase
         $this->memberId = fake()->randomNumber();
     }
 
-    public function testShouldReturnTheAnimeScheduleAndUserSubscriptions()
+    public function testShouldReturnTheAnimeScheduleAndUserSubscriptions(): void
     {
         $animesOnTheSchedule = new AnimesModelCollection([
             AnimeModelDataMock::create(),
@@ -64,7 +67,7 @@ class GetMemberScheduleUseCaseTest extends TestCase
             ->with($this->memberId)
             ->willReturn($subscriptions);
 
-        $result = $this->getMemberScheduleUseCase->run($this->memberId);
+        $result = $this->sut->run($this->memberId);
 
         $this->assertEquals($result, $response);
     }

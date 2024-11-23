@@ -24,7 +24,7 @@ class ImportAnimesFromApiUseCase
 
         $animesThatLeftSchedule = $this->animeRepository->queryAiringByDayExceptMalIds("{$day}s", $this->getMalIds($apiAnimes));
 
-        $unregisteredAnimes->each(fn (ApiAnimeData $anime) => $registerAnime($anime));
+        $unregisteredAnimes->each(fn (ApiAnimeData $anime): mixed => $registerAnime($anime));
 
         if ($animesThatLeftSchedule->isNotEmpty()) {
             $updateAnimeStatusOutOfSchedule($animesThatLeftSchedule);

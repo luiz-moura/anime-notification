@@ -9,25 +9,28 @@ use Infra\Integration\AnimeApi\Contracts\AnimeApiService;
 use Infra\Integration\AnimeApi\DTOs\AnimeData;
 use Infra\Integration\AnimeApi\DTOs\Collections\AnimesCollection as ApiAnimesCollection;
 use Infra\Integration\AnimeApi\DTOs\Mappers\AnimeMapper;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Tests\Mocks\AnimeApiDataMock;
 use Tests\Mocks\AnimeModelDataMock;
 
 class ImportAnimesFromApiUseCaseTest extends TestCase
 {
-    private $animeApiService;
-    private $animeRepository;
-    private $importAnimesFromApiUseCase;
+    private ImportAnimesFromApiUseCase $sut;
+    private MockObject|AnimeApiService $animeApiService;
+    private MockObject|AnimeRepository $animeRepository;
     private ApiAnimesCollection $animesApi;
 
     protected function setUp(): void
     {
         parent::setUp();
 
+        /** @var AnimeApiService */
         $this->animeApiService = $this->createMock(AnimeApiService::class);
+        /** @var AnimeRepository */
         $this->animeRepository = $this->createMock(AnimeRepository::class);
 
-        $this->importAnimesFromApiUseCase = new ImportAnimesFromApiUseCase(
+        $this->sut = new ImportAnimesFromApiUseCase(
             $this->animeApiService,
             $this->animeRepository
         );
@@ -48,7 +51,7 @@ class ImportAnimesFromApiUseCaseTest extends TestCase
         ]);
     }
 
-    public function testShouldReturnUnregisteredAnimesAndThoseThatLeftTheSchedule()
+    public function testShouldReturnUnregisteredAnimesAndThoseThatLeftTheSchedule(): void
     {
         $day = 'monday';
 
@@ -80,14 +83,14 @@ class ImportAnimesFromApiUseCaseTest extends TestCase
             ->with("{$day}s", collect($this->animesApi)->pluck('mal_id')->all())
             ->willReturn($animesThatLeftSchedule);
 
-        $this->importAnimesFromApiUseCase->run(
+        $this->sut->run(
             $day,
-            fn () => 'do-something',
-            fn () => 'do-something',
+            fn (): string => 'do-something',
+            fn (): string => 'do-something',
         );
     }
 
-    public function testShouldNotFindAnyAnimeToBeRegisteredOrThatHaveBeenLeftOnTheSchedule()
+    public function testShouldNotFindAnyAnimeToBeRegisteredOrThatHaveBeenLeftOnTheSchedule(): void
     {
         $day = 'saturday';
 
@@ -118,10 +121,10 @@ class ImportAnimesFromApiUseCaseTest extends TestCase
             ->with("{$day}s", collect($this->animesApi)->pluck('mal_id')->all())
             ->willReturn($animesThatLeftSchedule);
 
-        $this->importAnimesFromApiUseCase->run(
+        $this->sut->run(
             $day,
-            fn () => 'do-something',
-            fn () => 'do-something',
+            fn (): string => 'do-something',
+            fn (): string => 'do-something',
         );
     }
 }

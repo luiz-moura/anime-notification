@@ -2,6 +2,8 @@
 
 namespace Interfaces\Http\Web\Auth\Controllers;
 
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Infra\Abstracts\Controller;
 use Infra\Persistente\Eloquent\Models\User;
@@ -9,12 +11,12 @@ use Laravel\Socialite\Facades\Socialite;
 
 class AuthenticateGoogleController extends Controller
 {
-    public function redirectToGoogle()
+    public function redirectToGoogle(): RedirectResponse
     {
         return Socialite::driver('google')->redirect();
     }
 
-    public function handleGoogleCallback()
+    public function handleGoogleCallback(): Redirector|RedirectResponse
     {
         $googleUser = Socialite::driver('google')->user();
         $user = User::where('google_id', $googleUser->id)->first();

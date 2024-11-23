@@ -27,16 +27,16 @@ class RepositoryServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
-        $this->app->bind(MemberRepositoryContract::class, UserRepository::class);
-        $this->app->bind(AnimeRepositoryContract::class, AnimeRepository::class);
-        $this->app->bind(AnimeTitleRepositoryContract::class, AnimeTitleRepository::class);
-        $this->app->bind(GenreRepositoryContract::class, GenreRepository::class);
-        $this->app->bind(BroadcastRepositoryContract::class, BroadcastRepository::class);
-        $this->app->bind(MediaRepositoryContract::class, MediaRepository::class);
-        $this->app->bind(AnimeSubscriptionRepositoryContract::class, AnimeUserRepository::class);
-        $this->app->bind(MemberNotificationTokenRepositoryContract::class, UserFcmTokenRepository::class);
+        $this->app->singleton(MemberRepositoryContract::class, UserRepository::class);
+        $this->app->singleton(AnimeRepositoryContract::class, AnimeRepository::class);
+        $this->app->singleton(AnimeTitleRepositoryContract::class, AnimeTitleRepository::class);
+        $this->app->singleton(GenreRepositoryContract::class, GenreRepository::class);
+        $this->app->singleton(BroadcastRepositoryContract::class, BroadcastRepository::class);
+        $this->app->singleton(MediaRepositoryContract::class, MediaRepository::class);
+        $this->app->singleton(AnimeSubscriptionRepositoryContract::class, AnimeUserRepository::class);
+        $this->app->singleton(MemberNotificationTokenRepositoryContract::class, UserFcmTokenRepository::class);
     }
 
     /**
@@ -44,7 +44,7 @@ class RepositoryServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
     }
 }

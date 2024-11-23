@@ -6,6 +6,7 @@ use Domain\Animes\Actions\DefineTimesToQueryAnimesByTimeInTheScheduleAction;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Foundation\Bus\PendingDispatch;
 use Illuminate\Queue\InteractsWithQueue;
 
 class ScheduleAnimeQueriesThatWillBeBroadcastTodayJob implements ShouldQueue
@@ -23,7 +24,7 @@ class ScheduleAnimeQueriesThatWillBeBroadcastTodayJob implements ShouldQueue
     public function handle(DefineTimesToQueryAnimesByTimeInTheScheduleAction $action): void
     {
         $action->run(
-            fn ($beginning, $end) => ScheduleNotificationsForMembersJob::dispatch($beginning, $end)->delay(now()->diffInSeconds($beginning))
+            fn ($beginning, $end): PendingDispatch => ScheduleNotificationsForMembersJob::dispatch($beginning, $end)->delay(now()->diffInSeconds($beginning))
         );
     }
 }

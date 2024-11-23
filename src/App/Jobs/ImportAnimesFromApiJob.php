@@ -8,6 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Foundation\Bus\PendingDispatch;
 use Illuminate\Queue\InteractsWithQueue;
 
 class ImportAnimesFromApiJob implements ShouldQueue, ShouldBeUnique
@@ -26,8 +27,8 @@ class ImportAnimesFromApiJob implements ShouldQueue, ShouldBeUnique
     {
         $useCase->run(
             $this->day,
-            fn ($anime) => RegisterAnimeJob::dispatch($anime),
-            fn ($animes) => UpdateAnimeStatusOutOfScheduleJob::dispatch($animes)
+            fn ($anime): PendingDispatch => RegisterAnimeJob::dispatch($anime),
+            fn ($animes): PendingDispatch => UpdateAnimeStatusOutOfScheduleJob::dispatch($animes)
         );
     }
 

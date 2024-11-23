@@ -3,28 +3,31 @@
 namespace Tests\Unit\Anime;
 
 use Carbon\Carbon;
+use DateTime;
 use Domain\Animes\Actions\QueryAnimesThatWillBeBroadcastInTimeRangeAction;
 use Domain\Animes\Contracts\AnimeRepository;
 use Domain\Animes\DTOs\Collections\AnimesCollection;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Tests\Mocks\AnimeModelDataMock;
 use Tests\Mocks\BroadcastModelDataMock;
 
 class QueryAnimesThatWillBeBroadcastInTimeRangeActionTest extends TestCase
 {
-    private $animeRepository;
-    private $beginning;
-    private $end;
-    private $animes;
-    private $queryAnimesThatWillBeBroadcastInTimeRangeAction;
+    private QueryAnimesThatWillBeBroadcastInTimeRangeAction $sut;
+    private MockObject|AnimeRepository $animeRepository;
+    private DateTime $beginning;
+    private DateTime $end;
+    private AnimesCollection $animes;
 
     protected function setUp(): void
     {
         parent::setUp();
 
+        /** @var AnimeRepository */
         $this->animeRepository = $this->createMock(AnimeRepository::class);
 
-        $this->queryAnimesThatWillBeBroadcastInTimeRangeAction = new QueryAnimesThatWillBeBroadcastInTimeRangeAction(
+        $this->sut = new QueryAnimesThatWillBeBroadcastInTimeRangeAction(
             $this->animeRepository,
         );
 
@@ -38,15 +41,15 @@ class QueryAnimesThatWillBeBroadcastInTimeRangeActionTest extends TestCase
         ]);
     }
 
-    public function testShouldReturnUnregisteredAnimesAndThoseThatLeftTheSchedule()
+    public function testShouldReturnUnregisteredAnimesAndThoseThatLeftTheSchedule(): void
     {
         $this->animeRepository
             ->expects($this->once())
-            ->method('queryByBroadcsatTimeRange')
+            ->method('queryByBroadcastTimeRange')
             ->with($this->beginning, $this->end)
             ->willReturn($this->animes);
 
-        $this->queryAnimesThatWillBeBroadcastInTimeRangeAction->run($this->beginning, $this->end, function ($anime, $timeLeftToBeTransmitted) {
+        $this->sut->run($this->beginning, $this->end, function ($anime, $timeLeftToBeTransmitted): void {
             Carbon::setTestNowAndTimezone(now());
             $broadcastTime = Carbon::createFromFormat('H:i:s', $anime->broadcast->time);
             $timeLeftToBeTransmittedTest = now()->diffInSeconds($broadcastTime);
@@ -56,16 +59,16 @@ class QueryAnimesThatWillBeBroadcastInTimeRangeActionTest extends TestCase
         });
     }
 
-    public function testShouldNotRunARoutineWhenNotFoundAnyAnime()
+    public function testShouldNotRunARoutineWhenNotFoundAnyAnime(): void
     {
         $animes = new AnimesCollection();
 
         $this->animeRepository
             ->expects($this->once())
-            ->method('queryByBroadcsatTimeRange')
+            ->method('queryByBroadcastTimeRange')
             ->with($this->beginning, $this->end)
             ->willReturn($animes);
 
-        $this->queryAnimesThatWillBeBroadcastInTimeRangeAction->run($this->beginning, $this->end, fn () => null);
+        $this->sut->run($this->beginning, $this->end, fn (): null => null);
     }
 }

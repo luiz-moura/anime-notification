@@ -41,11 +41,6 @@ storage-link:
 	@echo "Generating storage link"
 	$(SAIL_PATH) art storage:link
 
-.PHONY: reverb
-reverb:
-	@echo "Starting reverb"
-	$(SAIL_PATH) art reverb:start
-
 .PHONY: queue
 queue:
 	@echo "Starting queue"
@@ -55,3 +50,8 @@ queue:
 npm-dev:
 	@echo "Running npm dev"
 	$(SAIL_PATH) npm run dev
+
+.PHONY: test
+test:
+	@echo "Running all tests"
+	$(SAIL_PATH) art test

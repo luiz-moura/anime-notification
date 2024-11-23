@@ -22,7 +22,7 @@ class SearchForAnimeBroadcastByDayOfTheWeekJob implements ShouldQueue
 
     public function handle(): void
     {
-        collect(Carbon::getDays())->map(function (string $day) {
+        collect(Carbon::getDays())->map(function (string $day): void {
             ImportAnimesFromApiJob::dispatch($day);
         });
     }

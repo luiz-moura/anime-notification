@@ -35,7 +35,7 @@ class AnimeApiMapper
             'aired_to' => $data['aired']['to'] ?? null,
             'images' => null,
             'titles' => TitlesCollection::fromArray(
-                array_map(fn (array $title) => TitleData::fromArray([
+                array_map(fn (array $title): TitleData => TitleData::fromArray([
                     'type' => $title['type'],
                     'title' => $title['title'],
                 ]), $data['titles'])
@@ -48,8 +48,8 @@ class AnimeApiMapper
             ]) : null,
             'genres' => GenresCollection::fromArray(
                 array_merge(
-                    !empty($data['genres'])
-                        ? array_map(fn (array $genre) => GenreData::fromArray([
+                    ! empty($data['genres'])
+                        ? array_map(fn (array $genre): GenreData => GenreData::fromArray([
                             'mal_id' => $genre['mal_id'],
                             'mal_url' => $genre['url'],
                             'name' => $genre['name'],
@@ -57,8 +57,8 @@ class AnimeApiMapper
                             'type' => GenreTypesEnum::COMMON,
                         ]), $data['genres'])
                         : [],
-                    !empty($data['explicit_genres'])
-                        ? array_map(fn (array $genre) => GenreData::fromArray([
+                    ! empty($data['explicit_genres'])
+                        ? array_map(fn (array $genre): GenreData => GenreData::fromArray([
                             'mal_id' => $genre['mal_id'],
                             'mal_url' => $genre['url'],
                             'name' => $genre['name'],
@@ -66,8 +66,8 @@ class AnimeApiMapper
                             'type' => GenreTypesEnum::EXPLICIT,
                         ]), $data['explicit_genres'])
                         : [],
-                    !empty($data['themes'])
-                        ? array_map(fn (array $genre) => GenreData::fromArray([
+                    ! empty($data['themes'])
+                        ? array_map(fn (array $genre): GenreData => GenreData::fromArray([
                             'mal_id' => $genre['mal_id'],
                             'mal_url' => $genre['url'],
                             'name' => $genre['name'],
@@ -75,8 +75,8 @@ class AnimeApiMapper
                             'type' => GenreTypesEnum::THEME,
                         ]), $data['themes'])
                         : [],
-                    !empty($data['demographics'])
-                        ? array_map(fn (array $genre) => GenreData::fromArray([
+                    ! empty($data['demographics'])
+                        ? array_map(fn (array $genre): GenreData => GenreData::fromArray([
                             'mal_id' => $genre['mal_id'],
                             'mal_url' => $genre['url'],
                             'name' => $genre['name'],

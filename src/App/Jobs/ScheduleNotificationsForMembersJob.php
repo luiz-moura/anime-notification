@@ -7,6 +7,7 @@ use Domain\Animes\Actions\QueryAnimesThatWillBeBroadcastInTimeRangeAction;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Foundation\Bus\PendingDispatch;
 use Illuminate\Queue\InteractsWithQueue;
 
 class ScheduleNotificationsForMembersJob implements ShouldQueue
@@ -26,7 +27,7 @@ class ScheduleNotificationsForMembersJob implements ShouldQueue
         $action->run(
             $this->beginning,
             $this->end,
-            fn ($anime, $timeLeftToBeTransmitted) => NotifyMembersThatAnimeWillBeBroadcastJob::dispatch($anime)->delay($timeLeftToBeTransmitted)
+            fn ($anime, $timeLeftToBeTransmitted): PendingDispatch => NotifyMembersThatAnimeWillBeBroadcastJob::dispatch($anime)->delay($timeLeftToBeTransmitted)
         );
     }
 }

@@ -14,7 +14,7 @@ class MembersCollection extends Collection
     {
         return new static(
             array_map(
-                fn ($item) => MemberModelData::fromModel($item),
+                fn ($item): MemberModelData => MemberModelData::fromModel($item),
                 $items
             )
         );

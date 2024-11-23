@@ -5,6 +5,7 @@ namespace Domain\Animes\Actions;
 use Carbon\Carbon;
 use DateTime;
 use Domain\Animes\Contracts\AnimeRepository;
+use Domain\Animes\DTOs\AnimeData;
 
 class QueryAnimesThatWillBeBroadcastInTimeRangeAction
 {
@@ -14,13 +15,13 @@ class QueryAnimesThatWillBeBroadcastInTimeRangeAction
 
     public function run(DateTime $beginning, DateTime $end, callable $callback): void
     {
-        $animes = $this->animeRepository->queryByBroadcsatTimeRange($beginning, $end);
+        $animes = $this->animeRepository->queryByBroadcastTimeRange($beginning, $end);
 
         if ($animes->isEmpty()) {
             return;
         }
 
-        $animes->each(function ($anime) use ($callback) {
+        $animes->each(function (AnimeData $anime) use ($callback): void {
             $broadcastTime = Carbon::createFromFormat('H:i:s', $anime->broadcast->time);
             $timeLeftToBeTransmitted = now()->diffInSeconds($broadcastTime);
 
