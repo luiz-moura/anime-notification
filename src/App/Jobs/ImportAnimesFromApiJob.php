@@ -10,6 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Bus\PendingDispatch;
 use Illuminate\Queue\InteractsWithQueue;
+use Psr\Log\LoggerInterface;
 
 class ImportAnimesFromApiJob implements ShouldQueue, ShouldBeUnique
 {
@@ -23,8 +24,12 @@ class ImportAnimesFromApiJob implements ShouldQueue, ShouldBeUnique
     {
     }
 
-    public function handle(ImportAnimesFromApiUseCase $useCase): void
-    {
+    public function handle(
+        ImportAnimesFromApiUseCase $useCase,
+        LoggerInterface $logger,
+    ): void {
+        $logger->info(sprintf('[%s] Importing animes from api for day: %s', __METHOD__, $this->day));
+
         $useCase->run(
             $this->day,
             fn ($anime): PendingDispatch => RegisterAnimeJob::dispatch($anime),

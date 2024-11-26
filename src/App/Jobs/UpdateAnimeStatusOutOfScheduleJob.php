@@ -8,6 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
+use Psr\Log\LoggerInterface;
 
 class UpdateAnimeStatusOutOfScheduleJob implements ShouldQueue
 {
@@ -21,10 +22,14 @@ class UpdateAnimeStatusOutOfScheduleJob implements ShouldQueue
     {
     }
 
-    public function handle(UpdateAnimeStatusOutOfScheduleAction $action): void
-    {
+    public function handle(
+        UpdateAnimeStatusOutOfScheduleAction $action,
+        LoggerInterface $logger,
+    ): void {
         $action->run($this->animes);
 
-        logger('ANIMES THAT LEFT THE SCHEDULE, AT ' . now()->format('Y/m/d H:i:s') . ' ' . json_encode(['mal_ids' => collect($this->animes)->pluck('mal_id')->toJson()]));
+        $logger->info(sprintf('[%s] Animes that left the schedule', __METHOD__), [
+            'mal_id' => collect($this->animes)->pluck('mal_id')->toJson(),
+        ]);
     }
 }

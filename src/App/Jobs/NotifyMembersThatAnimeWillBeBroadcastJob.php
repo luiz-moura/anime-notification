@@ -8,6 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
+use Psr\Log\LoggerInterface;
 
 class NotifyMembersThatAnimeWillBeBroadcastJob implements ShouldQueue
 {
@@ -21,10 +22,15 @@ class NotifyMembersThatAnimeWillBeBroadcastJob implements ShouldQueue
     {
     }
 
-    public function handle(NotifyMembersThatAnimeWillBeBroadcastAction $notifyMembersThatAnimeWillBeBroadcast): void
-    {
-        $notifyMembersThatAnimeWillBeBroadcast->run($this->anime);
+    public function handle(
+        NotifyMembersThatAnimeWillBeBroadcastAction $notifyMembersThatAnimeWillBeBroadcast,
+        LoggerInterface $logger,
+    ): void {
+        $logger->info(sprintf('[%s] Anime notification triggered', __METHOD__), [
+            'title' => $this->anime->title,
+            'mal_id' => $this->anime->mal_id,
+        ]);
 
-        logger("ANIME NOTIFICATION SENT: {$this->anime->title}, mal_id: {$this->anime->mal_id}");
+        $notifyMembersThatAnimeWillBeBroadcast->run($this->anime);
     }
 }
